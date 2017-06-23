@@ -38,7 +38,8 @@ public class PlayerController : Entity
 
 	void OnCollisionEnter(Collision col)
 	{
-		grounded = true;
+		if (col.collider.tag == "platform")
+			grounded = true;
 	}
 
 	void Move () {
