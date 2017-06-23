@@ -12,9 +12,11 @@ public class PlayerController : Entity
     public bool frozen;
 	private float gravity;
 
+	private bool grounded;
+
     private Animator anim;
-	private CharacterController cc;
 	private Vector3 moveDirection = Vector3.zero;
+	private BoxCollider bc;
 
 	void Awake () 
 	{
@@ -24,7 +26,7 @@ public class PlayerController : Entity
 	{
         speed = 0.1f;
         anim = GetComponent<Animator> ();
-		cc = GetComponent<CharacterController> ();
+		bc = GetComponent<BoxCollider> ();
 		jumpSpeed = 5.0f;
 		gravity = 10.0f;
 	}
@@ -34,19 +36,27 @@ public class PlayerController : Entity
 		Move ();
 	}
 
+	void OnCollisionEnter(Collision col)
+	{
+		grounded = true;
+	}
+
 	void Move () {
 
 		/* Jump. */
-		if (cc.isGrounded) 
+		if (grounded) 
 		{
 			moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 			moveDirection = transform.TransformDirection(moveDirection);
 			moveDirection *= speed;
-			if (Input.GetKey(KeyCode.UpArrow))
+			if (Input.GetKey (KeyCode.UpArrow)) 
+			{
+				grounded = false;
 				moveDirection.y = jumpSpeed;
+			}
 		}
 		moveDirection.y -= gravity * Time.deltaTime;
-		cc.Move(moveDirection * Time.deltaTime);
+		transform.Translate(moveDirection * Time.deltaTime);
 		
 		/* Run left. */
 		if (Input.GetKey(KeyCode.LeftArrow)) 
