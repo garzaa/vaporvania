@@ -38,8 +38,11 @@ public class PlayerController : Entity
 
 	void OnCollisionEnter(Collision col)
 	{
-		if (col.collider.tag == "platform")
-			grounded = true;
+        if (col.collider.tag == "platform")
+        {
+            grounded = true;
+            anim.SetBool("jumping", false);
+        }
 	}
 
 	void Move () {
@@ -50,19 +53,27 @@ public class PlayerController : Entity
 			moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 			moveDirection = transform.TransformDirection(moveDirection);
 			moveDirection *= speed;
-			if (Input.GetKey (KeyCode.UpArrow)) 
+            //can't hold jump to jump continuously
+			if (Input.GetKeyDown(KeyCode.UpArrow)) 
 			{
 				grounded = false;
 				moveDirection.y = jumpSpeed;
+                anim.SetBool("running", false);
+                if (!anim.GetBool("jumping")) {
+                    anim.SetBool("jumping", true);
+                }
 			}
 		}
+
 		moveDirection.y -= gravity * Time.deltaTime;
 		transform.Translate(moveDirection * Time.deltaTime);
 		
 		/* Run left. */
 		if (Input.GetKey(KeyCode.LeftArrow)) 
 		{
-			anim.SetBool("running", true);
+            if (grounded) {
+                anim.SetBool("running", true);
+            }
 			transform.Translate(-speed, 0, 0);
 			if (facingRight && !frozen) 
 				Flip();
@@ -71,8 +82,11 @@ public class PlayerController : Entity
 		/* Run right. */
 		else if (Input.GetKey(KeyCode.RightArrow)) 
 		{
-			anim.SetBool("running", true);
-			transform.Translate(speed, 0, 0);
+            if (grounded)
+            {
+                anim.SetBool("running", true);
+            }
+            transform.Translate(speed, 0, 0);
 			if (!facingRight && !frozen) 
 				Flip();
 		} 
