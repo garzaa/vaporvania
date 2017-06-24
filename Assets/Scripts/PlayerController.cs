@@ -15,6 +15,8 @@ public class PlayerController : Entity
 
     private Animator anim;
 	private Rigidbody2D rb;
+	public GameObject sword;
+	private bool swinging;
 
 	void Awake () 
 	{
@@ -26,12 +28,16 @@ public class PlayerController : Entity
         anim = GetComponent<Animator> ();
 		rb = GetComponent<Rigidbody2D> ();
 		jumpForce = 200.0f;
+		sword.SetActive (false);
+		swinging = false;
 	}
 
 	void FixedUpdate () 
 	{
 		Move ();
+		Attack ();
 	}
+
 
 	void OnCollisionEnter2D(Collision2D col)
 	{
@@ -40,6 +46,26 @@ public class PlayerController : Entity
             grounded = true;
             anim.SetBool("jumping", false);
         }
+	}
+
+	void Attack()
+	{
+		if (Input.GetKeyDown(KeyCode.Space) && !swinging)
+		{
+			swinging = true;
+			StartCoroutine (Swing ());
+		}
+	}
+
+	IEnumerator Swing()
+	{
+		sword.SetActive (true);
+		sword.transform.Translate (-.4f, 0, 0);
+		yield return new WaitForSeconds(.05f);
+		sword.transform.Translate (.4f, 0, 0);
+		sword.SetActive (false);
+		yield return new WaitForSeconds(.5f);
+		swinging = false;
 	}
 
 	void Move () {
