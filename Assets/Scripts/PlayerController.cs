@@ -15,7 +15,6 @@ public class PlayerController : Entity
 
     private Animator anim;
 	private Rigidbody2D rb;
-	private BoxCollider2D bc;
 
 	void Awake () 
 	{
@@ -25,7 +24,6 @@ public class PlayerController : Entity
 	{
         speed = 0.1f;
         anim = GetComponent<Animator> ();
-		bc = GetComponent<BoxCollider2D> ();
 		rb = GetComponent<Rigidbody2D> ();
 		jumpForce = 200.0f;
 	}
@@ -33,7 +31,6 @@ public class PlayerController : Entity
 	void FixedUpdate () 
 	{
 		Move ();
-		print (grounded);
 	}
 
 	void OnCollisionEnter2D(Collision2D col)
