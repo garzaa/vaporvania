@@ -5,18 +5,17 @@ using UnityEngine;
 public class PlayerController : Entity 
 {
     public float speed;
-	public float jumpSpeed;
+	public float jumpForce;
     public float maxSpeed;
     public float jumpHeight; //add analogue-esque jump later
     public bool facingRight = false;
     public bool frozen;
-	private float gravity;
 
 	private bool grounded;
 
     private Animator anim;
-	private Vector3 moveDirection = Vector3.zero;
-	private BoxCollider bc;
+	private Rigidbody2D rb;
+	private BoxCollider2D bc;
 
 	void Awake () 
 	{
@@ -26,17 +25,18 @@ public class PlayerController : Entity
 	{
         speed = 0.1f;
         anim = GetComponent<Animator> ();
-		bc = GetComponent<BoxCollider> ();
-		jumpSpeed = 5.0f;
-		gravity = 10.0f;
+		bc = GetComponent<BoxCollider2D> ();
+		rb = GetComponent<Rigidbody2D> ();
+		jumpForce = 200.0f;
 	}
 
 	void FixedUpdate () 
 	{
 		Move ();
+		print (grounded);
 	}
 
-	void OnCollisionEnter(Collision col)
+	void OnCollisionEnter2D(Collision2D col)
 	{
         if (col.collider.tag == "platform")
         {
@@ -50,24 +50,18 @@ public class PlayerController : Entity
 		/* Jump. */
 		if (grounded) 
 		{
-			moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-			moveDirection = transform.TransformDirection(moveDirection);
-			moveDirection *= speed;
             //can't hold jump to jump continuously
 			if (Input.GetKeyDown(KeyCode.UpArrow)) 
 			{
 				grounded = false;
-				moveDirection.y = jumpSpeed;
+				rb.AddForce (new Vector2 (0, jumpForce));
                 anim.SetBool("running", false);
                 if (!anim.GetBool("jumping")) {
                     anim.SetBool("jumping", true);
                 }
 			}
 		}
-
-		moveDirection.y -= gravity * Time.deltaTime;
-		transform.Translate(moveDirection * Time.deltaTime);
-		
+			
 		/* Run left. */
 		if (Input.GetKey(KeyCode.LeftArrow)) 
 		{
