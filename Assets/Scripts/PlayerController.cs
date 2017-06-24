@@ -58,33 +58,40 @@ public class PlayerController : Entity
                 }
 			}
 		}
-			
-		/* Run left. */
-		if (Input.GetKey(KeyCode.LeftArrow)) 
-		{
-            if (grounded) {
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            anim.SetTrigger("groundAttack");
+        }
+
+        /* Run left. */
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            if (grounded)
+            {
                 anim.SetBool("running", true);
             }
-			transform.Translate(-speed, 0, 0);
-			if (facingRight && !frozen) 
-				Flip();
-		} 
+            transform.Translate(-speed, 0, 0);
+            if (facingRight && !frozen)
+                Flip();
+        }
 
-		/* Run right. */
-		else if (Input.GetKey(KeyCode.RightArrow)) 
-		{
+        /* Run right. */
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
             if (grounded)
             {
                 anim.SetBool("running", true);
             }
             transform.Translate(speed, 0, 0);
-			if (!facingRight && !frozen) 
-				Flip();
-		} 
+            if (!facingRight && !frozen)
+                Flip();
+        }
 
-		/* Stand still. */
-		else 
-			anim.SetBool("running", false);
+        /* Stand still. */
+        else {
+            anim.SetBool("running", false);
+        }
 	}
 
     void Flip() 
