@@ -95,10 +95,21 @@ public class PlayerController : Entity
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            anim.SetTrigger("groundAttack");
+            //jab
+            if (!anim.GetBool("running") && grounded)
+            {
+                anim.SetTrigger("groundAttack");
+            }
+
+            //dash attack
+            else if (speed != 0 && grounded)
+            {
+                anim.SetTrigger("dashAttack");
+            }
         }
         else if (Input.GetKeyDown(KeyCode.X) && grounded)
         {
+            //TODO: freeze the character 
             anim.SetTrigger("parry");
         }
 
