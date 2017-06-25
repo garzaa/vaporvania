@@ -50,7 +50,7 @@ public class PlayerController : Entity
 
 	void Attack()
 	{
-		if (Input.GetKeyDown(KeyCode.Space) && !swinging)
+		if (Input.GetKeyDown(KeyCode.Z) && !swinging)
 		{
 			swinging = true;
 			StartCoroutine (Swing ());
@@ -60,9 +60,9 @@ public class PlayerController : Entity
 	IEnumerator Swing()
 	{
 		sword.SetActive (true);
-		sword.transform.Translate (-.4f, 0, 0);
+		sword.transform.Translate (-.2f, 0, 0);
 		yield return new WaitForSeconds(.05f);
-		sword.transform.Translate (.4f, 0, 0);
+		sword.transform.Translate (.2f, 0, 0);
 		sword.SetActive (false);
 		yield return new WaitForSeconds(.5f);
 		swinging = false;
