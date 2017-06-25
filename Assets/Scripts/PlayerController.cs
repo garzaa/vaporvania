@@ -5,9 +5,8 @@ using UnityEngine;
 public class PlayerController : Entity 
 {
     public float speed;
-	public float jumpForce;
+	public float jumpForce = 200.0f;
     public float maxSpeed;
-    public float jumpHeight; //add analogue-esque jump later
     public bool facingRight = false;
     public bool frozen;
 
@@ -29,7 +28,6 @@ public class PlayerController : Entity
         speed = 0.1f;
         anim = GetComponent<Animator> ();
 		rb = GetComponent<Rigidbody2D> ();
-		jumpForce = 200.0f;
 		sword.SetActive (false);
 		swinging = false;
 	}
@@ -43,7 +41,7 @@ public class PlayerController : Entity
 
 	void OnCollisionEnter2D(Collision2D col)
 	{
-        if (col.collider.tag == "platform")
+        if (col.collider.tag == "platform" && col.transform.position.y < this.transform.position.y)
         {
             grounded = true;
             anim.SetBool("jumping", false);
@@ -76,6 +74,7 @@ public class PlayerController : Entity
 		/* Jump. */
 		if (grounded) 
 		{
+            Log("meme");
             anim.SetBool("grounded", true);
             //can't hold jump to jump continuously
 			if (Input.GetKeyDown(KeyCode.UpArrow)) 
@@ -114,7 +113,7 @@ public class PlayerController : Entity
         }
 
         /* Run left. */
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             if (grounded)
             {
@@ -126,7 +125,7 @@ public class PlayerController : Entity
         }
 
         /* Run right. */
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             if (grounded)
             {
