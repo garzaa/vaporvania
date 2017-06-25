@@ -16,7 +16,9 @@ public class PlayerController : Entity
     private Animator anim;
 	private Rigidbody2D rb;
 	public GameObject sword;
+
 	private bool swinging;
+    private bool parrying;
 
 	void Awake () 
 	{
@@ -70,24 +72,34 @@ public class PlayerController : Entity
 
 	void Move () {
 
+
 		/* Jump. */
 		if (grounded) 
 		{
+            anim.SetBool("grounded", true);
             //can't hold jump to jump continuously
 			if (Input.GetKeyDown(KeyCode.UpArrow)) 
 			{
 				grounded = false;
+                anim.SetBool("grounded", false);
 				rb.AddForce (new Vector2 (0, jumpForce));
                 anim.SetBool("running", false);
                 if (!anim.GetBool("jumping")) {
                     anim.SetBool("jumping", true);
                 }
 			}
-		}
+		} else
+        {
+            anim.SetBool("grounded", false);
+        }
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
             anim.SetTrigger("groundAttack");
+        }
+        else if (Input.GetKeyDown(KeyCode.X) && grounded)
+        {
+            anim.SetTrigger("parry");
         }
 
         /* Run left. */
