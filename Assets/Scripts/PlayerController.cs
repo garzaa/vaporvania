@@ -7,8 +7,9 @@ public class PlayerController : Entity
 
     [HideInInspector] public bool facingRight = false;
     [HideInInspector] public bool jump = false;
-    public float jumpSpeed = 100f;
-    public float moveSpeed = 100f;
+    public float jumpSpeed = 5f;
+    public float moveSpeed = 5f;
+    public float airControlRatio = .7f;
     public Transform groundCheck;
 
 
@@ -38,56 +39,17 @@ public class PlayerController : Entity
 
     void Update()
     {
-        if (Input.GetButtonDown("Jump"))
+        if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow)) && grounded)
         {
             jump = true;
         }
+
     }
 
 	void FixedUpdate () 
 	{
 		Attack();
-        float h = Input.GetAxis("Horizontal");
-
-        //stop the player if they're moving on the ground
-        if (Mathf.Abs(h) < 1 && grounded)
-        {
-            rb2d.velocity = new Vector2(0, rb2d.velocity.y);
-            anim.SetBool("running", false);
-        }
-
-        if (grounded)
-        {
-            if (Input.GetKey(KeyCode.RightArrow))
-            {
-                rb2d.velocity = new Vector2(moveSpeed, rb2d.velocity.y);
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                rb2d.velocity = new Vector2(-moveSpeed, rb2d.velocity.y);
-            }
-
-            if (rb2d.velocity.x != 0 && grounded)
-            {
-                anim.SetBool("running", true);
-            }
-        }
-
-        if (rb2d.velocity.x > 0 && !facingRight)
-        {
-            Flip();
-        }
-        else if (rb2d.velocity.x < 0 && facingRight)
-        {
-            Flip();
-        }
-
-        if (jump)
-        {
-            anim.SetBool("jumping", true);
-            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
-            jump = false;
-        }
+        Move();
     }
 
 
@@ -100,6 +62,24 @@ public class PlayerController : Entity
         }
 	}
 
+    void OnCollisionStay2D(Collision2D col)
+    {
+        if (col.collider.tag == "platform" && col.transform.position.y < this.transform.position.y)
+        {
+            grounded = true;
+            anim.SetBool("jumping", false);
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D col)
+    {
+        if (col.collider.tag == "platform" && col.transform.position.y < this.transform.position.y)
+        {
+            grounded = false;
+            anim.SetBool("jumping", true);
+        }
+    }
+
     void Jump()
     {
         if (grounded)
@@ -110,9 +90,10 @@ public class PlayerController : Entity
 
 	void Attack()
 	{
-		if (Input.GetKeyDown(KeyCode.Z) && !swinging)
+		if (Input.GetKeyDown(KeyCode.Z) && !swinging && grounded)
 		{
             anim.SetTrigger("groundAttack");
+            rb2d.velocity = new Vector2(0, rb2d.velocity.y);
 			swinging = true;
 			StartCoroutine (Swing ());
 		}
@@ -131,11 +112,62 @@ public class PlayerController : Entity
 
     void Move()
     {
-        
+        float h = Input.GetAxis("Horizontal");
+
+        //stop the player if they're moving on the ground
+        if (Mathf.Abs(h) < 1 && grounded)
+        {
+            rb2d.velocity = new Vector2(0, rb2d.velocity.y);
+            anim.SetBool("running", false);
+        }
+
+        if (grounded && HorizontalInput() && !swinging)
+        {
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                rb2d.velocity = new Vector2(moveSpeed, rb2d.velocity.y);
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                rb2d.velocity = new Vector2(-moveSpeed, rb2d.velocity.y);
+            }
+
+            if ((rb2d.velocity.x != 0 || HorizontalInput()) && grounded)
+            {
+                anim.SetBool("running", true);
+            }
+        } else if (!grounded && HorizontalInput() && !swinging)
+        {
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                rb2d.velocity = new Vector2(moveSpeed * airControlRatio, rb2d.velocity.y);
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                rb2d.velocity = new Vector2(-moveSpeed * airControlRatio, rb2d.velocity.y);
+            }
+        }
+
+        if (!facingRight && rb2d.velocity.x > 0.1)
+        { 
+            Flip();
+        }
+        else if (facingRight && rb2d.velocity.x < -0.1)
+        {
+            Flip();
+        }
+
+        if (jump)
+        {
+            anim.SetBool("jumping", true);
+            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
+            jump = false;
+        }
     }
 
     void Flip() 
 	{
+        Log("memememe");
         facingRight = !facingRight;
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
@@ -143,4 +175,8 @@ public class PlayerController : Entity
         //flip by scaling -1
     }
 		
+    bool HorizontalInput()
+    {
+        return Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow);
+    }
 }
