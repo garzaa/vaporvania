@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class PlayerController : Entity 
 {
-    public float speed;
-	public float jumpForce = 200.0f;
-    public float maxSpeed;
-    public bool facingRight = false;
+
+    [HideInInspector] public bool facingRight = false;
+    [HideInInspector] public bool jump = false;
+    public float jumpSpeed = 100f;
+    public float moveSpeed = 100f;
+    public Transform groundCheck;
+
+
     public bool frozen;
 
-	private bool grounded;
+	private bool grounded = false;
 
     private Animator anim;
-	private Rigidbody2D rb;
+    private Rigidbody2D rb2d;
 	public GameObject sword;
 
 	private bool swinging;
@@ -21,22 +25,70 @@ public class PlayerController : Entity
 
 	void Awake () 
 	{
-	}
+        anim = GetComponent<Animator>();
+        rb2d = GetComponent<Rigidbody2D>();
+        sword.SetActive(false);
+        swinging = false;
+        grounded = false;
+    }
 
 	void Start () 
 	{
-        speed = 0.1f;
-        anim = GetComponent<Animator> ();
-		rb = GetComponent<Rigidbody2D> ();
-		sword.SetActive (false);
-		swinging = false;
 	}
+
+    void Update()
+    {
+        if (Input.GetButtonDown("Jump"))
+        {
+            jump = true;
+        }
+    }
 
 	void FixedUpdate () 
 	{
-		Move ();
-		Attack ();
-	}
+		Attack();
+        float h = Input.GetAxis("Horizontal");
+
+        //stop the player if they're moving on the ground
+        if (Mathf.Abs(h) < 1 && grounded)
+        {
+            rb2d.velocity = new Vector2(0, rb2d.velocity.y);
+            anim.SetBool("running", false);
+        }
+
+        if (grounded)
+        {
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                rb2d.velocity = new Vector2(moveSpeed, rb2d.velocity.y);
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                rb2d.velocity = new Vector2(-moveSpeed, rb2d.velocity.y);
+            }
+
+            if (rb2d.velocity.x != 0 && grounded)
+            {
+                anim.SetBool("running", true);
+            }
+        }
+
+        if (rb2d.velocity.x > 0 && !facingRight)
+        {
+            Flip();
+        }
+        else if (rb2d.velocity.x < 0 && facingRight)
+        {
+            Flip();
+        }
+
+        if (jump)
+        {
+            anim.SetBool("jumping", true);
+            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
+            jump = false;
+        }
+    }
 
 
 	void OnCollisionEnter2D(Collision2D col)
@@ -47,6 +99,14 @@ public class PlayerController : Entity
             anim.SetBool("jumping", false);
         }
 	}
+
+    void Jump()
+    {
+        if (grounded)
+        {
+            jump = true;
+        }
+    }
 
 	void Attack()
 	{
@@ -68,79 +128,10 @@ public class PlayerController : Entity
 		swinging = false;
 	}
 
-	void Move () {
-
-
-		/* Jump. */
-		if (grounded) 
-		{
-            Log("meme");
-            anim.SetBool("grounded", true);
-            //can't hold jump to jump continuously
-			if (Input.GetKeyDown(KeyCode.UpArrow)) 
-			{
-				grounded = false;
-                anim.SetBool("grounded", false);
-				rb.AddForce (new Vector2 (0, jumpForce));
-                anim.SetBool("running", false);
-                if (!anim.GetBool("jumping")) {
-                    anim.SetBool("jumping", true);
-                }
-			}
-		} else
-        {
-            anim.SetBool("grounded", false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            //jab
-            if (!anim.GetBool("running") && grounded)
-            {
-                anim.SetTrigger("groundAttack");
-            }
-
-            //dash attack
-            else if (speed != 0 && grounded)
-            {
-                anim.SetTrigger("dashAttack");
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.X) && grounded)
-        {
-            //TODO: freeze the character 
-            anim.SetTrigger("parry");
-        }
-
-        /* Run left. */
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-        {
-            if (grounded)
-            {
-                anim.SetBool("running", true);
-            }
-            transform.Translate(-speed, 0, 0);
-            if (facingRight && !frozen)
-                Flip();
-        }
-
-        /* Run right. */
-        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-        {
-            if (grounded)
-            {
-                anim.SetBool("running", true);
-            }
-            transform.Translate(speed, 0, 0);
-            if (!facingRight && !frozen)
-                Flip();
-        }
-
-        /* Stand still. */
-        else {
-            anim.SetBool("running", false);
-        }
-	}
+    void Move()
+    {
+        
+    }
 
     void Flip() 
 	{
