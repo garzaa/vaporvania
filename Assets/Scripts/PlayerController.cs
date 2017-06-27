@@ -20,7 +20,7 @@ public class PlayerController : Entity
     private Rigidbody2D rb2d;
 	public GameObject sword;
 
-	private bool swinging;
+	private bool swinging = false;
     private bool parrying;
 
 	void Awake () 
@@ -112,6 +112,7 @@ public class PlayerController : Entity
 	{
 		if (Input.GetKeyDown(KeyCode.Z) && !swinging)
 		{
+            anim.SetTrigger("groundAttack");
 			swinging = true;
 			StartCoroutine (Swing ());
 		}
@@ -124,7 +125,7 @@ public class PlayerController : Entity
 		yield return new WaitForSeconds(.05f);
 		sword.transform.Translate (.2f, 0, 0);
 		sword.SetActive (false);
-		yield return new WaitForSeconds(.5f);
+		yield return new WaitForSeconds(.2f);
 		swinging = false;
 	}
 
