@@ -99,14 +99,22 @@ public class PlayerController : Entity
 
 	void Attack()
 	{
-		if (Input.GetKeyDown(KeyCode.Z) && !swinging && grounded)
+        if (Input.GetKeyDown(KeyCode.Z) && !swinging && grounded && !Input.GetKey(KeyCode.DownArrow))
 		{
             anim.SetTrigger("groundAttack");
             rb2d.velocity = new Vector2(0, rb2d.velocity.y);
 			swinging = true;
 			StartCoroutine (Swing ());
-		}
+		} if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.DownArrow) && grounded)
+        {
+            Parry();
+        }
 	}
+
+    void Parry()
+    {
+        anim.SetTrigger("parry");
+    }
 
 	IEnumerator Swing()
 	{
