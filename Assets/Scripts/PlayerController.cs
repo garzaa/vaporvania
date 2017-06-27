@@ -16,6 +16,7 @@ public class PlayerController : Entity
     public bool frozen;
 
 	private bool grounded = false;
+    private bool falling = true;
 
     private Animator anim;
     private Rigidbody2D rb2d;
@@ -31,6 +32,7 @@ public class PlayerController : Entity
         sword.SetActive(false);
         swinging = false;
         grounded = false;
+        anim.SetBool("falling", true);
     }
 
 	void Start () 
@@ -59,15 +61,22 @@ public class PlayerController : Entity
         {
             grounded = true;
             anim.SetBool("jumping", false);
+            StopFalling();
+        } else if (col.collider.tag.Contains("wall"))
+        {
+            StopFalling();
+            anim.SetBool("wallSliding", true);
         }
 	}
 
     void OnCollisionStay2D(Collision2D col)
     {
+
         if (col.collider.tag == "platform" && col.transform.position.y < this.transform.position.y)
         {
             grounded = true;
             anim.SetBool("jumping", false);
+            StopFalling();
         }
     }
 
@@ -163,6 +172,18 @@ public class PlayerController : Entity
             rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
             jump = false;
         }
+    }
+
+    void StartFalling()
+    {
+        anim.SetBool("falling", true);
+        falling = true;
+    }
+
+    void StopFalling()
+    {
+        anim.SetBool("falling", false);
+        falling = false;
     }
 
     void Flip() 
