@@ -17,6 +17,7 @@ public class PlayerController : Entity
 
 	private bool grounded = false;
     private bool falling = true;
+    private bool wallSliding = false;
 
     private Animator anim;
     private Rigidbody2D rb2d;
@@ -41,7 +42,7 @@ public class PlayerController : Entity
 
     void Update()
     {
-        if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow)) && grounded)
+        if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow)) && (grounded || wallSliding))
         {
             jump = true;
         }
@@ -65,7 +66,7 @@ public class PlayerController : Entity
         } else if (col.collider.tag.Contains("wall"))
         {
             StopFalling();
-            anim.SetBool("wallSliding", true);
+            StartWallSliding();
         }
 	}
 
@@ -130,6 +131,15 @@ public class PlayerController : Entity
 		swinging = false;
 	}
 
+    IEnumerator WallJump()
+    {
+        frozen = true;
+        //push up and away from the wall
+        rb2d.velocity = new Vector2(-4 * (facingRight ? 1 : -1), 1.5f *jumpSpeed);
+        yield return new WaitForSeconds(.1f);
+        frozen = false;
+    }
+
     void Move()
     {
         float h = Input.GetAxis("Horizontal");
@@ -141,7 +151,7 @@ public class PlayerController : Entity
             anim.SetBool("running", false);
         }
 
-        if (grounded && HorizontalInput() && !swinging)
+        if (grounded && HorizontalInput() && !swinging && !frozen)
         {
             if (Input.GetKey(KeyCode.RightArrow))
             {
@@ -156,31 +166,40 @@ public class PlayerController : Entity
             {
                 anim.SetBool("running", true);
             }
-        } else if (!grounded && HorizontalInput() && !swinging)
+        } else if (!grounded && HorizontalInput() && !swinging && !frozen)
         {
-            if (Input.GetKey(KeyCode.RightArrow))
+            //in the air, lessen control but maintain existing airspeed if moving at max
+            if (Input.GetKey(KeyCode.RightArrow) && rb2d.velocity.x < moveSpeed)
             {
-                rb2d.velocity = new Vector2(moveSpeed * airControlRatio, rb2d.velocity.y);
+                rb2d.velocity = new Vector2(rb2d.velocity.x + moveSpeed * airControlRatio, rb2d.velocity.y);
             }
-            else if (Input.GetKey(KeyCode.LeftArrow))
+            else if (Input.GetKey(KeyCode.LeftArrow) && rb2d.velocity.x > (moveSpeed * -1))
             {
                 rb2d.velocity = new Vector2(-moveSpeed * airControlRatio, rb2d.velocity.y);
             }
         }
 
-        if (!facingRight && rb2d.velocity.x > 0.1)
-        { 
+        if (!facingRight && rb2d.velocity.x > 0 && !Input.GetKey(KeyCode.LeftArrow))
+        {
             Flip();
         }
-        else if (facingRight && rb2d.velocity.x < -0.1)
+        else if (facingRight && rb2d.velocity.x < 0 && !Input.GetKey(KeyCode.RightArrow))
         {
             Flip();
         }
 
         if (jump)
         {
+            if (wallSliding)
+            {
+                StopWallSliding();
+                //jump away from the current wall, and freeze player inputs so they don't get glued back
+                StartCoroutine(WallJump());
+            } else
+            {
+                rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
+            }
             anim.SetBool("jumping", true);
-            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
             jump = false;
         }
     }
@@ -201,6 +220,14 @@ public class PlayerController : Entity
     {
         anim.SetBool("wallSliding", false);
         anim.SetBool("falling", true);
+        this.wallSliding = false;
+    }
+
+    void StartWallSliding()
+    {
+        anim.SetBool("wallSliding", true);
+        anim.SetBool("falling", false);
+        this.wallSliding = true;
     }
 
     void Flip() 
