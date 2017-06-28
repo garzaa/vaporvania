@@ -86,6 +86,9 @@ public class PlayerController : Entity
         {
             grounded = false;
             anim.SetBool("jumping", true);
+        } else if (col.collider.tag.Contains("wall"))
+        {
+            StopWallSliding();
         }
     }
 
@@ -194,9 +197,14 @@ public class PlayerController : Entity
         falling = false;
     }
 
+    void StopWallSliding()
+    {
+        anim.SetBool("wallSliding", false);
+        anim.SetBool("falling", true);
+    }
+
     void Flip() 
 	{
-        Log("memememe");
         facingRight = !facingRight;
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
