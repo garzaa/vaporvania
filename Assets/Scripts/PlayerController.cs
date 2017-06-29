@@ -4,39 +4,56 @@ using UnityEngine;
 
 public class PlayerController : Entity 
 {
-    public float speed;
-	public float jumpForce = 200.0f;
-    public float maxSpeed;
-    public bool facingRight = false;
+
+    [HideInInspector] public bool facingRight = false;
+    [HideInInspector] public bool jump = false;
+    public float jumpSpeed = 5f;
+    public float moveSpeed = 5f;
+    public float airControlRatio = .7f;
+    public Transform groundCheck;
+
+
     public bool frozen;
 
-	private bool grounded;
+	private bool grounded = false;
+    private bool falling = true;
+    private bool wallSliding = false;
 
     private Animator anim;
-	private Rigidbody2D rb;
+    private Rigidbody2D rb2d;
 	public GameObject sword;
 
-	private bool swinging;
+	private bool swinging = false;
     private bool parrying;
 
 	void Awake () 
 	{
-	}
+        anim = GetComponent<Animator>();
+        rb2d = GetComponent<Rigidbody2D>();
+        sword.SetActive(false);
+        swinging = false;
+        grounded = false;
+        anim.SetBool("falling", true);
+    }
 
 	void Start () 
 	{
-        speed = 0.1f;
-        anim = GetComponent<Animator> ();
-		rb = GetComponent<Rigidbody2D> ();
-		sword.SetActive (false);
-		swinging = false;
 	}
+
+    void Update()
+    {
+        if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow)) && (grounded || wallSliding))
+        {
+            jump = true;
+        }
+
+    }
 
 	void FixedUpdate () 
 	{
-		Move ();
-		Attack ();
-	}
+		Attack();
+        Move();
+    }
 
 
 	void OnCollisionEnter2D(Collision2D col)
@@ -45,17 +62,63 @@ public class PlayerController : Entity
         {
             grounded = true;
             anim.SetBool("jumping", false);
+            StopFalling();
+        } else if (col.collider.tag.Contains("wall"))
+        {
+            StopFalling();
+            StartWallSliding();
         }
 	}
 
+    void OnCollisionStay2D(Collision2D col)
+    {
+
+        if (col.collider.tag == "platform" && col.transform.position.y < this.transform.position.y)
+        {
+            grounded = true;
+            anim.SetBool("jumping", false);
+            StopFalling();
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D col)
+    {
+        if (col.collider.tag == "platform" && col.transform.position.y < this.transform.position.y)
+        {
+            grounded = false;
+            anim.SetBool("jumping", true);
+        } else if (col.collider.tag.Contains("wall"))
+        {
+            StopWallSliding();
+        }
+    }
+
+    void Jump()
+    {
+        if (grounded)
+        {
+            jump = true;
+        }
+    }
+
 	void Attack()
 	{
-		if (Input.GetKeyDown(KeyCode.Z) && !swinging)
+        if (Input.GetKeyDown(KeyCode.Z) && !swinging && grounded && !Input.GetKey(KeyCode.DownArrow))
 		{
+            anim.SetTrigger("groundAttack");
+            rb2d.velocity = new Vector2(0, rb2d.velocity.y);
 			swinging = true;
 			StartCoroutine (Swing ());
-		}
+		} if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.DownArrow) && grounded)
+        {
+            Parry();
+        }
 	}
+
+    void Parry()
+    {
+        anim.SetTrigger("parry");
+    }
 
 	IEnumerator Swing()
 	{
@@ -64,83 +127,108 @@ public class PlayerController : Entity
 		yield return new WaitForSeconds(.05f);
 		sword.transform.Translate (.2f, 0, 0);
 		sword.SetActive (false);
-		yield return new WaitForSeconds(.5f);
+		yield return new WaitForSeconds(.2f);
 		swinging = false;
 	}
 
-	void Move () {
+    IEnumerator WallJump()
+    {
+        frozen = true;
+        //push up and away from the wall
+        rb2d.velocity = new Vector2(-4 * (facingRight ? 1 : -1), 1.5f *jumpSpeed);
+        yield return new WaitForSeconds(.1f);
+        frozen = false;
+    }
 
+    void Move()
+    {
+        float h = Input.GetAxis("Horizontal");
 
-		/* Jump. */
-		if (grounded) 
-		{
-            Log("meme");
-            anim.SetBool("grounded", true);
-            //can't hold jump to jump continuously
-			if (Input.GetKeyDown(KeyCode.UpArrow)) 
-			{
-				grounded = false;
-                anim.SetBool("grounded", false);
-				rb.AddForce (new Vector2 (0, jumpForce));
-                anim.SetBool("running", false);
-                if (!anim.GetBool("jumping")) {
-                    anim.SetBool("jumping", true);
-                }
-			}
-		} else
+        //stop the player if they're moving on the ground
+        if (Mathf.Abs(h) < 1 && grounded)
         {
-            anim.SetBool("grounded", false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            //jab
-            if (!anim.GetBool("running") && grounded)
-            {
-                anim.SetTrigger("groundAttack");
-            }
-
-            //dash attack
-            else if (speed != 0 && grounded)
-            {
-                anim.SetTrigger("dashAttack");
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.X) && grounded)
-        {
-            //TODO: freeze the character 
-            anim.SetTrigger("parry");
-        }
-
-        /* Run left. */
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-        {
-            if (grounded)
-            {
-                anim.SetBool("running", true);
-            }
-            transform.Translate(-speed, 0, 0);
-            if (facingRight && !frozen)
-                Flip();
-        }
-
-        /* Run right. */
-        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-        {
-            if (grounded)
-            {
-                anim.SetBool("running", true);
-            }
-            transform.Translate(speed, 0, 0);
-            if (!facingRight && !frozen)
-                Flip();
-        }
-
-        /* Stand still. */
-        else {
+            rb2d.velocity = new Vector2(0, rb2d.velocity.y);
             anim.SetBool("running", false);
         }
-	}
+
+        if (grounded && HorizontalInput() && !swinging && !frozen)
+        {
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                rb2d.velocity = new Vector2(moveSpeed, rb2d.velocity.y);
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                rb2d.velocity = new Vector2(-moveSpeed, rb2d.velocity.y);
+            }
+
+            if ((rb2d.velocity.x != 0 || HorizontalInput()) && grounded)
+            {
+                anim.SetBool("running", true);
+            }
+        } else if (!grounded && HorizontalInput() && !swinging && !frozen)
+        {
+            //in the air, lessen control but maintain existing airspeed if moving at max
+            if (Input.GetKey(KeyCode.RightArrow) && rb2d.velocity.x < moveSpeed)
+            {
+                rb2d.velocity = new Vector2(rb2d.velocity.x + moveSpeed * airControlRatio, rb2d.velocity.y);
+            }
+            else if (Input.GetKey(KeyCode.LeftArrow) && rb2d.velocity.x > (moveSpeed * -1))
+            {
+                rb2d.velocity = new Vector2(-moveSpeed * airControlRatio, rb2d.velocity.y);
+            }
+        }
+
+        if (!facingRight && rb2d.velocity.x > 0 && !Input.GetKey(KeyCode.LeftArrow))
+        {
+            Flip();
+        }
+        else if (facingRight && rb2d.velocity.x < 0 && !Input.GetKey(KeyCode.RightArrow))
+        {
+            Flip();
+        }
+
+        if (jump)
+        {
+            if (wallSliding)
+            {
+                StopWallSliding();
+                //jump away from the current wall, and freeze player inputs so they don't get glued back
+                StartCoroutine(WallJump());
+            } else
+            {
+                rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
+            }
+            anim.SetBool("jumping", true);
+            jump = false;
+        }
+    }
+
+    void StartFalling()
+    {
+        anim.SetBool("falling", true);
+        falling = true;
+    }
+
+    void StopFalling()
+    {
+        anim.SetBool("falling", false);
+        falling = false;
+    }
+
+    void StopWallSliding()
+    {
+        anim.SetBool("wallSliding", false);
+        anim.SetBool("falling", true);
+        this.wallSliding = false;
+    }
+
+    void StartWallSliding()
+    {
+        anim.SetBool("wallSliding", true);
+        anim.SetBool("falling", false);
+        this.wallSliding = true;
+    }
 
     void Flip() 
 	{
@@ -151,4 +239,8 @@ public class PlayerController : Entity
         //flip by scaling -1
     }
 		
+    bool HorizontalInput()
+    {
+        return Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow);
+    }
 }
