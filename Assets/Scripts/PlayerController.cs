@@ -58,11 +58,13 @@ public class PlayerController : Entity
 
 	void OnCollisionEnter2D(Collision2D col)
 	{
+        //why is this checked...
         if (col.collider.tag == "platform" && col.transform.position.y < this.transform.position.y)
         {
             grounded = true;
             anim.SetBool("jumping", false);
             StopFalling();
+            StopWallSliding();
         } else if (col.collider.tag.Contains("wall"))
         {
             StopFalling();
@@ -87,7 +89,8 @@ public class PlayerController : Entity
         {
             grounded = false;
             anim.SetBool("jumping", true);
-        } else if (col.collider.tag.Contains("wall"))
+        //else, if they're not jumping off a wall and instead just falling
+        } else if (col.collider.tag.Contains("wall") && !Input.GetKey(KeyCode.UpArrow))
         {
             StopWallSliding();
         }
@@ -131,8 +134,15 @@ public class PlayerController : Entity
 		swinging = false;
 	}
 
+    /**
+    This adds a small force opposite the wall and freezes the player for a moment so they don't 
+    immediately move back to it.
+     */
     IEnumerator WallJump()
     {
+        anim.SetBool("wallSliding", false);
+        this.wallSliding = false;
+        anim.SetTrigger("jump");
         frozen = true;
         //push up and away from the wall
         rb2d.velocity = new Vector2(-4 * (facingRight ? 1 : -1), 1.5f *jumpSpeed);
@@ -192,14 +202,13 @@ public class PlayerController : Entity
         {
             if (wallSliding)
             {
-                StopWallSliding();
                 //jump away from the current wall, and freeze player inputs so they don't get glued back
                 StartCoroutine(WallJump());
             } else
             {
                 rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
             }
-            anim.SetBool("jumping", true);
+            anim.SetTrigger("jump");
             jump = false;
         }
     }
