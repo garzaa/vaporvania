@@ -219,7 +219,7 @@ public class PlayerController : Entity
 
         //stop the sliding animation if needed
         if (wallSliding) {
-            if (Mathf.Abs(rb2d.velocity.y) < 0.2) {
+            if (Mathf.Abs(rb2d.velocity.y) < 0.3) {
                 anim.SetTrigger("wallstick");
             } else {
                 anim.SetTrigger("wallunstick");
