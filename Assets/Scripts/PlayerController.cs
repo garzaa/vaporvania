@@ -10,8 +10,6 @@ public class PlayerController : Entity
     public float jumpSpeed = 5f;
     public float moveSpeed = 5f;
     public float airControlRatio = .7f;
-    public Transform groundCheck;
-
 
     public bool frozen;
 
@@ -119,13 +117,15 @@ public class PlayerController : Entity
 			StartCoroutine (Swing ());
 		} if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.DownArrow) && grounded)
         {
-            Parry();
+            StartCoroutine(Parry());
         }
 	}
 
-    void Parry()
-    {
+    IEnumerator Parry() {
+        this.frozen = true;
         anim.SetTrigger("parry");
+        yield return new WaitForSeconds(.8f);
+        this.frozen = false;
     }
 
 	IEnumerator Swing()
