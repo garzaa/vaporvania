@@ -18,6 +18,7 @@ public class PlayerController : Entity
 	private bool grounded = false;
     private bool falling = true;
     private bool wallSliding = false;
+    private bool touchingWall = false;
 
     private Animator anim;
     private Rigidbody2D rb2d;
@@ -58,15 +59,17 @@ public class PlayerController : Entity
 
 	void OnCollisionEnter2D(Collision2D col)
 	{
-        //why is this checked...
+        //this is checked so they don't snap to idle after hitting their head on a ceiling
+        //have different colliders in the future or something, because this is kinda stupid
         if (col.collider.tag == "platform" && col.transform.position.y < this.transform.position.y)
         {
             grounded = true;
             anim.SetBool("jumping", false);
             StopFalling();
             StopWallSliding();
-        } else if (col.collider.tag.Contains("wall"))
+        } else if (col.collider.tag.Contains("wall") && !grounded)
         {
+            touchingWall = true;
             StopFalling();
             StartWallSliding();
         }
@@ -92,7 +95,9 @@ public class PlayerController : Entity
         //else, if they're not jumping off a wall and instead just falling
         } else if (col.collider.tag.Contains("wall") && !Input.GetKey(KeyCode.UpArrow))
         {
+            touchingWall = false;
             StopWallSliding();
+            anim.SetBool("falling", true);
         }
     }
 
@@ -210,6 +215,15 @@ public class PlayerController : Entity
             }
             anim.SetTrigger("jump");
             jump = false;
+        }
+
+        //stop the sliding animation if needed
+        if (wallSliding) {
+            if (Mathf.Abs(rb2d.velocity.y) < 0.2) {
+                anim.SetTrigger("wallstick");
+            } else {
+                anim.SetTrigger("wallunstick");
+            }
         }
     }
 
