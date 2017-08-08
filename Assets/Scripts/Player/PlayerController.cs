@@ -39,10 +39,6 @@ public class PlayerController : Entity
         anim.SetBool("falling", true);
     }
 
-	void Start () 
-	{
-	}
-
     void Update()
     {
         if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow)) && (grounded || wallSliding))
