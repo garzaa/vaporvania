@@ -13,7 +13,7 @@ public class PlayerController : Entity
 
     public bool frozen;
 
-	private bool grounded = false;
+	bool grounded = false;
     private bool falling = true;
     private bool wallSliding = false;
     private bool touchingWall = false;
@@ -63,6 +63,7 @@ public class PlayerController : Entity
         {
             grounded = true;
             anim.SetBool("jumping", false);
+            //anim.SetBool("grounded", true);
             StopFalling();
             StopWallSliding();
         } else if (col.collider.tag.Contains("wall") && !grounded)
@@ -79,6 +80,7 @@ public class PlayerController : Entity
         if (col.collider.tag == "platform" && col.transform.position.y < this.transform.position.y)
         {
             grounded = true;
+            //anim.SetBool("grounded", true);
             anim.SetBool("jumping", false);
             StopFalling();
         }
