@@ -118,6 +118,10 @@ public class PlayerController : Entity
 		} if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.DownArrow) && grounded)
         {
             StartCoroutine(Parry());
+        } else {
+            if (Input.GetKeyDown(KeyCode.Z) && !grounded) {
+                anim.SetTrigger("airAttack");
+            }
         }
 	}
 
@@ -150,7 +154,7 @@ public class PlayerController : Entity
         anim.SetTrigger("jump");
         frozen = true;
         //push up and away from the wall
-        rb2d.velocity = new Vector2(-4 * (facingRight ? 1 : -1), 1.5f *jumpSpeed);
+        rb2d.velocity = new Vector2(-4 * (facingRight ? 1 : -1), 1.2f * jumpSpeed);
         yield return new WaitForSeconds(.1f);
         frozen = false;
     }
