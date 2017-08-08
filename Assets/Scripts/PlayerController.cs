@@ -117,7 +117,6 @@ public class PlayerController : Entity
 		{
             anim.SetTrigger("groundAttack");
             rb2d.velocity = new Vector2(0, rb2d.velocity.y);
-			swinging = true;
 			StartCoroutine (Swing ());
 		} if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.DownArrow) && grounded)
         {
@@ -144,7 +143,6 @@ public class PlayerController : Entity
 		sword.transform.Translate (.2f, 0, 0);
 		sword.SetActive (false);
 		yield return new WaitForSeconds(.2f);
-		swinging = false;
 	}
 
     /**
