@@ -23,7 +23,11 @@ public class PlayerController : Entity
 	public GameObject sword;
 
 	public bool swinging = false;
+
+    //if this is true, the player is invincible to enemy attacks(?)
     private bool parrying;
+
+    public bool attackCooldown = false;
 
 	void Awake () 
 	{
@@ -113,6 +117,9 @@ public class PlayerController : Entity
 
 	void Attack()
 	{
+        if (attackCooldown) {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.Z) && !swinging && grounded && !Input.GetKey(KeyCode.DownArrow))
 		{
             anim.SetTrigger("groundAttack");
@@ -120,19 +127,16 @@ public class PlayerController : Entity
 			StartCoroutine (Swing ());
 		} if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.DownArrow) && grounded)
         {
-            StartCoroutine(Parry());
+            Parry();
         } else {
             if (Input.GetKeyDown(KeyCode.Z) && !grounded && !swinging) {
-                anim.SetTrigger("airAttack");
+                this.AirAttack();
             }
         }
 	}
 
-    IEnumerator Parry() {
-        this.frozen = true;
+    void Parry() {
         anim.SetTrigger("parry");
-        yield return new WaitForSeconds(.8f);
-        this.frozen = false;
     }
 
 	IEnumerator Swing()
@@ -279,5 +283,30 @@ public class PlayerController : Entity
 
     void StopSwinging() {
         this.swinging = false;
+    }
+
+    public void AttackCooldown(float seconds) {
+        StartCoroutine(StartAttackCooldown(seconds));
+    }
+
+    private IEnumerator StartAttackCooldown(float seconds) {
+        this.attackCooldown = true;
+        yield return new WaitForSeconds(seconds);
+        this.attackCooldown = false;
+    }
+
+    void ResetAttackCooldown() {
+        this.attackCooldown = false;
+    }
+
+    void AirAttack() {
+        anim.SetTrigger("airAttack");
+    }
+
+    public void StartParrying() {
+        this.parrying = true;
+    }
+    public void StopParrying() {
+        this.parrying = false;
     }
 }
