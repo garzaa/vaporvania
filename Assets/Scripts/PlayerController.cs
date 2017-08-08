@@ -13,7 +13,7 @@ public class PlayerController : Entity
 
     public bool frozen;
 
-	bool grounded = false;
+	private bool grounded = false;
     private bool falling = true;
     private bool wallSliding = false;
     private bool touchingWall = false;
@@ -22,7 +22,7 @@ public class PlayerController : Entity
     private Rigidbody2D rb2d;
 	public GameObject sword;
 
-	private bool swinging = false;
+	public bool swinging = false;
     private bool parrying;
 
 	void Awake () 
@@ -63,6 +63,8 @@ public class PlayerController : Entity
         {
             grounded = true;
             anim.SetBool("jumping", false);
+            //cancel an aerial attack
+            StopSwinging();
             //anim.SetBool("grounded", true);
             StopFalling();
             StopWallSliding();
@@ -121,7 +123,7 @@ public class PlayerController : Entity
         {
             StartCoroutine(Parry());
         } else {
-            if (Input.GetKeyDown(KeyCode.Z) && !grounded) {
+            if (Input.GetKeyDown(KeyCode.Z) && !grounded && !swinging) {
                 anim.SetTrigger("airAttack");
             }
         }
@@ -271,5 +273,13 @@ public class PlayerController : Entity
     bool HorizontalInput()
     {
         return Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow);
+    }
+
+    void StartSwinging() {
+        this.swinging = true;
+    }
+
+    void StopSwinging() {
+        this.swinging = false;
     }
 }
