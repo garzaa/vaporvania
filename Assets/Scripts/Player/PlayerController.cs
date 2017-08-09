@@ -333,4 +333,11 @@ public class PlayerController : Entity
     void StopForcingAll() {
         this.forcedInputs.Clear();
     }
+
+    public void Freeze() {
+        this.frozen = true;
+    }
+    public void UnFreeze() {
+        this.frozen = false;
+    }
 }
