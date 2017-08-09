@@ -29,6 +29,10 @@ public class PlayerController : Entity
 
     public bool attackCooldown = false;
 
+    float ROLL_VELOCITY = -.00000000000005f;
+
+    List<KeyCode> forcedInputs;
+
 	void Awake () 
 	{
         anim = GetComponent<Animator>();
@@ -37,6 +41,8 @@ public class PlayerController : Entity
         swinging = false;
         grounded = false;
         anim.SetBool("falling", true);
+
+        forcedInputs = new List<KeyCode>();
     }
 
     void Update()
@@ -68,7 +74,10 @@ public class PlayerController : Entity
             //anim.SetBool("grounded", true);
             StopFalling();
             StopWallSliding();
-        } else if (col.collider.tag.Contains("wall") && !grounded)
+            if (rb2d.velocity.y < ROLL_VELOCITY) {
+                anim.SetTrigger("hardLand");
+            }
+        } else if (col.collider.tag.Contains("wall"))
         {
             touchingWall = true;
             StopFalling();
@@ -90,10 +99,15 @@ public class PlayerController : Entity
 
     void OnCollisionExit2D(Collision2D col)
     {
-        if (col.collider.tag == "platform" && col.transform.position.y < this.transform.position.y)
+        if (col.collider.tag == "platform")
         {
             grounded = false;
-            anim.SetBool("jumping", true);
+            if (col.transform.position.y < this.transform.position.y) {
+                Debug.Log("meme");
+                anim.SetBool("jumping", true);
+            } else {
+                anim.SetTrigger("fall");
+            }
         //else, if they're not jumping off a wall and instead just falling
         } else if (col.collider.tag.Contains("wall") && !Input.GetKey(KeyCode.UpArrow))
         {
@@ -125,7 +139,7 @@ public class PlayerController : Entity
         {
             Parry();
         } else {
-            if (Input.GetKeyDown(KeyCode.Z) && !grounded && !swinging) {
+            if (Input.GetKeyDown(KeyCode.Z) && !grounded && !swinging && !wallSliding) {
                 this.AirAttack();
             }
         }
@@ -225,7 +239,7 @@ public class PlayerController : Entity
 
         //stop the sliding animation if needed
         if (wallSliding) {
-            if (Mathf.Abs(rb2d.velocity.y) < 0.3) {
+            if (Mathf.Abs(rb2d.velocity.y) < 0.2) {
                 anim.SetTrigger("wallstick");
             } else {
                 anim.SetTrigger("wallunstick");
@@ -304,5 +318,19 @@ public class PlayerController : Entity
     }
     public void StopParrying() {
         this.parrying = false;
+    }
+
+    void StartForcing(KeyCode keyCode) 
+    {
+        //don't want to add duplicates
+        if (!this.forcedInputs.Contains(keyCode)) {
+            this.forcedInputs.Add(keyCode);
+        }
+    }
+    void StopForcing(KeyCode keyCode) {
+        this.forcedInputs.Remove(keyCode);
+    }
+    void StopForcingAll() {
+        this.forcedInputs.Clear();
     }
 }
