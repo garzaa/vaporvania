@@ -25,7 +25,7 @@ public class PlayerController : Entity
 	public bool swinging = false;
 
     //if this is true, the player is invincible to enemy attacks(?)
-    private bool parrying;
+    public bool parrying;
 
     public bool attackCooldown = false;
 
@@ -103,7 +103,6 @@ public class PlayerController : Entity
         {
             grounded = false;
             if (col.transform.position.y < this.transform.position.y) {
-                Debug.Log("meme");
                 anim.SetBool("jumping", true);
             } else {
                 anim.SetTrigger("fall");
@@ -135,7 +134,7 @@ public class PlayerController : Entity
             anim.SetTrigger("groundAttack");
             rb2d.velocity = new Vector2(0, rb2d.velocity.y);
 			StartCoroutine (Swing ());
-		} if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.DownArrow) && grounded)
+		} if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.DownArrow) && grounded && !swinging)
         {
             Parry();
         } else {
@@ -233,6 +232,7 @@ public class PlayerController : Entity
             {
                 rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
             }
+            InterruptAttack();
             anim.SetTrigger("jump");
             jump = false;
         }
@@ -339,5 +339,12 @@ public class PlayerController : Entity
     }
     public void UnFreeze() {
         this.frozen = false;
+    }
+
+    public void InterruptAttack() {
+        this.swinging = false;
+        this.parrying = false;
+        this.frozen = false;
+        this.attackCooldown = false;
     }
 }
