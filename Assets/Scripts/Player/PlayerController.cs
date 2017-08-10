@@ -89,9 +89,9 @@ public class PlayerController : Entity
 
     public void LeaveGround(Collision2D col) {
         grounded = false;
-        if (col.transform.position.y < this.transform.position.y) {
+        if (col.transform.position.y < this.transform.position.y && rb2d.velocity.y >= 0) {
             anim.SetBool("jumping", true);
-        } else {
+        } else if (rb2d.velocity.y < 0) {
             anim.SetTrigger("fall");
         }
     }
