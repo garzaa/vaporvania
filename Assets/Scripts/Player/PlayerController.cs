@@ -74,7 +74,11 @@ public class PlayerController : Entity
             StopWallSliding();
             
             if (fastFalling) {
-                anim.SetTrigger("hardLand");
+                if (HorizontalInput()) {
+                    anim.SetTrigger("roll");
+                } else {
+                    anim.SetTrigger("hardLand");
+                }
             }
         }
     }
