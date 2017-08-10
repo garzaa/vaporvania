@@ -33,6 +33,9 @@ public class PlayerController : Entity
 
     List<KeyCode> forcedInputs;
 
+    public int maxAirJumps = 0;
+    private int airJumps;
+
 	void Awake () 
 	{
         anim = GetComponent<Animator>();
@@ -42,13 +45,19 @@ public class PlayerController : Entity
         anim.SetBool("falling", true);
 
         forcedInputs = new List<KeyCode>();
+
+        airJumps = maxAirJumps;
     }
 
     void Update()
     {
-        if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow)) && (grounded || wallSliding))
+        if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow)) && 
+        (grounded || wallSliding || airJumps > 0))
         {
             jump = true;
+            if (!grounded || !wallSliding) {
+                airJumps--;
+            }
         }
     }
 
@@ -67,6 +76,7 @@ public class PlayerController : Entity
         if (col.transform.position.y < this.transform.position.y) {
             grounded = true;
             anim.SetBool("jumping", false);
+            anim.SetBool("grounded", true);
             //cancel an aerial attack
             StopSwinging();
             //anim.SetBool("grounded", true);
@@ -81,6 +91,7 @@ public class PlayerController : Entity
                 }
             }
         }
+        this.airJumps = maxAirJumps;
     }
 
     public void StayOnGround(Collision2D col) {
@@ -93,6 +104,7 @@ public class PlayerController : Entity
 
     public void LeaveGround(Collision2D col) {
         grounded = false;
+        anim.SetBool("grounded", false);
         if (col.transform.position.y < this.transform.position.y && rb2d.velocity.y >= 0) {
             anim.SetBool("jumping", true);
         } else if (rb2d.velocity.y < 0) {
@@ -104,6 +116,7 @@ public class PlayerController : Entity
         touchingWall = true;
         StopFalling();
         StartWallSliding();
+        this.airJumps = maxAirJumps;
     }
 
     public void StayOnWall(Collision2D col) {
@@ -202,11 +215,11 @@ public class PlayerController : Entity
             }
         }
 
-        if (!facingRight && rb2d.velocity.x > 0 && !Input.GetKey(KeyCode.LeftArrow))
+        if (!facingRight && rb2d.velocity.x > 0 && Input.GetKey(KeyCode.RightArrow))
         {
             Flip();
         }
-        else if (facingRight && rb2d.velocity.x < 0 && !Input.GetKey(KeyCode.RightArrow))
+        else if (facingRight && rb2d.velocity.x < 0 && Input.GetKey(KeyCode.LeftArrow))
         {
             Flip();
         }
@@ -269,6 +282,7 @@ public class PlayerController : Entity
         theScale.x *= -1;
         transform.localScale = theScale;
         //flip by scaling -1
+        Debug.Log("flipped!");
     }
 		
     bool HorizontalInput()
