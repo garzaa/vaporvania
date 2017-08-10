@@ -342,6 +342,8 @@ public class PlayerController : Entity
     }
 
     public void InterruptAttack() {
+        //right now you can jump cancel parries, but it could be a bit OP
+        if (!swinging && !parrying) return;
         this.swinging = false;
         this.parrying = false;
         this.frozen = false;
