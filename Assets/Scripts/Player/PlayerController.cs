@@ -6,7 +6,7 @@ public class PlayerController : Entity
 {
 
     [HideInInspector] public bool facingRight = false;
-    [HideInInspector] public bool jump = false;
+
     public float jumpSpeed = 5f;
     public float moveSpeed = 5f;
     public float airControlRatio = .7f;
@@ -14,7 +14,6 @@ public class PlayerController : Entity
     public bool frozen;
 
 	private bool grounded = false;
-    private bool falling = true;
     private bool wallSliding = false;
     private bool touchingWall = false;
 
@@ -28,7 +27,7 @@ public class PlayerController : Entity
 
     public bool attackCooldown = false;
 
-    float ROLL_VELOCITY = -6f;
+    public float ROLL_VELOCITY = -6f;
     bool fastFalling = false;
 
     List<KeyCode> forcedInputs;
@@ -49,20 +48,9 @@ public class PlayerController : Entity
         airJumps = maxAirJumps;
     }
 
-    void Update()
-    {
-        if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow)) && 
-        (grounded || wallSliding || airJumps > 0))
-        {
-            jump = true;
-            if (!grounded || !wallSliding) {
-                airJumps--;
-            }
-        }
-    }
-
 	void FixedUpdate () 
 	{
+        Jump();
 		Attack();
         Move();
         if (rb2d.velocity.y < ROLL_VELOCITY) {
@@ -131,10 +119,26 @@ public class PlayerController : Entity
 
     void Jump()
     {
-        if (grounded)
-        {
-            jump = true;
+    if (!((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow)) && 
+            (grounded || wallSliding || airJumps >= 0))) {
+                return;
+            }
+
+        if (!grounded || !wallSliding) {
+            airJumps--;
         }
+        if (wallSliding)
+        {
+            //jump away from the current wall, and freeze player inputs so they don't get glued back
+            StartCoroutine(WallJump());
+        } else
+        {
+            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
+            InterruptAttack();
+        }
+        anim.SetBool("grounded", false);
+        anim.SetTrigger("jump");
+        anim.SetBool("falling", false);
     }
 
 	void Attack()
@@ -224,21 +228,6 @@ public class PlayerController : Entity
             Flip();
         }
 
-        if (jump)
-        {
-            if (wallSliding)
-            {
-                //jump away from the current wall, and freeze player inputs so they don't get glued back
-                StartCoroutine(WallJump());
-            } else
-            {
-                rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
-                InterruptAttack();
-            }
-            anim.SetTrigger("jump");
-            jump = false;
-        }
-
         //stop the sliding animation if needed
         if (wallSliding) {
             if (Mathf.Abs(rb2d.velocity.y) < 0.2) {
@@ -252,13 +241,11 @@ public class PlayerController : Entity
     void StartFalling()
     {
         anim.SetBool("falling", true);
-        falling = true;
     }
 
     void StopFalling()
     {
         anim.SetBool("falling", false);
-        falling = false;
     }
 
     void StopWallSliding()
@@ -351,5 +338,9 @@ public class PlayerController : Entity
         this.parrying = false;
         this.frozen = false;
         this.attackCooldown = false;
+    }
+
+    void resetJumps() {
+        airJumps = maxAirJumps;
     }
 }
