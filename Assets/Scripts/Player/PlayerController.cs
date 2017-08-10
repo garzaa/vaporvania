@@ -20,7 +20,6 @@ public class PlayerController : Entity
 
     private Animator anim;
     private Rigidbody2D rb2d;
-	public GameObject sword;
 
 	public bool swinging = false;
 
@@ -29,7 +28,8 @@ public class PlayerController : Entity
 
     public bool attackCooldown = false;
 
-    float ROLL_VELOCITY = -.00000000000005f;
+    float ROLL_VELOCITY = -6f;
+    bool fastFalling = false;
 
     List<KeyCode> forcedInputs;
 
@@ -37,7 +37,6 @@ public class PlayerController : Entity
 	{
         anim = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
-        sword.SetActive(false);
         swinging = false;
         grounded = false;
         anim.SetBool("falling", true);
@@ -51,22 +50,21 @@ public class PlayerController : Entity
         {
             jump = true;
         }
-
     }
 
 	void FixedUpdate () 
 	{
 		Attack();
         Move();
+        if (rb2d.velocity.y < ROLL_VELOCITY) {
+            this.fastFalling = true;
+        } else {
+            this.fastFalling = false;
+        }
     }
 
-
-	void OnCollisionEnter2D(Collision2D col)
-	{
-        //this is checked so they don't snap to idle after hitting their head on a ceiling
-        //have different colliders in the future or something, because this is kinda stupid
-        if (col.collider.tag == "platform" && col.transform.position.y < this.transform.position.y)
-        {
+    public void HitGround(Collision2D col) {
+        if (col.transform.position.y < this.transform.position.y) {
             grounded = true;
             anim.SetBool("jumping", false);
             //cancel an aerial attack
@@ -74,46 +72,44 @@ public class PlayerController : Entity
             //anim.SetBool("grounded", true);
             StopFalling();
             StopWallSliding();
-            if (rb2d.velocity.y < ROLL_VELOCITY) {
+            
+            if (fastFalling) {
                 anim.SetTrigger("hardLand");
             }
-        } else if (col.collider.tag.Contains("wall"))
-        {
-            touchingWall = true;
-            StopFalling();
-            StartWallSliding();
         }
-	}
+    }
 
-    void OnCollisionStay2D(Collision2D col)
-    {
-
-        if (col.collider.tag == "platform" && col.transform.position.y < this.transform.position.y)
-        {
+    public void StayOnGround(Collision2D col) {
+        if (col.transform.position.y < this.transform.position.y) {
             grounded = true;
-            //anim.SetBool("grounded", true);
             anim.SetBool("jumping", false);
             StopFalling();
         }
     }
 
-    void OnCollisionExit2D(Collision2D col)
-    {
-        if (col.collider.tag == "platform")
-        {
-            grounded = false;
-            if (col.transform.position.y < this.transform.position.y) {
-                anim.SetBool("jumping", true);
-            } else {
-                anim.SetTrigger("fall");
-            }
-        //else, if they're not jumping off a wall and instead just falling
-        } else if (col.collider.tag.Contains("wall") && !Input.GetKey(KeyCode.UpArrow))
-        {
-            touchingWall = false;
-            StopWallSliding();
-            anim.SetBool("falling", true);
+    public void LeaveGround(Collision2D col) {
+        grounded = false;
+        if (col.transform.position.y < this.transform.position.y) {
+            anim.SetBool("jumping", true);
+        } else {
+            anim.SetTrigger("fall");
         }
+    }
+
+    public void HitWall(Collision2D col) {
+        touchingWall = true;
+        StopFalling();
+        StartWallSliding();
+    }
+
+    public void StayOnWall(Collision2D col) {
+
+    }
+
+    public void LeaveWall(Collision2D col) {
+        touchingWall = false;
+        StopWallSliding();
+        anim.SetBool("falling", true);
     }
 
     void Jump()
@@ -133,7 +129,6 @@ public class PlayerController : Entity
 		{
             anim.SetTrigger("groundAttack");
             rb2d.velocity = new Vector2(0, rb2d.velocity.y);
-			StartCoroutine (Swing ());
 		} if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.DownArrow) && grounded && !swinging)
         {
             Parry();
@@ -147,16 +142,6 @@ public class PlayerController : Entity
     void Parry() {
         anim.SetTrigger("parry");
     }
-
-	IEnumerator Swing()
-	{
-		sword.SetActive (true);
-		sword.transform.Translate (-.2f, 0, 0);
-		yield return new WaitForSeconds(.05f);
-		sword.transform.Translate (.2f, 0, 0);
-		sword.SetActive (false);
-		yield return new WaitForSeconds(.2f);
-	}
 
     /**
     This adds a small force opposite the wall and freezes the player for a moment so they don't 
