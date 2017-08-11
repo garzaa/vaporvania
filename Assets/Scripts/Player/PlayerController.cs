@@ -35,6 +35,8 @@ public class PlayerController : Entity
     public int maxAirJumps = 0;
     private int airJumps;
 
+    public GameObject platformTouching;
+
 	void Awake () 
 	{
         anim = GetComponent<Animator>();
@@ -61,9 +63,9 @@ public class PlayerController : Entity
     }
 
     public void HitGround(Collision2D col) {
+        if (this.rb2d.velocity.y != 0) return;
         if (col.transform.position.y < this.transform.position.y) {
             grounded = true;
-            anim.SetBool("jumping", false);
             anim.SetBool("grounded", true);
             //cancel an aerial attack
             StopSwinging();
@@ -80,24 +82,18 @@ public class PlayerController : Entity
             }
         }
         this.airJumps = maxAirJumps;
-    }
 
-    public void StayOnGround(Collision2D col) {
-        if (col.transform.position.y < this.transform.position.y) {
-            grounded = true;
-            anim.SetBool("jumping", false);
-            StopFalling();
-        }
+        //track if they're on a passthrough, one-way platform
+        platformTouching = col.collider.gameObject;
     }
 
     public void LeaveGround(Collision2D col) {
         grounded = false;
         anim.SetBool("grounded", false);
-        if (col.transform.position.y < this.transform.position.y && rb2d.velocity.y >= 0) {
-            anim.SetBool("jumping", true);
-        } else if (rb2d.velocity.y < 0) {
+        if (rb2d.velocity.y < 0) {
             anim.SetTrigger("fall");
         }
+        platformTouching = null;
     }
 
     public void HitWall(Collision2D col) {
@@ -171,7 +167,6 @@ public class PlayerController : Entity
     IEnumerator WallJump()
     {
         anim.SetBool("wallSliding", false);
-        Flip();
         this.wallSliding = false;
         anim.SetTrigger("jump");
         frozen = true;
@@ -220,11 +215,11 @@ public class PlayerController : Entity
             }
         }
 
-        if (!facingRight && rb2d.velocity.x > 0 && Input.GetKey(KeyCode.RightArrow))
+        if (!facingRight && rb2d.velocity.x > 0 && !Input.GetKey(KeyCode.LeftArrow))
         {
             Flip();
         }
-        else if (facingRight && rb2d.velocity.x < 0 && Input.GetKey(KeyCode.LeftArrow))
+        else if (facingRight && rb2d.velocity.x < 0 && !Input.GetKey(KeyCode.RightArrow))
         {
             Flip();
         }
@@ -235,6 +230,18 @@ public class PlayerController : Entity
                 anim.SetTrigger("wallstick");
             } else {
                 anim.SetTrigger("wallunstick");
+            }
+        }
+
+        //if they press down to drop through a platform
+        if (Input.GetKeyDown(KeyCode.DownArrow)) {
+            //if they can actually drop through a platform
+            if (platformTouching != null && platformTouching.GetComponent<PlatformEffector2D>() != null) {
+                //disable the platform collider for a second
+                platformTouching.GetComponent<PlatformController>().StartDisable();
+                rb2d.AddForce(new Vector2(0, -100f));
+                anim.SetTrigger("fall");
+                anim.SetBool("grounded", false);
             }
         }
     }
@@ -270,7 +277,6 @@ public class PlayerController : Entity
         theScale.x *= -1;
         transform.localScale = theScale;
         //flip by scaling -1
-        Debug.Log("flipped!");
     }
 		
     bool HorizontalInput()

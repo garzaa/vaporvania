@@ -13,12 +13,14 @@ public class GroundCollider : MonoBehaviour {
 	}
 
 	void OnCollisionStay2D(Collision2D col) {
-		if (col.collider.tag.Contains("platform"))
-			player.StayOnGround(col);
+		if (col.collider.tag.Contains("platform")) {
+			//player.StayOnGround(col);
+		}
 	}
 
 	void OnCollisionExit2D(Collision2D col) {
-		if (col.collider.tag.Contains("platform"))
+		if (col.collider.tag.Contains("platform")){
 			player.LeaveGround(col);
+		}
 	}
 }
