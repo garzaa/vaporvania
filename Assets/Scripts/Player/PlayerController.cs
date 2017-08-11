@@ -171,6 +171,7 @@ public class PlayerController : Entity
     IEnumerator WallJump()
     {
         anim.SetBool("wallSliding", false);
+        Flip();
         this.wallSliding = false;
         anim.SetTrigger("jump");
         frozen = true;
