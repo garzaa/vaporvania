@@ -27,7 +27,7 @@ public class PlayerController : Entity
 
     public bool attackCooldown = false;
 
-    public float ROLL_VELOCITY = -6f;
+    public float ROLL_VELOCITY = -5f;
     bool fastFalling = false;
 
     List<KeyCode> forcedInputs;
@@ -63,7 +63,6 @@ public class PlayerController : Entity
     }
 
     public void HitGround(Collision2D col) {
-        if (this.rb2d.velocity.y != 0) return;
         if (col.transform.position.y < this.transform.position.y) {
             grounded = true;
             anim.SetBool("grounded", true);
