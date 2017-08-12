@@ -238,6 +238,7 @@ public class PlayerController : Entity
                 rb2d.AddForce(new Vector2(0, -100f));
                 anim.SetTrigger("fall");
                 anim.SetBool("grounded", false);
+                this.grounded = false;
             }
         }
     }
