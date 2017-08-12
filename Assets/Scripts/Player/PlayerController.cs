@@ -24,7 +24,7 @@ public class PlayerController : Entity
 
     public bool attackCooldown = false;
 
-    public float ROLL_VELOCITY = -5f;
+    public float ROLL_VELOCITY = -4f;
     bool fastFalling = false;
 
     List<KeyCode> forcedInputs;
@@ -32,9 +32,12 @@ public class PlayerController : Entity
     public int maxAirJumps = 0;
     private int airJumps;
 
-    public GameObject platformTouching;
+    [HideInInspector] public GameObject platformTouching;
 
-	void Awake () 
+    GameObject currentHurtbox;
+    public GameObject hurtboxes;
+
+	void Start () 
 	{
         anim = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
@@ -45,6 +48,8 @@ public class PlayerController : Entity
         forcedInputs = new List<KeyCode>();
 
         airJumps = maxAirJumps;
+
+        CloseAllHurtboxes();
     }
 
 	void FixedUpdate () 
@@ -333,9 +338,36 @@ public class PlayerController : Entity
         this.parrying = false;
         this.frozen = false;
         this.attackCooldown = false;
+        this.CloseAllHurtboxes();
     }
 
     void resetJumps() {
         airJumps = maxAirJumps;
+    }
+
+    //called from animation event
+    public void OpenHurtbox(string hurtboxName) {
+        //find the jab1 object and activate it
+        foreach (Transform hurtbox in hurtboxes.GetComponentInChildren<Transform>()) {
+            if (hurtbox.name.Equals(hurtboxName)) {
+                this.currentHurtbox = hurtbox.gameObject;
+                hurtbox.GetComponent<BoxCollider2D>().enabled = true;
+                return;
+            }
+        }
+        Debug.LogError(hurtboxName + "not found");
+    }
+
+    public void CloseHurtbox(string hurtboxName) {
+        this.currentHurtbox.GetComponent<BoxCollider2D>().enabled = false;
+        this.currentHurtbox = null;
+    }
+
+    public void CloseAllHurtboxes() {
+        foreach (Transform hurtbox in hurtboxes.GetComponentInChildren<Transform>()) {
+            if (hurtbox.GetComponent<BoxCollider2D>().enabled) {
+                hurtbox.GetComponent<BoxCollider2D>().enabled = false;
+            } 
+        }
     }
 }

@@ -23,4 +23,8 @@ public class Enemy : Entity {
 			Destroy(this.gameObject);
 		}
 	}
+
+	public virtual void OnHit(Collider2D other) {
+		
+	}
 }

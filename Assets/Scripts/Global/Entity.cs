@@ -9,6 +9,7 @@ public class Entity : MonoBehaviour {
     Shader shaderSpritesDefault;
 
     public bool facingRight = true;
+    public bool movingRight = false;
 
     public void Flash()
     {
