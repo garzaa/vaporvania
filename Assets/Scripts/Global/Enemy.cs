@@ -17,8 +17,8 @@ public class Enemy : Entity {
 		rb2d = this.GetComponent<Rigidbody2D>();
 	}
 
-	void Hurt() {
-		this.hp--;
+	public void Damage(int dmg) {
+		this.hp -= dmg;
 		if (this.hp <= 0) {
 			Destroy(this.gameObject);
 		}
