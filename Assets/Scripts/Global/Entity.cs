@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour {
 
-    private SpriteRenderer myRenderer;
-    private Shader shaderGUItext;
-    private Shader shaderSpritesDefault;
+    SpriteRenderer myRenderer;
+    Shader shaderGUItext;
+    Shader shaderSpritesDefault;
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
+    public bool facingRight = true;
 
     public void Flash()
     {
@@ -47,5 +44,15 @@ public class Entity : MonoBehaviour {
 
         myRenderer.material.shader = shaderSpritesDefault;
         myRenderer.color = Color.white;
+    }
+
+    
+    public void Flip() 
+	{
+        facingRight = !facingRight;
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+        //flip by scaling -1
     }
 }

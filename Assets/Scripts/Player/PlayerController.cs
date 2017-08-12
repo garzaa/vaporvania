@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PlayerController : Entity 
 {
-
-    [HideInInspector] public bool facingRight = false;
-
     public float jumpSpeed = 5f;
     public float moveSpeed = 5f;
     public float airControlRatio = .7f;
@@ -267,15 +264,6 @@ public class PlayerController : Entity
         anim.SetBool("wallSliding", true);
         anim.SetBool("falling", false);
         this.wallSliding = true;
-    }
-
-    void Flip() 
-	{
-        facingRight = !facingRight;
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
-        //flip by scaling -1
     }
 		
     bool HorizontalInput()
