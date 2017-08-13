@@ -23,8 +23,8 @@ public class PixelSnap : EditorWindow
 
     public void Update()
     {
-        if (doSnap
-            && !EditorApplication.isPlaying
+        if (doSnap &&
+            !EditorApplication.isPlaying
             && Selection.transforms.Length > 0
             && Selection.transforms[0].position != prevPosition)
         {
