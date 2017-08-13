@@ -12,7 +12,7 @@ public class Enemy : Entity {
 
 	public float seekThreshold = .2f;
 
-	public float knockbackSpeed = 3;
+	public float knockbackSpeed = 2;
 
 	public GameObject playerObject;
 

@@ -35,6 +35,8 @@ public class PlayerController : Entity
     GameObject currentHurtbox;
     public GameObject hurtboxes;
 
+    public bool comboWindow;
+
 	void Start () 
 	{
         anim = GetComponent<Animator>();
@@ -141,7 +143,7 @@ public class PlayerController : Entity
         if (attackCooldown) {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Z) && !swinging && grounded && !Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.Z) && CanGroundAttack())
 		{
             anim.SetTrigger("groundAttack");
             rb2d.velocity = new Vector2(0, rb2d.velocity.y);
@@ -284,6 +286,7 @@ public class PlayerController : Entity
     }
 
     public void AttackCooldown(float seconds) {
+        this.comboWindow = false;
         StartCoroutine(StartAttackCooldown(seconds));
     }
 
@@ -332,6 +335,7 @@ public class PlayerController : Entity
     public void InterruptAttack() {
         //this should always be called
         this.CloseAllHurtboxes();
+        this.CloseComboWindow();
         //right now you can jump cancel parries, but it could be a bit OP
         if (!swinging && !parrying) return;
         this.swinging = false;
@@ -368,5 +372,19 @@ public class PlayerController : Entity
                 hurtbox.GetComponent<BoxCollider2D>().enabled = false;
             } 
         }
+    }
+
+    public void OpenComboWindow() {
+        this.comboWindow = true;
+    }
+
+    public void CloseComboWindow() {
+        this.comboWindow = false;
+    }
+
+    private bool CanGroundAttack() {
+        if (!grounded) return false;
+        //fix the down arrow check, combine inputs more gracefully
+        return (!swinging && !Input.GetKey(KeyCode.DownArrow)) || comboWindow;
     }
 }

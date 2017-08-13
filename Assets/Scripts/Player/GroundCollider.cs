@@ -6,7 +6,7 @@ public class GroundCollider : MonoBehaviour {
 
 	public PlayerController player;
 
-	private List<GameObject> currentCollisions = new List<GameObject>();
+	List<GameObject> currentCollisions = new List<GameObject>();
 
 	void OnCollisionEnter2D(Collision2D col)
 	{
