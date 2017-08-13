@@ -13,8 +13,12 @@ public class HitmarkerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (activeFrames-- <= 0) {
-			Destroy(this.gameObject);
-		}
+		//if (activeFrames-- <= 0) {
+			//Destroy(this.gameObject);
+		//}
+	}
+
+	void Destroy() {
+		Destroy(this.gameObject);
 	}
 }
