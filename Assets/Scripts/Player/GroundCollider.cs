@@ -6,10 +6,14 @@ public class GroundCollider : MonoBehaviour {
 
 	public PlayerController player;
 
+	private List<GameObject> currentCollisions = new List<GameObject>();
+
 	void OnCollisionEnter2D(Collision2D col)
 	{
-		if (col.collider.tag.Contains("platform"))
+		if (col.collider.tag.Contains("platform")) {
 			player.HitGround(col);
+			currentCollisions.Add(col.gameObject);
+		}
 	}
 
 	void OnCollisionStay2D(Collision2D col) {
@@ -20,6 +24,9 @@ public class GroundCollider : MonoBehaviour {
 
 	void OnCollisionExit2D(Collision2D col) {
 		if (col.collider.tag.Contains("platform")){
+			currentCollisions.Remove(col.gameObject);
+		}
+		if (currentCollisions.Count == 0) {
 			player.LeaveGround(col);
 		}
 	}
