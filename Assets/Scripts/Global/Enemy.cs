@@ -12,19 +12,32 @@ public class Enemy : Entity {
 
 	public float seekThreshold = .2f;
 
+	public float knockbackSpeed = 3;
+
+	public GameObject playerObject;
+
+	public Animator anim;
+	public bool hasAnimator;
+
 	// Use this for initialization
 	void Start () {
 		rb2d = this.GetComponent<Rigidbody2D>();
+		playerObject = GameObject.Find("Player");
+		if ((anim = this.GetComponent<Animator>()) != null) {
+			this.hasAnimator = true;
+		}
 	}
 
-	public void Damage(int dmg) {
+	public void DamageFor(int dmg) {
 		this.hp -= dmg;
 		if (this.hp <= 0) {
 			Die();
 		}
 	}
 
-	public virtual void OnHit(Collider2D other) {}
+	public void OnHit(Collider2D other) {
+		CheckDamage(other);
+	}
 
 	public void Die(){
 		this.frozen = true;
@@ -33,5 +46,17 @@ public class Enemy : Entity {
 		} else {
 			Destroy();
 		}
+	}
+
+	public void CheckDamage(Collider2D other) {
+		//if it's a player sword
+		if (other.tag.Equals("sword")) {
+			int scale = playerObject.GetComponent<PlayerController>().facingRight ? 1: -1;
+			this.rb2d.velocity = (new Vector2(knockbackSpeed * scale, 1));
+		}
+		if (hasAnimator) {
+			anim.SetTrigger("hurt");
+		}
+		DamageFor(other.gameObject.GetComponent<HurtboxController>().damage);
 	}
 }

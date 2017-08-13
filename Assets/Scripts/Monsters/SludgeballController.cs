@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class SludgeballController : Enemy {
 
-	GameObject playerObject;
-	Animator anim;
-
-	float knockbackSpeed = 3;
-
 	// Use this for initialization
 	void Start() {
 		rb2d = this.GetComponent<Rigidbody2D>();
@@ -19,16 +14,6 @@ public class SludgeballController : Enemy {
 	// Update is called once per frame
 	void Update () {
 		Move();
-	}
-
-	public override void OnHit(Collider2D other) {
-		//if it's a player sword
-		if (other.tag.Equals("sword")) {
-			int scale = playerObject.GetComponent<PlayerController>().facingRight ? 1: -1;
-			this.rb2d.velocity = (new Vector2(knockbackSpeed * scale, 1));
-		}
-		anim.SetTrigger("hurt");
-		Damage(1);
 	}
 
 	public void Move() {
