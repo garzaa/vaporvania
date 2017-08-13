@@ -19,6 +19,9 @@ public class HitboxController : MonoBehaviour {
 			//this works for tiny enemies, we might have to have multiple hitboxes on bosses (or SOMETHING else with dynamically calculating 
 			//the collision midway point based on relative positions of the two hitboxes)
 			Instantiate(Resources.Load("Prefabs/Hitmarker"), new Vector2(this.transform.position.x, this.transform.position.y), Quaternion.identity);
+			
+			parentObject.GetComponent<Enemy>().Damage(other.gameObject.GetComponent<HurtboxController>().damage);
 		}
+
 	}
 }
