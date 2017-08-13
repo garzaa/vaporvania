@@ -6,14 +6,19 @@ public class HitboxController : MonoBehaviour {
 
 	GameObject parentObject;
 
+	public GameObject hitmarker;
+
 	void Start() {
 		parentObject = this.gameObject.transform.parent.gameObject;
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		if (other.tag.Equals("sword")) {
-			parentObject.GetComponent<Enemy>().OnHit(other);
-			//this.rb2d.AddForce(new Vector2(knockbackForce * scale, 100));
+		if (other.gameObject.tag.Equals("sword")) {
+			parentObject.GetComponent<Enemy>().OnHit(other.gameObject.GetComponent<BoxCollider2D>());
+			//instantiate a hitmarker at the point of contact
+			//this works for tiny enemies, we might have to have multiple hitboxes on bosses (or SOMETHING else with dynamically calculating 
+			//the collision midway point based on relative positions of the two hitboxes)
+			Instantiate(Resources.Load("Prefabs/Hitmarker"), new Vector2(this.transform.position.x, this.transform.position.y), Quaternion.identity);
 		}
 	}
 }
