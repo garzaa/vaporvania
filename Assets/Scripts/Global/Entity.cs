@@ -10,16 +10,7 @@ public class Entity : MonoBehaviour {
 
     public bool facingRight = true;
     public bool movingRight = false;
-
-    public void Flash()
-    {
-        //grab the spriterenderer and toggle opacity with a coroutine
-    }
-
-    public void FlashWhite()
-    {
-        //toggle white sprite and normal sprite down below
-    }
+    public bool frozen = false;
 
     //being lazy is valid :^)
     public void Log(string str)
@@ -55,5 +46,9 @@ public class Entity : MonoBehaviour {
         theScale.x *= -1;
         transform.localScale = theScale;
         //flip by scaling -1
+    }
+
+    public void Destroy() {
+        Destroy(this.gameObject);
     }
 }

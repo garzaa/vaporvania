@@ -20,11 +20,18 @@ public class Enemy : Entity {
 	public void Damage(int dmg) {
 		this.hp -= dmg;
 		if (this.hp <= 0) {
-			Destroy(this.gameObject);
+			Die();
 		}
 	}
 
-	public virtual void OnHit(Collider2D other) {
-		
+	public virtual void OnHit(Collider2D other) {}
+
+	public void Die(){
+		this.frozen = true;
+		if (this.GetComponent<Animator>() != null) {
+			this.GetComponent<Animator>().SetTrigger("die");
+		} else {
+			Destroy();
+		}
 	}
 }

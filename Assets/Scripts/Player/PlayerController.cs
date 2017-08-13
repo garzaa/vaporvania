@@ -8,8 +8,6 @@ public class PlayerController : Entity
     public float moveSpeed = 5f;
     public float airControlRatio = .7f;
 
-    public bool frozen;
-
 	private bool grounded = false;
     private bool wallSliding = false;
     private bool touchingWall = false;

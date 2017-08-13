@@ -18,11 +18,28 @@ public class SludgeballController : Enemy {
 	
 	// Update is called once per frame
 	void Update () {
+		Move();
+	}
+
+	public override void OnHit(Collider2D other) {
+		//if it's a player sword
+		if (other.tag.Equals("sword")) {
+			int scale = playerObject.GetComponent<PlayerController>().facingRight ? 1: -1;
+			this.rb2d.velocity = (new Vector2(knockbackSpeed * scale, 1));
+		}
+		anim.SetTrigger("hurt");
+		Damage(1);
+	}
+
+	public void Move() {
+		if (this.frozen) {
+			return;
+		}
 		//move towards the player
+		//first, get where they are
 		if (Mathf.Abs(playerObject.transform.position.x - this.transform.position.x) < seekThreshold) {
 			return;
 		}
-
 		int moveScale;
 		if (playerObject.transform.position.x > this.transform.position.x) {
 			moveScale = 1;
@@ -44,15 +61,5 @@ public class SludgeballController : Enemy {
         {
             Flip();
         }
-	}
-
-	public override void OnHit(Collider2D other) {
-		//if it's a player sword
-		if (other.tag.Equals("sword")) {
-			int scale = playerObject.GetComponent<PlayerController>().facingRight ? 1: -1;
-			this.rb2d.velocity = (new Vector2(knockbackSpeed * scale, 1));
-		}
-		anim.SetTrigger("hurt");
-		Damage(1);
 	}
 }
