@@ -68,5 +68,14 @@ public class Enemy : Entity {
 		foreach (EnemyBehavior eb in this.behaviors) {
 			eb.Move();
 		}
+		//then flip as needed
+		if (!facingRight && rb2d.velocity.x > 0 && movingRight)
+        {
+            Flip();
+        }
+        else if (facingRight && rb2d.velocity.x < 0 && !movingRight)
+        {
+            Flip();
+        }
 	}
 }
