@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : Entity {
 
-	public Rigidbody2D rb2d;
+	[HideInInspector] public Rigidbody2D rb2d;
 
 	public int hp;
 	public int moveSpeed;
@@ -14,10 +14,12 @@ public class Enemy : Entity {
 
 	public float knockbackSpeed = 3;
 
-	public GameObject playerObject;
+	[HideInInspector] public GameObject playerObject;
 
-	public Animator anim;
-	public bool hasAnimator;
+	[HideInInspector] public Animator anim;
+	[HideInInspector] public bool hasAnimator;
+
+	[HideInInspector] public EnemyBehavior[] behaviors;
 
 	// Use this for initialization
 	void Start () {
@@ -26,6 +28,7 @@ public class Enemy : Entity {
 		if ((anim = this.GetComponent<Animator>()) != null) {
 			this.hasAnimator = true;
 		}
+		behaviors = this.GetComponents<EnemyBehavior>();
 	}
 
 	public void DamageFor(int dmg) {
@@ -58,5 +61,12 @@ public class Enemy : Entity {
 			anim.SetTrigger("hurt");
 		}
 		DamageFor(other.gameObject.GetComponent<HurtboxController>().damage);
+	}
+
+	//for each added behavior, call it
+	public void Update() {
+		foreach (EnemyBehavior eb in this.behaviors) {
+			eb.Move();
+		}
 	}
 }

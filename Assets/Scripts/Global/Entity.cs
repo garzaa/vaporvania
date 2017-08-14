@@ -8,9 +8,9 @@ public class Entity : MonoBehaviour {
     Shader shaderGUItext;
     Shader shaderSpritesDefault;
 
-    public bool facingRight = true;
-    public bool movingRight = false;
-    public bool frozen = false;
+    [HideInInspector] public bool facingRight = true;
+    [HideInInspector] public bool movingRight = false;
+    [HideInInspector] public bool frozen = false;
 
     //being lazy is valid :^)
     public void Log(string str)
