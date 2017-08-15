@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : Entity 
 {
+    public int hp = 10;
+
     public float jumpSpeed = 5f;
     public float moveSpeed = 5f;
     public float airControlRatio = .7f;
@@ -38,6 +40,15 @@ public class PlayerController : Entity
 
     public bool comboWindow;
 
+    SpriteRenderer spr;
+    Material defaultMaterial;
+    Material cyanMaterial;
+    int flashTimes = 5;
+
+    public bool invincible = false;
+
+    float knockbackSpeed = 50;
+
 	void Start () 
 	{
         anim = GetComponent<Animator>();
@@ -51,6 +62,10 @@ public class PlayerController : Entity
         airJumps = maxAirJumps;
 
         CloseAllHurtboxes();
+
+        spr = this.GetComponent<SpriteRenderer>();
+        defaultMaterial = spr.material;
+        cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
     }
 
 	void FixedUpdate () 
@@ -155,6 +170,9 @@ public class PlayerController : Entity
             if (Input.GetKeyDown(KeyCode.Z) && !grounded && !swinging && !wallSliding) {
                 this.AirAttack();
             }
+        }
+        if (Input.GetKeyDown(KeyCode.H)) {
+            StartCoroutine(Hurt(flashTimes));
         }
 	}
 
@@ -387,5 +405,56 @@ public class PlayerController : Entity
         if (!grounded) return false;
         //fix the down arrow check, combine inputs more gracefully
         return (!swinging && !Input.GetKey(KeyCode.DownArrow)) || comboWindow;
+    }
+
+    void CyanSprite() {
+        spr.material = cyanMaterial;
+    }
+
+    void WhiteSprite() {
+        spr.material = defaultMaterial;
+    }
+
+    IEnumerator Hurt(int flashes) {
+        SetInvincible(true);
+        CyanSprite();
+        yield return new WaitForSeconds(.07f);
+        WhiteSprite();
+        yield return new WaitForSeconds(.07f);
+        if (flashes > 0) {
+            StartCoroutine(Hurt(--flashes)); //;^)
+        } else {
+            SetInvincible(false);
+        }
+    }
+
+    void StartHurting(int dmg) {
+        this.hp -= dmg;
+        if (this.hp <= 0) {
+            Destroy();
+        }
+        StartCoroutine(Hurt(flashTimes));
+    }
+
+    public void OnMonsterHit(Collider2D boneHurtingCollider) {
+        if (invincible) return;
+        int dmg = 1;
+        if (boneHurtingCollider.GetComponent<HurtboxController>() != null) {
+            dmg = boneHurtingCollider.GetComponent<HurtboxController>().damage;
+        }
+        this.StartHurting(dmg);
+    }
+
+    public void OnEnvDamage(Collider2D boneHurtingCollider) {
+        if (invincible) return;
+        int dmg = 1;
+        if (boneHurtingCollider.GetComponent<HurtboxController>() != null) {
+            dmg = boneHurtingCollider.GetComponent<HurtboxController>().damage;
+        }
+        this.StartHurting(dmg);
+    }
+
+    public void SetInvincible(bool b) {
+        this.invincible = b;
     }
 }
