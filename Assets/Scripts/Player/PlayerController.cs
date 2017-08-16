@@ -431,7 +431,8 @@ public class PlayerController : Entity
     void StartHurting(int dmg) {
         this.hp -= dmg;
         if (this.hp <= 0) {
-            Destroy();
+            Die();
+            return;
         }
         StartCoroutine(Hurt(flashTimes));
     }
@@ -456,5 +457,24 @@ public class PlayerController : Entity
 
     public void SetInvincible(bool b) {
         this.invincible = b;
+    }
+
+    public void Die() {
+        this.frozen = true;
+        FreezeInSpace();
+        SetInvincible(true);
+        anim.SetTrigger("die");
+    }
+
+    public void Hide() {
+        spr.color = new Color(0, 0, 0, 0);
+    }
+
+    public void FreezeInSpace() {
+        rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+
+    public void UnFreezeInSpace() {
+        rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 }
