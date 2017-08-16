@@ -463,6 +463,7 @@ public class PlayerController : Entity
         this.frozen = true;
         FreezeInSpace();
         SetInvincible(true);
+        anim.SetBool("dead", true);
         anim.SetTrigger("die");
     }
 

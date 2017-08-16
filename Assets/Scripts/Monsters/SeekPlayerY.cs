@@ -5,12 +5,12 @@ using UnityEngine;
 public class SeekPlayerY : EnemyBehavior {
 
 	public override void Move() {
-		if (mainController.frozen) {
+		if (mainController.frozen || playerDistance > maxSeekThreshold) {
 			return;
 		}
 		//move towards the player
 		//first, get where they are
-		if (Mathf.Abs(playerObject.transform.position.y - this.transform.position.y) < seekThreshold) {
+		if (Mathf.Abs(playerObject.transform.position.y - this.transform.position.y) < minSeekThreshold) {
 			return;
 		}
 		int moveScale;

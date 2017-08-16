@@ -9,13 +9,20 @@ public class EnemyBehavior : MonoBehaviour {
 	[HideInInspector] public Rigidbody2D rb2d;
 
 	//distance to the player at which to stop moving towards them
-	public float seekThreshold = .2f;
+	public float minSeekThreshold = .2f;
+	public float maxSeekThreshold = 5f; //or ~275px
+
+	public float playerDistance;
 
 	void Start() {
 		mainController = this.gameObject.GetComponent<Enemy>();
 		playerObject = GameObject.Find("Player");
 		rb2d = this.GetComponent<Rigidbody2D>();
 	} 
+
+	void Update() {
+		playerDistance = Mathf.Abs(Vector2.Distance(this.transform.position, playerObject.transform.position));
+	}
 
 	public virtual void Move(){}
 }
