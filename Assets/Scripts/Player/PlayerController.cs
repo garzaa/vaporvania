@@ -12,7 +12,6 @@ public class PlayerController : Entity
 
 	private bool grounded = false;
     private bool wallSliding = false;
-    private bool touchingWall = false;
 
     private Animator anim;
     private Rigidbody2D rb2d;
@@ -46,8 +45,6 @@ public class PlayerController : Entity
     int flashTimes = 5;
 
     public bool invincible = false;
-
-    float knockbackSpeed = 50;
 
 	void Start () 
 	{
@@ -114,7 +111,6 @@ public class PlayerController : Entity
     }
 
     public void HitWall(Collision2D col) {
-        touchingWall = true;
         StopFalling();
         StartWallSliding();
         this.airJumps = maxAirJumps;
@@ -125,7 +121,6 @@ public class PlayerController : Entity
     }
 
     public void LeaveWall(Collision2D col) {
-        touchingWall = false;
         StopWallSliding();
         anim.SetBool("falling", true);
     }
@@ -171,8 +166,8 @@ public class PlayerController : Entity
                 this.AirAttack();
             }
         }
-        if (Input.GetKeyDown(KeyCode.H)) {
-            StartCoroutine(Hurt(flashTimes));
+        if (Input.GetKeyDown(KeyCode.D)) {
+            Dodge();
         }
 	}
 
@@ -407,11 +402,11 @@ public class PlayerController : Entity
         return (!swinging && !Input.GetKey(KeyCode.DownArrow)) || comboWindow;
     }
 
-    void CyanSprite() {
+    public void CyanSprite() {
         spr.material = cyanMaterial;
     }
 
-    void WhiteSprite() {
+    public void WhiteSprite() {
         spr.material = defaultMaterial;
     }
 
@@ -477,5 +472,22 @@ public class PlayerController : Entity
 
     public void UnFreezeInSpace() {
         rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
+    }
+
+    public void Dodge() {
+        anim.SetTrigger("dodge");
+    }
+
+    //animation events :^)
+    public void StartDodging() {
+        this.SetInvincible(true);
+        this.frozen = true;
+    }
+
+    public void StopDodging() {
+        if (frozen || swinging || attackCooldown) return;
+        this.SetInvincible(false);
+        this.frozen = false;
+        StartAttackCooldown(.2f);
     }
 }
