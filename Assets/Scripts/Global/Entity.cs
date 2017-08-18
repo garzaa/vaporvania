@@ -17,27 +17,6 @@ public class Entity : MonoBehaviour {
     {
         Debug.Log(str);
     }
-
-    void whiteSprite()
-    {
-        myRenderer = gameObject.GetComponent<SpriteRenderer>();
-        shaderGUItext = Shader.Find("GUI/Text Shader");
-        shaderSpritesDefault = Shader.Find("Sprites/Default"); // or whatever sprite shader is being used
-
-        myRenderer.material.shader = shaderGUItext;
-        myRenderer.color = Color.white;
-    }
-
-    void normalSprite()
-    {
-        myRenderer = gameObject.GetComponent<SpriteRenderer>();
-        shaderGUItext = Shader.Find("GUI/Text Shader");
-        shaderSpritesDefault = Shader.Find("Sprites/Default"); // or whatever sprite shader is being used
-
-        myRenderer.material.shader = shaderSpritesDefault;
-        myRenderer.color = Color.white;
-    }
-
     
     public void Flip() 
 	{
@@ -50,5 +29,19 @@ public class Entity : MonoBehaviour {
 
     public void Destroy() {
         Destroy(this.gameObject);
+    }
+
+    public void CheckFlip() {
+        Rigidbody2D rb2d;
+        if ((rb2d = GetComponent<Rigidbody2D>()) != null) {
+            if (!facingRight && rb2d.velocity.x > 0)
+            {
+                Flip();
+            }
+            else if (facingRight && rb2d.velocity.x < 0)
+            {
+                Flip();
+            }
+        }
     }
 }

@@ -432,10 +432,22 @@ public class PlayerController : Entity
     }
 
     public void OnMonsterHit(Collider2D boneHurtingCollider) {
+        if (parrying) {
+            Log("meme");
+            if (boneHurtingCollider.gameObject.GetComponent<Projectile>()) {
+                boneHurtingCollider.gameObject.GetComponent<Projectile>().Reflect();
+            }
+
+            return;
+        }
+
         if (invincible) return;
-        int dmg = 1;
+
+        int dmg;
         if (boneHurtingCollider.GetComponent<HurtboxController>() != null) {
             dmg = boneHurtingCollider.GetComponent<HurtboxController>().damage;
+        } else {
+            dmg = 1;
         }
         this.StartHurting(dmg);
     }
