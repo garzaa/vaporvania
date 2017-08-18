@@ -14,7 +14,7 @@ public class PlayerController : Entity
     private bool wallSliding = false;
 
     private Animator anim;
-    private Rigidbody2D rb2d;
+    public Rigidbody2D rb2d;
 
 	public bool swinging = false;
 
@@ -45,6 +45,8 @@ public class PlayerController : Entity
     int flashTimes = 5;
 
     public bool invincible = false;
+
+    public bool inHitstop = false;
 
 	void Start () 
 	{
@@ -433,9 +435,12 @@ public class PlayerController : Entity
 
     public void OnMonsterHit(Collider2D boneHurtingCollider) {
         if (parrying) {
-            Log("meme");
-            if (boneHurtingCollider.gameObject.GetComponent<Projectile>()) {
-                boneHurtingCollider.gameObject.GetComponent<Projectile>().Reflect();
+            if (boneHurtingCollider.GetComponent<Projectile>()) {
+                boneHurtingCollider.GetComponent<Projectile>().Reflect();
+            } else if (boneHurtingCollider.GetComponent<Enemy>()) {
+                if (boneHurtingCollider.tag == "enemyHurtbox") {
+                    Riposte();
+                }
             }
 
             return;
@@ -477,14 +482,6 @@ public class PlayerController : Entity
         spr.color = new Color(0, 0, 0, 0);
     }
 
-    public void FreezeInSpace() {
-        rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
-    }
-
-    public void UnFreezeInSpace() {
-        rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
-    }
-
     public void Dodge() {
         if (frozen || swinging || attackCooldown || !grounded) return;
         anim.SetTrigger("dodge");
@@ -500,5 +497,9 @@ public class PlayerController : Entity
         this.SetInvincible(false);
         this.UnFreeze();
         AttackCooldown(.2f);
+    }
+
+    void Riposte() {
+        //hitstop, flashy hitmarker, freeze, set animation trigger, all that good stuff
     }
 }

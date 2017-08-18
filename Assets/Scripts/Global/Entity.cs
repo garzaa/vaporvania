@@ -44,4 +44,18 @@ public class Entity : MonoBehaviour {
             }
         }
     }
+
+    public void FreezeInSpace() {
+        Rigidbody2D rb2d;
+        if ((rb2d = GetComponent<Rigidbody2D>()) != null) {
+            rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+    }
+
+    public void UnFreezeInSpace() {
+        Rigidbody2D rb2d;
+        if ((rb2d = GetComponent<Rigidbody2D>()) != null) {
+            rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
+    }
 }
