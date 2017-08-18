@@ -446,7 +446,7 @@ public class PlayerController : Entity
             return;
         }
 
-        if (invincible) return;
+        if (invincible || inHitstop) return;
 
         int dmg;
         if (boneHurtingCollider.GetComponent<HurtboxController>() != null) {
