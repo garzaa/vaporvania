@@ -10,7 +10,7 @@ public class Entity : MonoBehaviour {
 
     [HideInInspector] public bool facingRight = true;
     [HideInInspector] public bool movingRight = false;
-    [HideInInspector] public bool frozen = false;
+     public bool frozen = false;
 
     //being lazy is valid :^)
     public void Log(string str)

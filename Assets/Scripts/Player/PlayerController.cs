@@ -154,19 +154,17 @@ public class PlayerController : Entity
         if (attackCooldown) {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Z) && CanGroundAttack())
+        if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.DownArrow) && grounded && !swinging)
+        {
+            Parry();
+        } else if (Input.GetKeyDown(KeyCode.Z) && CanGroundAttack())
 		{
             anim.SetTrigger("groundAttack");
             rb2d.velocity = new Vector2(0, rb2d.velocity.y);
-		} if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.DownArrow) && grounded && !swinging)
-        {
-            Parry();
-        } else {
-            if (Input.GetKeyDown(KeyCode.Z) && !grounded && !swinging && !wallSliding) {
-                this.AirAttack();
-            }
+		} else if (Input.GetKeyDown(KeyCode.Z) && !grounded && !swinging && !wallSliding){
+            AirAttack();
         }
-        if (Input.GetKeyDown(KeyCode.D)) {
+        else if (Input.GetKeyDown(KeyCode.D)) {
             Dodge();
         }
 	}
@@ -184,11 +182,11 @@ public class PlayerController : Entity
         anim.SetBool("wallSliding", false);
         this.wallSliding = false;
         anim.SetTrigger("jump");
-        frozen = true;
+        Freeze();
         //push up and away from the wall
         rb2d.velocity = new Vector2(-4 * (facingRight ? 1 : -1), 1.2f * jumpSpeed);
         yield return new WaitForSeconds(.1f);
-        frozen = false;
+        UnFreeze();
     }
 
     void Move()
@@ -354,7 +352,7 @@ public class PlayerController : Entity
         if (!swinging && !parrying) return;
         this.swinging = false;
         this.parrying = false;
-        this.frozen = false;
+        this.UnFreeze();
         this.attackCooldown = false;
     }
 
@@ -455,7 +453,7 @@ public class PlayerController : Entity
     }
 
     public void Die() {
-        this.frozen = true;
+        this.Freeze();
         FreezeInSpace();
         SetInvincible(true);
         anim.SetBool("dead", true);
@@ -475,19 +473,19 @@ public class PlayerController : Entity
     }
 
     public void Dodge() {
+        if (frozen || swinging || attackCooldown) return;
         anim.SetTrigger("dodge");
     }
 
     //animation events :^)
     public void StartDodging() {
         this.SetInvincible(true);
-        this.frozen = true;
+        this.Freeze();
     }
 
-    public void StopDodging() {
-        if (frozen || swinging || attackCooldown) return;
+    public void StopDodging() {        
         this.SetInvincible(false);
-        this.frozen = false;
-        StartAttackCooldown(.2f);
+        this.UnFreeze();
+        AttackCooldown(.2f);
     }
 }
