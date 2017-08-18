@@ -78,6 +78,7 @@ public class PlayerController : Entity
     }
 
     public void HitGround(Collision2D col) {
+        InterruptAttack();
         if (col.transform.position.y < this.transform.position.y) {
             grounded = true;
             anim.SetBool("grounded", true);
@@ -151,10 +152,10 @@ public class PlayerController : Entity
 
 	void Attack()
 	{
-        if (attackCooldown) {
+        if (attackCooldown || parrying) {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.DownArrow) && grounded && !swinging)
+        if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.DownArrow) && !swinging)
         {
             Parry();
         } else if (Input.GetKeyDown(KeyCode.Z) && CanGroundAttack())
