@@ -12,8 +12,6 @@ public class Enemy : Entity {
 
 	public float seekThreshold = .2f;
 
-	public float knockbackSpeed = 3;
-
 	[HideInInspector] public GameObject playerObject;
 
 	[HideInInspector] public Animator anim;
@@ -53,9 +51,9 @@ public class Enemy : Entity {
 
 	public void CheckDamage(Collider2D other) {
 		//if it's a player sword
-		if (other.tag.Equals("sword")) {
+		if (other.tag.Equals("sword") || other.tag.Equals("playerAttack")) {
 			int scale = playerObject.GetComponent<PlayerController>().facingRight ? 1: -1;
-			this.rb2d.velocity = (new Vector2(knockbackSpeed * scale, 1));
+			this.rb2d.velocity = (new Vector2(other.GetComponent<HurtboxController>().knockbackSpeed * scale, 1));
 		}
 		if (hasAnimator) {
 			anim.SetTrigger("hurt");
