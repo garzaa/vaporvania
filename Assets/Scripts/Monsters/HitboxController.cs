@@ -13,7 +13,7 @@ public class HitboxController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		if (other.gameObject.tag.Equals("sword")) {
+		if (other.gameObject.tag.Equals("playerAttack")) {
 			parentObject.GetComponent<Enemy>().OnHit(other.gameObject.GetComponent<BoxCollider2D>());
 			//instantiate a hitmarker at the point of contact
 			//this works for tiny enemies, we might have to have multiple hitboxes on bosses (or SOMETHING else with dynamically calculating 

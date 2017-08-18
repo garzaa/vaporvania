@@ -17,7 +17,8 @@ public class Projectile : Entity {
 	void Start() {
 		this.hitbox = GetComponent<Collider2D>();
 		this.rb2d = GetComponent<Rigidbody2D>();
-		if (startingVector != null) {
+		//null checks are apparently always true for Vector2s
+		if (startingVector.magnitude != 0) {
 			rb2d.velocity = startingVector;
 		}
 	}
@@ -27,7 +28,7 @@ public class Projectile : Entity {
 		this.reflectable = false;
 		Instantiate(Resources.Load("Prefabs/Hitmarker"), new Vector2(this.transform.position.x, this.transform.position.y), Quaternion.identity);
 		//change the hitbox to a player-friendly version
-		this.gameObject.tag = "sword";
+		this.gameObject.tag = "playerAttack";
 		GameObject temp = this.target;
 		this.target = this.parent;
 		this.parent = temp;
