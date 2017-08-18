@@ -473,7 +473,7 @@ public class PlayerController : Entity
     }
 
     public void Dodge() {
-        if (frozen || swinging || attackCooldown) return;
+        if (frozen || swinging || attackCooldown || !grounded) return;
         anim.SetTrigger("dodge");
     }
 
