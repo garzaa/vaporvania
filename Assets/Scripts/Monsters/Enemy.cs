@@ -55,7 +55,9 @@ public class Enemy : Entity {
 		//if it's a player sword
 		if (other.tag.Equals("sword") || other.tag.Equals("playerAttack")) {
 			int scale = playerObject.GetComponent<PlayerController>().facingRight ? 1: -1;
-			this.rb2d.velocity = (new Vector2(other.GetComponent<HurtboxController>().knockbackVector.x * scale, other.GetComponent<HurtboxController>().knockbackVector.y));
+			if (other.GetComponent<HurtboxController>() != null){
+				this.rb2d.velocity = (new Vector2(other.GetComponent<HurtboxController>().knockbackVector.x * scale, other.GetComponent<HurtboxController>().knockbackVector.y));
+			}
 			Hitstop.Run(other.GetComponent<HurtboxController>().hitstop, this.gameObject);
 		}
 		if (hasAnimator) {
