@@ -10,6 +10,8 @@ public class Enemy : Entity {
 	public int moveSpeed;
 	public int maxSpeed;
 
+	public bool inHitstop;
+
 	public float seekThreshold = .2f;
 
 	[HideInInspector] public GameObject playerObject;
@@ -53,7 +55,8 @@ public class Enemy : Entity {
 		//if it's a player sword
 		if (other.tag.Equals("sword") || other.tag.Equals("playerAttack")) {
 			int scale = playerObject.GetComponent<PlayerController>().facingRight ? 1: -1;
-			this.rb2d.velocity = (new Vector2(other.GetComponent<HurtboxController>().knockbackSpeed * scale, 1));
+			this.rb2d.velocity = (new Vector2(other.GetComponent<HurtboxController>().knockbackVector.x * scale, other.GetComponent<HurtboxController>().knockbackVector.y));
+			Hitstop.Run(other.GetComponent<HurtboxController>().hitstop, this.gameObject);
 		}
 		if (hasAnimator) {
 			anim.SetTrigger("hurt");

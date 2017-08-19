@@ -19,6 +19,8 @@ public class PlayerHitboxController : MonoBehaviour {
 	}
 
 	void OnTriggerStay2D(Collider2D boneHurtingCollider) {
-		OnTriggerEnter2D(boneHurtingCollider);
+		if (!pc.invincible) {
+			OnTriggerEnter2D(boneHurtingCollider);
+		}
 	}
 }

@@ -34,11 +34,11 @@ public class Entity : MonoBehaviour {
     public void CheckFlip() {
         Rigidbody2D rb2d;
         if ((rb2d = GetComponent<Rigidbody2D>()) != null) {
-            if (!facingRight && rb2d.velocity.x > 0)
+            if (!facingRight && rb2d.velocity.x > 0 && movingRight)
             {
                 Flip();
             }
-            else if (facingRight && rb2d.velocity.x < 0)
+            else if (facingRight && rb2d.velocity.x < 0 && !movingRight)
             {
                 Flip();
             }

@@ -354,7 +354,7 @@ public class PlayerController : Entity
         //right now you can jump cancel parries, but it could be a bit OP
         if (!swinging && !parrying) return;
         this.swinging = false;
-        this.parrying = false;
+        StopParrying();
         this.UnFreeze();
         this.attackCooldown = false;
     }
@@ -437,9 +437,9 @@ public class PlayerController : Entity
         if (parrying) {
             if (boneHurtingCollider.GetComponent<Projectile>()) {
                 boneHurtingCollider.GetComponent<Projectile>().Reflect();
-            } else if (boneHurtingCollider.GetComponent<Enemy>()) {
-                if (boneHurtingCollider.tag == "enemyHurtbox") {
-                    Riposte();
+            } else if (boneHurtingCollider.transform.parent.GetComponent<Enemy>()) {
+                if (boneHurtingCollider.tag == "enemyHitbox") {
+                    Riposte(boneHurtingCollider.transform.parent.gameObject);
                 }
             }
 
@@ -499,7 +499,17 @@ public class PlayerController : Entity
         AttackCooldown(.2f);
     }
 
-    void Riposte() {
+    //hhhgngh animation events don't support booleans
+    public void MakeInvincible() {
+        SetInvincible(true);
+    }
+    public void MakeVincible() {
+        SetInvincible(false);
+    }
+
+    void Riposte(GameObject enemyParent) {
         //hitstop, flashy hitmarker, freeze, set animation trigger, all that good stuff
+        StopParrying();
+        anim.SetTrigger("riposte");
     }
 }
