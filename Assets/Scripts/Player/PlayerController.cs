@@ -482,6 +482,7 @@ public class PlayerController : Entity
         FreezeInSpace();
         SetInvincible(true);
         anim.SetBool("dead", true);
+        mainCamera.SmallShake();
         anim.SetTrigger("die");
     }
 
