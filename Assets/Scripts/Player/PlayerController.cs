@@ -442,14 +442,7 @@ public class PlayerController : Entity
 
     public void OnMonsterHit(Collider2D boneHurtingCollider) {
         if (parrying) {
-            if (boneHurtingCollider.GetComponent<Projectile>()) {
-                boneHurtingCollider.GetComponent<Projectile>().Reflect();
-            } else if (boneHurtingCollider.transform.parent.GetComponent<Enemy>()) {
-                if (boneHurtingCollider.tag == "enemyHitbox") {
-                    Riposte(boneHurtingCollider.transform.parent.gameObject);
-                }
-            }
-
+            //the special parry hitbox takes precedence here
             return;
         }
 
@@ -515,7 +508,7 @@ public class PlayerController : Entity
         SetInvincible(false);
     }
 
-    void Riposte(GameObject enemyParent) {
+    public void Riposte(GameObject enemyParent) {
         StopParrying();
         anim.SetTrigger("riposte");
         mainCamera.SmallShake();
