@@ -39,7 +39,6 @@ public class Hitstop : MonoBehaviour{
 			parentAnim.speed = 0;
 		}
 		pc.GetComponent<Animator>().speed = 0;
-		Debug.Log(rb2d.velocity);
 		Vector2 lastV = rb2d.velocity;
 		enemyParent.GetComponent<Enemy>().FreezeInSpace();
 		yield return new WaitForSeconds(seconds);

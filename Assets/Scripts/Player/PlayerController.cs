@@ -157,7 +157,7 @@ public class PlayerController : Entity
         if (attackCooldown || parrying) {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.DownArrow) && !swinging)
+        if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.LeftShift) && !swinging)
         {
             Parry();
         } else if (Input.GetKeyDown(KeyCode.Z) && CanGroundAttack())
@@ -167,7 +167,7 @@ public class PlayerController : Entity
 		} else if (Input.GetKeyDown(KeyCode.Z) && !grounded && !swinging && !wallSliding){
             AirAttack();
         }
-        else if (Input.GetKeyDown(KeyCode.D)) {
+        else if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.DownArrow)) {
             Dodge();
         }
 	}
@@ -249,8 +249,8 @@ public class PlayerController : Entity
             }
         }
 
-        //if they press down to drop through a platform
-        if (Input.GetKeyDown(KeyCode.DownArrow)) {
+        //if they press down to drop through a platform (and they're not spot-dodging)
+        if (Input.GetKeyDown(KeyCode.DownArrow) && !Input.GetKey(KeyCode.LeftShift)) {
             //if they can actually drop through a platform
             if (platformTouching != null && platformTouching.GetComponent<PlatformEffector2D>() != null) {
                 //disable the platform collider for a second
