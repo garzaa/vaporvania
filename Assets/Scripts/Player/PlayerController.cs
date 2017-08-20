@@ -48,6 +48,8 @@ public class PlayerController : Entity
 
     public bool inHitstop = false;
 
+    public CameraController mainCamera;
+
 	void Start () 
 	{
         anim = GetComponent<Animator>();
@@ -260,6 +262,11 @@ public class PlayerController : Entity
                 anim.SetBool("grounded", false);
                 this.grounded = false;
             }
+        }
+
+        //testing camera shake
+        if (Input.GetKeyDown(KeyCode.S)) {
+            mainCamera.GetComponent<CameraController>().SmallShake();
         }
     }
 
@@ -508,8 +515,8 @@ public class PlayerController : Entity
     }
 
     void Riposte(GameObject enemyParent) {
-        //hitstop, flashy hitmarker, freeze, set animation trigger, all that good stuff
         StopParrying();
         anim.SetTrigger("riposte");
+        mainCamera.SmallShake();
     }
 }
