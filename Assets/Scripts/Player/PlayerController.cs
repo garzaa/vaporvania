@@ -48,7 +48,7 @@ public class PlayerController : Entity
 
     public bool inHitstop = false;
 
-    public CameraController mainCamera;
+    public CameraShaker cameraShaker;
 
 	void Start () 
 	{
@@ -132,8 +132,11 @@ public class PlayerController : Entity
 
     void Jump()
     {
-    if (!((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow)) && 
-            (grounded || wallSliding || airJumps >= 0))) {
+    if (!(
+            (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow)) && 
+            (grounded || wallSliding || airJumps >= 0)
+        )
+        || frozen) {
                 return;
             }
 
@@ -262,11 +265,6 @@ public class PlayerController : Entity
                 anim.SetBool("grounded", false);
                 this.grounded = false;
             }
-        }
-
-        //testing camera shake
-        if (Input.GetKeyDown(KeyCode.S)) {
-            mainCamera.GetComponent<CameraController>().SmallShake();
         }
     }
 
@@ -454,7 +452,7 @@ public class PlayerController : Entity
         } else {
             dmg = 1;
         }
-        mainCamera.SmallShake();
+        cameraShaker.SmallShake();
         this.StartHurting(dmg);
     }
 
@@ -511,6 +509,6 @@ public class PlayerController : Entity
     public void Riposte(GameObject enemyParent) {
         StopParrying();
         anim.SetTrigger("riposte");
-        mainCamera.SmallShake();
+        cameraShaker.SmallShake();
     }
 }

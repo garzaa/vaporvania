@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraController : MonoBehaviour
+public class CameraShaker : MonoBehaviour
 {
 	// Transform of the camera to shake. Grabs the gameObject's transform
 	// if null.
@@ -15,6 +15,7 @@ public class CameraController : MonoBehaviour
 	public float decreaseFactor = 1.0f;
 	
 	Vector3 originalPos;
+
 	
 	void Awake()
 	{
@@ -48,7 +49,7 @@ public class CameraController : MonoBehaviour
 		else
 		{
 			shakeDuration = 0f;
-			camTransform.localPosition = originalPos;
+			//camTransform.localPosition = originalPos;
 		}
 	}
 }
