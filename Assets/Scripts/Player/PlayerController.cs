@@ -10,7 +10,7 @@ public class PlayerController : Entity
     public float moveSpeed = 5f;
     public float airControlRatio = .7f;
 
-	private bool grounded = false;
+	public bool grounded = false;
     private bool wallSliding = false;
 
     private Animator anim;
@@ -25,6 +25,8 @@ public class PlayerController : Entity
     public bool attackCooldown = false;
 
     public float ROLL_VELOCITY = -4f;
+    public float DASH_SPEED = 20f;
+    Vector2 preDashVelocity;
     bool fastFalling = false;
 
     List<KeyCode> forcedInputs;
@@ -49,6 +51,9 @@ public class PlayerController : Entity
     public bool inHitstop = false;
 
     public CameraShaker cameraShaker;
+
+    public bool dashing = false;
+    public bool dashCooldown = false;
 
 	void Start () 
 	{
@@ -109,8 +114,10 @@ public class PlayerController : Entity
     public void LeaveGround(Collision2D col) {
         grounded = false;
         anim.SetBool("grounded", false);
-        if (rb2d.velocity.y < 0) {
-            anim.SetTrigger("fall");
+        if (!dashing) {
+            if (rb2d.velocity.y < 0) {
+              anim.SetTrigger("fall");
+            }
         }
         platformTouching = null;
     }
@@ -118,6 +125,7 @@ public class PlayerController : Entity
     public void HitWall(Collision2D col) {
         StopFalling();
         StartWallSliding();
+        InterruptAttack();
         this.airJumps = maxAirJumps;
     }
 
@@ -149,6 +157,7 @@ public class PlayerController : Entity
             StartCoroutine(WallJump());
         } else
         {
+            //NOT JUMPING FOR SOME REASON
             rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
             InterruptAttack();
         }
@@ -178,6 +187,7 @@ public class PlayerController : Entity
 	}
 
     void Parry() {
+        InterruptAttack();
         anim.SetTrigger("parry");
     }
 
@@ -265,6 +275,16 @@ public class PlayerController : Entity
                 anim.SetBool("grounded", false);
                 this.grounded = false;
             }
+        }
+
+        //dash
+        if (Input.GetKeyDown(KeyCode.D)) {
+            anim.SetTrigger("dash");
+        }
+
+        if (dashing) {
+            int moveScale = facingRight ? 1 : -1;
+            rb2d.velocity = new Vector2(DASH_SPEED * moveScale, 0);
         }
     }
 
@@ -356,6 +376,8 @@ public class PlayerController : Entity
         //this should always be called
         this.CloseAllHurtboxes();
         this.CloseComboWindow();
+        this.frozen = false;
+        this.dashing = false;
         //right now you can jump cancel parries, but it could be a bit OP
         if (!swinging && !parrying) return;
         this.swinging = false;
@@ -510,5 +532,27 @@ public class PlayerController : Entity
         StopParrying();
         anim.SetTrigger("riposte");
         cameraShaker.SmallShake();
+    }
+    public void StartDashing() {
+        if (dashCooldown || dashing || frozen) {
+            return;
+        }
+        Freeze();
+        //preserve horizontal velocity but cancel falling, for instance
+        preDashVelocity = new Vector2(rb2d.velocity.x, 0);
+        dashing = true;
+    }
+
+    public void StopDashing() {
+        UnFreeze();
+        dashing = false;
+        rb2d.velocity = preDashVelocity;
+        StartCoroutine(StartDashCooldown(.2f));
+    }
+
+    IEnumerator StartDashCooldown(float seconds) {
+        dashCooldown = true;
+        yield return new WaitForSeconds(seconds);
+        dashCooldown = false;
     }
 }
