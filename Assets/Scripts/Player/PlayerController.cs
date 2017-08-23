@@ -179,18 +179,21 @@ public class PlayerController : Entity
         if (attackCooldown || parrying) {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.LeftShift) && !swinging)
+        if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.LeftShift) && !swinging && !dashing)
         {
             Parry();
         } else if (Input.GetKeyDown(KeyCode.Z) && CanGroundAttack())
 		{
             anim.SetTrigger("groundAttack");
             rb2d.velocity = new Vector2(0, rb2d.velocity.y);
-		} else if (Input.GetKeyDown(KeyCode.Z) && !grounded && !swinging && !wallSliding){
+		} else if (Input.GetKeyDown(KeyCode.Z) && !grounded && !swinging && !wallSliding && !dashing){
             AirAttack();
         }
         else if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.DownArrow)) {
             Dodge();
+        }
+        else if (HorizontalInput() && Input.GetKeyDown(KeyCode.LeftShift)) {
+            StartDashing();
         }
 	}
 
@@ -283,11 +286,6 @@ public class PlayerController : Entity
                 anim.SetBool("grounded", false);
                 this.grounded = false;
             }
-        }
-
-        //dash
-        if (Input.GetKeyDown(KeyCode.D)) {
-            StartDashing();
         }
 
         if (dashing) {
@@ -385,7 +383,7 @@ public class PlayerController : Entity
         this.CloseAllHurtboxes();
         this.CloseComboWindow();
         this.frozen = false;
-        this.dashing = false;
+        InterruptDash();
         //right now you can jump cancel parries, but it could be a bit OP
         if (!swinging && !parrying) return;
         this.swinging = false;
@@ -412,7 +410,9 @@ public class PlayerController : Entity
     }
 
     public void CloseHurtbox(string hurtboxName) {
-        this.currentHurtbox.GetComponent<BoxCollider2D>().enabled = false;
+        if (this.currentHurtbox != null) {
+            this.currentHurtbox.GetComponent<BoxCollider2D>().enabled = false;
+        }
         this.currentHurtbox = null;
     }
 
@@ -592,5 +592,16 @@ public class PlayerController : Entity
 
     void StopDamageDash() {
         damageDashObject.SetActive(false);
+    }
+
+    void InterruptDash() {
+        dashing = false;
+        StartCoroutine(StartDashCooldown(.2f));
+        if (VAPOR_DASH) {
+            WhiteSprite();
+            SetInvincible(false);
+        }
+        damageDashObject.SetActive(false);
+        CloseHurtbox("DamageDash");
     }
 }
