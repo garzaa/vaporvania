@@ -279,7 +279,7 @@ public class PlayerController : Entity
 
         //dash
         if (Input.GetKeyDown(KeyCode.D)) {
-            anim.SetTrigger("dash");
+            StartDashing();
         }
 
         if (dashing) {
@@ -537,10 +537,11 @@ public class PlayerController : Entity
         if (dashCooldown || dashing || frozen) {
             return;
         }
+        anim.SetTrigger("dash");
+        dashing = true;
         Freeze();
         //preserve horizontal velocity but cancel falling, for instance
         preDashVelocity = new Vector2(rb2d.velocity.x, 0);
-        dashing = true;
     }
 
     public void StopDashing() {
