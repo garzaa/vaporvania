@@ -44,6 +44,7 @@ public class PlayerController : Entity
     SpriteRenderer spr;
     Material defaultMaterial;
     Material cyanMaterial;
+    Material redMaterial;
     int flashTimes = 5;
 
     public bool invincible = false;
@@ -52,8 +53,12 @@ public class PlayerController : Entity
 
     public CameraShaker cameraShaker;
 
+    public bool VAPOR_DASH = false;
+    public bool DAMAGE_DASH = false;
     public bool dashing = false;
     public bool dashCooldown = false;
+
+    public GameObject damageDashObject;
 
 	void Start () 
 	{
@@ -72,6 +77,9 @@ public class PlayerController : Entity
         spr = this.GetComponent<SpriteRenderer>();
         defaultMaterial = spr.material;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
+        redMaterial = Resources.Load<Material>("Shaders/RedFlash");
+
+        damageDashObject.SetActive(false);
     }
 
 	void FixedUpdate () 
@@ -434,18 +442,27 @@ public class PlayerController : Entity
         spr.material = cyanMaterial;
     }
 
+    public void RedSprite() {
+        spr.material = redMaterial;
+    }
+
     public void WhiteSprite() {
         spr.material = defaultMaterial;
     }
 
-    IEnumerator Hurt(int flashes) {
+    IEnumerator Hurt(int flashes, bool first) {
         SetInvincible(true);
-        CyanSprite();
+        if (first) {
+            RedSprite();
+            first = false;
+        } else {
+            CyanSprite();
+        }
         yield return new WaitForSeconds(.07f);
         WhiteSprite();
         yield return new WaitForSeconds(.07f);
         if (flashes > 0) {
-            StartCoroutine(Hurt(--flashes)); //;^)
+            StartCoroutine(Hurt(--flashes, first)); //;^)
         } else {
             SetInvincible(false);
         }
@@ -457,7 +474,7 @@ public class PlayerController : Entity
             Die();
             return;
         }
-        StartCoroutine(Hurt(flashTimes));
+        StartCoroutine(Hurt(flashTimes, true));
     }
 
     public void OnMonsterHit(Collider2D boneHurtingCollider) {
@@ -537,6 +554,16 @@ public class PlayerController : Entity
         if (dashCooldown || dashing || frozen) {
             return;
         }
+        if (VAPOR_DASH) {
+            CyanSprite();
+            SetInvincible(true);
+        }
+        if (DAMAGE_DASH) {
+            Animator dmgAnimation = damageDashObject.GetComponent<Animator>();
+            damageDashObject.SetActive(true);
+            dmgAnimation.SetTrigger("go");
+            OpenHurtbox("DamageDash");
+        }
         anim.SetTrigger("dash");
         dashing = true;
         Freeze();
@@ -549,11 +576,21 @@ public class PlayerController : Entity
         dashing = false;
         rb2d.velocity = preDashVelocity;
         StartCoroutine(StartDashCooldown(.2f));
+        if (VAPOR_DASH) {
+            WhiteSprite();
+            SetInvincible(false);
+        }
+        damageDashObject.SetActive(false);
+        CloseHurtbox("DamageDash");
     }
 
     IEnumerator StartDashCooldown(float seconds) {
         dashCooldown = true;
         yield return new WaitForSeconds(seconds);
         dashCooldown = false;
+    }
+
+    void StopDamageDash() {
+        damageDashObject.SetActive(false);
     }
 }
