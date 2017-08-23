@@ -598,7 +598,7 @@ public class PlayerController : Entity
     void InterruptDash() {
         dashing = false;
         StartCoroutine(StartDashCooldown(.2f));
-        if (VAPOR_DASH) {
+        if (VAPOR_DASH || DAMAGE_DASH) {
             WhiteSprite();
             SetInvincible(false);
         }
