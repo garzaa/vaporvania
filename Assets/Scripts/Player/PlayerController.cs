@@ -554,7 +554,8 @@ public class PlayerController : Entity
         if (dashCooldown || dashing || frozen) {
             return;
         }
-        if (VAPOR_DASH) {
+        //damage dash always means invincibility
+        if (VAPOR_DASH || DAMAGE_DASH) {
             CyanSprite();
             SetInvincible(true);
         }
