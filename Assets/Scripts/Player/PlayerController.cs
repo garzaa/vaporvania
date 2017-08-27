@@ -58,8 +58,6 @@ public class PlayerController : Entity
     public bool dashing = false;
     public bool dashCooldown = false;
 
-    public GameObject damageDashObject;
-
 	void Start () 
 	{
         anim = GetComponent<Animator>();
@@ -78,8 +76,6 @@ public class PlayerController : Entity
         defaultMaterial = spr.material;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
         redMaterial = Resources.Load<Material>("Shaders/RedFlash");
-
-        damageDashObject.SetActive(false);
     }
 
 	void FixedUpdate () 
@@ -560,9 +556,7 @@ public class PlayerController : Entity
             SetInvincible(true);
         }
         if (DAMAGE_DASH) {
-            Animator dmgAnimation = damageDashObject.GetComponent<Animator>();
-            damageDashObject.SetActive(true);
-            dmgAnimation.SetTrigger("go");
+            anim.SetTrigger("damageDash");
             OpenHurtbox("DamageDash");
         }
         anim.SetTrigger("dash");
@@ -581,7 +575,6 @@ public class PlayerController : Entity
             WhiteSprite();
             SetInvincible(false);
         }
-        damageDashObject.SetActive(false);
         CloseHurtbox("DamageDash");
     }
 
@@ -591,10 +584,6 @@ public class PlayerController : Entity
         dashCooldown = false;
     }
 
-    void StopDamageDash() {
-        damageDashObject.SetActive(false);
-    }
-
     void InterruptDash() {
         dashing = false;
         StartCoroutine(StartDashCooldown(.2f));
@@ -602,7 +591,6 @@ public class PlayerController : Entity
             WhiteSprite();
             SetInvincible(false);
         }
-        damageDashObject.SetActive(false);
         CloseHurtbox("DamageDash");
     }
 }

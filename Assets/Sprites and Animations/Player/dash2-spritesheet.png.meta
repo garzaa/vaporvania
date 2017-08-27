@@ -1,15 +1,14 @@
 fileFormatVersion: 2
-guid: 61fbf5fb6680dff4e919678031f03688
-timeCreated: 1503458405
+guid: 3fc6fb18e0145a3409322a6fa01063d2
+timeCreated: 1503865787
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: damagedash-spritesheet_0
-    21300002: damagedash-spritesheet_1
-    21300004: damagedash-spritesheet_2
-    21300006: damagedash-spritesheet_3
-    21300008: damagedash-spritesheet_4
-    21300010: damagedash-spritesheet_5
+    21300000: dash2-spritesheet_0
+    21300002: dash2-spritesheet_1
+    21300004: dash2-spritesheet_2
+    21300006: dash2-spritesheet_3
+    21300008: dash2-spritesheet_4
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -97,12 +96,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: damagedash-spritesheet_0
+      name: dash2-spritesheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 96
+        width: 64
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -111,12 +110,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: damagedash-spritesheet_1
+      name: dash2-spritesheet_1
       rect:
         serializedVersion: 2
-        x: 96
+        x: 64
         y: 0
-        width: 96
+        width: 64
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -125,12 +124,26 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: damagedash-spritesheet_2
+      name: dash2-spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: dash2-spritesheet_3
       rect:
         serializedVersion: 2
         x: 192
         y: 0
-        width: 96
+        width: 64
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -139,40 +152,12 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: damagedash-spritesheet_3
+      name: dash2-spritesheet_4
       rect:
         serializedVersion: 2
-        x: 288
+        x: 256
         y: 0
-        width: 96
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: damagedash-spritesheet_4
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 0
-        width: 96
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: damagedash-spritesheet_5
-      rect:
-        serializedVersion: 2
-        x: 480
-        y: 0
-        width: 96
+        width: 64
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
