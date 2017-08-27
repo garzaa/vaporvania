@@ -18,7 +18,7 @@ done:
 - dash
 
 ### gameplay gifs
-![dash!](https://68.media.tumblr.com/1f95fa4a5438b58730150948cddacad8/tumblr_ov48mybU6Q1tk26l4o1_400.gif)
+![dash!](https://68.media.tumblr.com/bcdb55b1e818d1e932f84d0e5518175f/tumblr_ov4ddzxVFh1tk26l4o1_400.gif)
 ![die!](https://68.media.tumblr.com/55a0a909774381cb11225f42f7fe19db/tumblr_ov014kALuL1tk26l4o1_400.gif)
 ![fight some more!](https://68.media.tumblr.com/6fc81e64f40611ba75ed299ec21504e1/tumblr_outf25Irw91tk26l4o1_400.gif)
 ![take it to the bank boys, this one's just like marth!](https://68.media.tumblr.com/2072af438e8d20659056adf4f6c70a56/tumblr_ouyviaopEb1tk26l4o1_400.gif)
