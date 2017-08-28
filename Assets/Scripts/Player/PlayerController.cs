@@ -57,6 +57,9 @@ public class PlayerController : Entity
     public bool DAMAGE_DASH = false;
     public bool dashing = false;
     public bool dashCooldown = false;
+    //a few frames' window to parry (vapor+attack) when also pressing movement keys, since dash is (vapor+move)
+    public int dashTimeout = 0;
+    private int FRAME_WINDOW = 4;
 
 	void Start () 
 	{
@@ -83,11 +86,6 @@ public class PlayerController : Entity
         Jump();
 		Attack();
         Move();
-        if (rb2d.velocity.y < ROLL_VELOCITY) {
-            this.fastFalling = true;
-        } else {
-            this.fastFalling = false;
-        }
     }
 
     public void HitGround(Collision2D col) {
@@ -189,7 +187,14 @@ public class PlayerController : Entity
             Dodge();
         }
         else if (HorizontalInput() && Input.GetKeyDown(KeyCode.LeftShift)) {
-            StartDashing();
+            dashTimeout = FRAME_WINDOW;
+        }
+        
+        if (dashTimeout > 0) {
+            dashTimeout--;
+            if (dashTimeout <= 0) {
+                Dash();
+            }
         }
 	}
 
@@ -271,7 +276,7 @@ public class PlayerController : Entity
             }
         }
 
-        //if they press down to drop through a platform (and they're not spot-dodging)
+        //if they press down to drop through a platform
         if (Input.GetKeyDown(KeyCode.DownArrow) && !Input.GetKey(KeyCode.LeftShift)) {
             //if they can actually drop through a platform
             if (platformTouching != null && platformTouching.GetComponent<PlatformEffector2D>() != null) {
@@ -287,6 +292,12 @@ public class PlayerController : Entity
         if (dashing) {
             int moveScale = facingRight ? 1 : -1;
             rb2d.velocity = new Vector2(DASH_SPEED * moveScale, 0);
+        }
+
+        if (rb2d.velocity.y < ROLL_VELOCITY) {
+            this.fastFalling = true;
+        } else {
+            this.fastFalling = false;
         }
     }
 
@@ -546,10 +557,11 @@ public class PlayerController : Entity
         anim.SetTrigger("riposte");
         cameraShaker.SmallShake();
     }
-    public void StartDashing() {
+    public void Dash() {
         if (dashCooldown || dashing || frozen) {
             return;
         }
+
         //damage dash always means invincibility
         if (VAPOR_DASH || DAMAGE_DASH) {
             CyanSprite();
