@@ -59,7 +59,7 @@ public class PlayerController : Entity
     public bool dashCooldown = false;
     //a few frames' window to parry (vapor+attack) when also pressing movement keys, since dash is (vapor+move)
     public int dashTimeout = 0;
-    private int FRAME_WINDOW = 4;
+    private int FRAME_WINDOW = 5;
 
 	void Start () 
 	{
@@ -390,7 +390,7 @@ public class PlayerController : Entity
         this.CloseAllHurtboxes();
         this.CloseComboWindow();
         this.frozen = false;
-        InterruptDash();
+        //InterruptDash();
         //right now you can jump cancel parries, but it could be a bit OP
         if (!swinging && !parrying) return;
         this.swinging = false;
@@ -561,6 +561,7 @@ public class PlayerController : Entity
         if (dashCooldown || dashing || frozen) {
             return;
         }
+        InterruptAttack();
 
         //damage dash always means invincibility
         if (VAPOR_DASH || DAMAGE_DASH) {
