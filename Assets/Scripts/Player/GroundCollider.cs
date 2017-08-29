@@ -10,7 +10,9 @@ public class GroundCollider : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D col)
 	{
-		if (col.collider.tag.Contains("platform")) {
+		if (col.collider.tag.Contains("platform") &&
+		//if the player's sprite is actually above the platform
+		(col.gameObject.GetComponent<SpriteRenderer>().bounds.min.x < player.GetComponent<SpriteRenderer>().bounds.min.x)) {
 			player.HitGround(col);
 			currentCollisions.Add(col.gameObject);
 		}

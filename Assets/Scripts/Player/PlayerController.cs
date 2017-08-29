@@ -256,6 +256,17 @@ public class PlayerController : Entity
             {
                 rb2d.velocity = new Vector2(-moveSpeed * airControlRatio, rb2d.velocity.y);
             }
+            
+            //and then clamp the speed depending on movement direction
+            if (rb2d.velocity.x < 0) {
+                if (rb2d.velocity.x < -1 * moveSpeed) {
+                    rb2d.velocity = new Vector2(-1 * moveSpeed, rb2d.velocity.y);
+                }
+            } else {
+                if (rb2d.velocity.x > 1 * moveSpeed) {
+                    rb2d.velocity = new Vector2(1 * moveSpeed, rb2d.velocity.y);
+                }
+            }
         }
 
         if (!facingRight && rb2d.velocity.x > 0 && !Input.GetKey(KeyCode.LeftArrow))

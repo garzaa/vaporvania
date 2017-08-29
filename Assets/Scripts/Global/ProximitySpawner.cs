@@ -18,6 +18,8 @@ public class ProximitySpawner : MonoBehaviour {
 		player = GameObject.Find("Player");
 		if (toSpawn == null) {
 			Debug.LogWarning("ProximitySpawner exists, but has nothing to spawn.");
+		} else if (Vector2.Distance(player.transform.position, this.transform.position) < triggerRadius) {
+			Spawn();
 		}
 	}
 	
@@ -29,7 +31,7 @@ public class ProximitySpawner : MonoBehaviour {
 
 	void OnPlayerEnter() {
 		if (this.spawned == null) {
-			this.spawned = (GameObject) Instantiate(toSpawn, this.transform.position, Quaternion.identity);
+			Spawn();
 		}
 	}
 
@@ -45,5 +47,9 @@ public class ProximitySpawner : MonoBehaviour {
 		}
 		lastPlayerPos = player.transform.position;
 		return false;
+	}
+
+	void Spawn() {
+		this.spawned = (GameObject) Instantiate(toSpawn, this.transform.position, Quaternion.identity);
 	}
 }
