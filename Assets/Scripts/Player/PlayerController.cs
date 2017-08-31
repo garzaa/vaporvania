@@ -173,7 +173,7 @@ public class PlayerController : Entity
         if (attackCooldown || parrying) {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.LeftShift) && !swinging && !dashing)
+        if (Input.GetKeyDown(KeyCode.Z) && (Input.GetKey(KeyCode.LeftShift) || dashTimeout > 0) && !swinging && !dashing)
         {
             Parry();
         } else if (Input.GetKeyDown(KeyCode.Z) && CanGroundAttack())
@@ -192,7 +192,7 @@ public class PlayerController : Entity
         
         if (dashTimeout > 0) {
             dashTimeout--;
-            if (dashTimeout <= 0) {
+            if (dashTimeout <= 0 && !frozen && !swinging) {
                 Dash();
             }
         }
