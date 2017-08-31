@@ -21,9 +21,10 @@ public class HorizontalRepeater : MonoBehaviour {
 
     //this overlaps the two sprites so there isn't any flickering 
     //if they move slowly, .002 is usually fine
-    public float overlap = .002f;
+    public float overlap = .00f;
 
-    public float horizMin;
+	float horizMin;
+	float horizMax;
     public GameObject other;
     SpriteRenderer sr;
 
@@ -37,12 +38,10 @@ public class HorizontalRepeater : MonoBehaviour {
       
         //get the left edge of the camera
 		mainCamera = GameObject.FindGameObjectsWithTag("MainCamera")[0];
-		cameraSize = mainCamera.GetComponent<Camera>().orthographicSize;
-        horizMin = mainCamera.transform.position.x - cameraSize;
+		cameraSize = mainCamera.GetComponent<Camera>().orthographicSize *2;
 
         //pin the second sprite to the right edge of the first sprite
-        float length = other.GetComponent<SpriteRenderer>().bounds.extents.x;
-        float newX = other.transform.position.x;
+        float length = GetComponent<SpriteRenderer>().bounds.extents.x;
 
         sr = other.GetComponent<SpriteRenderer>();
         //other.transform.position = new Vector3(2 * (temp.bounds.max.x - temp.bounds.min.x), this.transform.position.y, this.transform.position.z);
@@ -51,7 +50,9 @@ public class HorizontalRepeater : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//TODO: offload this to a CameraController at some point so this isn't called for every repeating bg (if that actually becomes an issue)
 		horizMin = mainCamera.transform.position.x - cameraSize;
+		horizMax = mainCamera.transform.position.x + cameraSize;
 
 	    if (speed != 0)
         {
@@ -61,20 +62,31 @@ public class HorizontalRepeater : MonoBehaviour {
         }
 
 		//if one is off the screen move it up
-		if (gameObject.GetComponent<SpriteRenderer>().bounds.max.x < horizMin)
+		if (gameObject.GetComponent<SpriteRenderer>().bounds.max.x < horizMin && gameObject.transform.position.x < mainCamera.transform.position.x)
 		{
-			Debug.Log("Moving up");
 			sr = gameObject.GetComponent<SpriteRenderer>();
 			float length = sr.bounds.max.x - sr.bounds.min.x;
 			gameObject.transform.Translate(2 * length - overlap, 0, 0);
+		} 
+		else if (gameObject.GetComponent<SpriteRenderer>().bounds.min.x > horizMax && gameObject.transform.position.x > mainCamera.transform.position.x)
+		{
+			sr = gameObject.GetComponent<SpriteRenderer>();
+			float length = sr.bounds.max.x - sr.bounds.min.x;
+			gameObject.transform.Translate(-2 * length + overlap, 0, 0);
 		}
 
-		if (other.GetComponent<SpriteRenderer>().bounds.max.x < horizMin)
+		if (other.GetComponent<SpriteRenderer>().bounds.max.x < horizMin && other.transform.position.x < mainCamera.transform.position.x)
 		{
-			Debug.Log("Moving up");
 			sr = other.GetComponent<SpriteRenderer>();
 			float length = sr.bounds.max.x - sr.bounds.min.x;
 			other.transform.Translate(2 * length - overlap, 0, 0);
 		}
+		else if (other.GetComponent<SpriteRenderer>().bounds.min.x > horizMax && other.transform.position.x > mainCamera.transform.position.x)
+		{
+			sr = other.GetComponent<SpriteRenderer>();
+			float length = sr.bounds.max.x - sr.bounds.min.x;
+			other.transform.Translate(-2 * length + overlap, 0, 0);
+		}
+		
     }
 }
