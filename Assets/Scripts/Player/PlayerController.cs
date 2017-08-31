@@ -61,6 +61,8 @@ public class PlayerController : Entity
     public int dashTimeout = 0;
     private int FRAME_WINDOW = 5;
 
+    GameObject dustSprite;
+
 	void Start () 
 	{
         anim = GetComponent<Animator>();
@@ -79,6 +81,8 @@ public class PlayerController : Entity
         defaultMaterial = spr.material;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
         redMaterial = Resources.Load<Material>("Shaders/RedFlash");
+
+        dustSprite = (GameObject) Resources.Load("Prefabs/TempEffects/Dust");
     }
 
 	void FixedUpdate () 
@@ -105,6 +109,7 @@ public class PlayerController : Entity
                 } else {
                     anim.SetTrigger("hardLand");
                 }
+                createDust();
             }
         }
         this.airJumps = maxAirJumps;
@@ -159,7 +164,7 @@ public class PlayerController : Entity
             StartCoroutine(WallJump());
         } else
         {
-            //NOT JUMPING FOR SOME REASON
+            if (grounded) createDust();
             rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
             InterruptAttack();
         }
@@ -616,5 +621,9 @@ public class PlayerController : Entity
             SetInvincible(false);
         }
         CloseHurtbox("DamageDash");
+    }
+
+    void createDust() {
+        Instantiate(dustSprite, new Vector2(spr.transform.position.x, spr.bounds.min.y), Quaternion.identity);
     }
 }

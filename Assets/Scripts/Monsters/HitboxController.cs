@@ -10,7 +10,7 @@ public class HitboxController : MonoBehaviour {
 
 	void Start() {
 		parentObject = this.gameObject.transform.parent.gameObject;
-		hitmarker = (GameObject) Resources.Load("Prefabs/Hitmarker");
+		hitmarker = (GameObject) Resources.Load("Prefabs/TempEffects/Hitmarker");
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {

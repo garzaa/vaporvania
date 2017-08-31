@@ -14,7 +14,7 @@ public class ProjectileSpawner : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (i++ % 60 == 0) {
-			Instantiate(Resources.Load("Prefabs/Projecetiles/Test"), new Vector2(this.transform.position.x, this.transform.position.y), Quaternion.identity);
+			Instantiate(Resources.Load("Prefabs/Projectiles/Test"), new Vector2(this.transform.position.x, this.transform.position.y), Quaternion.identity);
 		}
 	}
 }

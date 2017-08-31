@@ -26,7 +26,7 @@ public class Projectile : Entity {
 	public void Reflect() {
 		if (!reflectable) return;
 		this.reflectable = false;
-		Instantiate(Resources.Load("Prefabs/Hitmarker"), new Vector2(this.transform.position.x, this.transform.position.y), Quaternion.identity);
+		Instantiate(Resources.Load("Prefabs/TempEffects/Hitmarker"), new Vector2(this.transform.position.x, this.transform.position.y), Quaternion.identity);
 		//change the hitbox to a player-friendly version
 		this.gameObject.tag = "playerAttack";
 		GameObject temp = this.target;

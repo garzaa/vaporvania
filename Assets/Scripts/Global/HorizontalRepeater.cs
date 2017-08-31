@@ -40,9 +40,6 @@ public class HorizontalRepeater : MonoBehaviour {
 		mainCamera = GameObject.FindGameObjectsWithTag("MainCamera")[0];
 		cameraSize = mainCamera.GetComponent<Camera>().orthographicSize *2;
 
-        //pin the second sprite to the right edge of the first sprite
-        float length = GetComponent<SpriteRenderer>().bounds.extents.x;
-
         sr = other.GetComponent<SpriteRenderer>();
         //other.transform.position = new Vector3(2 * (temp.bounds.max.x - temp.bounds.min.x), this.transform.position.y, this.transform.position.z);
 
