@@ -61,8 +61,6 @@ public class PlayerController : Entity
     public int dashTimeout = 0;
     private int FRAME_WINDOW = 5;
 
-    GameObject dustSprite;
-
 	void Start () 
 	{
         anim = GetComponent<Animator>();
@@ -81,8 +79,6 @@ public class PlayerController : Entity
         defaultMaterial = spr.material;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
         redMaterial = Resources.Load<Material>("Shaders/RedFlash");
-
-        dustSprite = (GameObject) Resources.Load("Prefabs/TempEffects/Dust");
     }
 
 	void FixedUpdate () 
@@ -160,7 +156,7 @@ public class PlayerController : Entity
         }
         if (wallSliding)
         {
-            //jump away from the current wall, and freeze player inputs so they don't get glued back
+            //jump away from the current wall, and freeze player inputs so they don't instantly move back
             StartCoroutine(WallJump());
         } else
         {
@@ -621,9 +617,5 @@ public class PlayerController : Entity
             SetInvincible(false);
         }
         CloseHurtbox("DamageDash");
-    }
-
-    void createDust() {
-        Instantiate(dustSprite, new Vector2(spr.transform.position.x, spr.bounds.min.y), Quaternion.identity);
     }
 }

@@ -10,7 +10,9 @@ public class Entity : MonoBehaviour {
 
     [HideInInspector] public bool facingRight = true;
     [HideInInspector] public bool movingRight = false;
-     public bool frozen = false;
+    public bool frozen = false;
+
+    GameObject dustSprite;
 
     //being lazy is valid :^)
     public void Log(string str)
@@ -57,5 +59,11 @@ public class Entity : MonoBehaviour {
         if ((rb2d = GetComponent<Rigidbody2D>()) != null) {
             rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
+    }
+
+    public void createDust() {
+        dustSprite = (GameObject) Resources.Load("Prefabs/TempEffects/Dust");
+        SpriteRenderer spr = this.GetComponent<SpriteRenderer>();
+        Instantiate(dustSprite, new Vector2(spr.transform.position.x, spr.bounds.min.y), Quaternion.identity);
     }
 }
