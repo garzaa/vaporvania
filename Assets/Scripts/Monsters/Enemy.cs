@@ -12,7 +12,10 @@ public class Enemy : Entity {
 
 	public bool inHitstop;
 
-	public float seekThreshold = .2f;
+	public float healthChance = 0f;
+	public float moneyChance = 0f;
+
+	GameObject healthPrefab, moneyPrefab;
 
 	[HideInInspector] public GameObject playerObject;
 
@@ -44,6 +47,7 @@ public class Enemy : Entity {
 
 	public void Die(){
 		this.frozen = true;
+		DropPickups();
 		if (this.GetComponent<Animator>() != null) {
 			this.GetComponent<Animator>().SetTrigger("die");
 		} else {
@@ -72,5 +76,18 @@ public class Enemy : Entity {
 			eb.Move();
 		}
 		CheckFlip();
+	}
+
+	public void DropPickups() {
+		DropHealth();
+		DropMoney();
+	}
+
+	public void DropHealth() {
+
+	}
+
+	public void DropMoney() {
+
 	}
 }

@@ -10,18 +10,20 @@ public class PrefabSpawner : MonoBehaviour {
 	public GameObject toSpawn;
 
 	void Start() {
-		StartCoroutine(Main());
+		StartCoroutine(StartSpawning());
 	}
 
-	IEnumerator Main() {
+	IEnumerator StartSpawning() {
 		if (randomStart) {
 			yield return new WaitForSeconds(Random.Range(0, 2));
 		}
+		Debug.Log("starting spawn coroutine");
 		StartCoroutine(Spawn());
 	}
 
 	IEnumerator Spawn() {
 		yield return new WaitForSeconds(interval);
+		Debug.Log("spawning water drop");
 		Instantiate(toSpawn, this.transform.position, Quaternion.identity);
 		StartCoroutine(Spawn());
 	}
