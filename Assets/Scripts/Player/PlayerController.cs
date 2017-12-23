@@ -61,6 +61,8 @@ public class PlayerController : Entity
     public int dashTimeout = 0;
     private int FRAME_WINDOW = 5;
 
+    public Transform respawnPoint;
+
 	void Start () 
 	{
         anim = GetComponent<Animator>();
@@ -86,11 +88,6 @@ public class PlayerController : Entity
         Jump();
 		Attack();
         Move();
-        UpdateUI();
-    }
-
-    void UpdateUI() {
-
     }
 
     public void HitGround(Collision2D col) {
