@@ -86,6 +86,11 @@ public class PlayerController : Entity
         Jump();
 		Attack();
         Move();
+        UpdateUI();
+    }
+
+    void UpdateUI() {
+
     }
 
     public void HitGround(Collision2D col) {
@@ -193,7 +198,7 @@ public class PlayerController : Entity
         
         if (dashTimeout > 0) {
             dashTimeout--;
-            if (dashTimeout <= 0 && !frozen && !swinging) {
+            if (dashTimeout <= 0 && !frozen) {
                 Dash();
             }
         }
@@ -570,7 +575,7 @@ public class PlayerController : Entity
         cameraShaker.SmallShake();
     }
     public void Dash() {
-        if (dashCooldown || dashing || frozen) {
+        if (dashCooldown || dashing) {
             return;
         }
         InterruptAttack();
