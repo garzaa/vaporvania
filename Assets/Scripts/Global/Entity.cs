@@ -62,7 +62,7 @@ public class Entity : MonoBehaviour {
     }
 
     public void createDust() {
-        dustSprite = (GameObject) Resources.Load("Prefabs/TempEffects/Dust");
+        dustSprite = (GameObject) Resources.Load("Prefabs/Particles/Dust");
         SpriteRenderer spr = this.GetComponent<SpriteRenderer>();
         Instantiate(dustSprite, new Vector2(spr.transform.position.x, spr.bounds.min.y), Quaternion.identity);
     }

@@ -12,10 +12,10 @@ public class Enemy : Entity {
 
 	public bool inHitstop;
 
-	public float healthChance = 0f;
+	public float healthChance = 2f;
 	public float moneyChance = 0f;
 
-	GameObject healthPrefab, moneyPrefab;
+	public GameObject healthPrefab, moneyPrefab;
 
 	[HideInInspector] public GameObject playerObject;
 
@@ -84,7 +84,12 @@ public class Enemy : Entity {
 	}
 
 	public void DropHealth() {
-
+		Debug.Log("dropping health");
+		if (Random.Range(0f, 1f) < healthChance) {
+			Debug.Log("dropping health");
+			GameObject h = (GameObject) Instantiate(healthPrefab, this.transform.position, Quaternion.identity);
+			h.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-1, 1), Random.Range(1, 3));
+		}
 	}
 
 	public void DropMoney() {

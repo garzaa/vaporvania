@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerController : Entity 
 {
-    public int hp = 10;
+    public int hp = 5;
+    public int maxHP = 5;
 
     public float jumpSpeed = 5f;
     public float moveSpeed = 5f;
@@ -619,5 +620,11 @@ public class PlayerController : Entity
             SetInvincible(false);
         }
         CloseHurtbox("DamageDash");
+    }
+
+    public void GetHealth(int health) {
+        if (this.hp < maxHP) {
+            this.hp += health;
+        }
     }
 }
