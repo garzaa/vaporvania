@@ -1,4 +1,4 @@
-# vaporvania
+![vaporvania](https://68.media.tumblr.com/7e849ccf6d2504819c988362f39d1fc5/tumblr_p1a0g57fCV1tk26l4o1_1280.png)
 A vaporwave-themed metroidvania that's still in development. Check the [wiki](https://github.com/adriangarza/vaporvania/wiki) for a more detailed overview.
 
 ### what's happening now
