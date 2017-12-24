@@ -1,5 +1,21 @@
 ![vaporvania](https://68.media.tumblr.com/7e849ccf6d2504819c988362f39d1fc5/tumblr_p1a0g57fCV1tk26l4o1_1280.png)
-A vaporwave-themed metroidvania that's still in development. Check the [wiki](https://github.com/adriangarza/vaporvania/wiki) for a more detailed overview.
+
+A vaporwave-themed metroidvania that's still in development. Play a small demo [here](https://adriangarza.github.io/vaporvania).
+
+### controls
+`left`/`right`: run
+
+`up`: jump 
+
+`down`: drop through platform
+
+`Z`: attack (can chain two hits on the ground)
+
+`lshift`+`Z`: parry (reflects projectiles, high-damage riposte triggered on enemy melee contact)
+
+`lshift`+`down`: spot-dodge (invincible for duration)
+
+`lshift`+`left`/`right`: dash (fully upgraded dash with invincibility/damage is unlocked for the dev build)
 
 ### what's happening now
 I'm working on making movement and combat feel as fluid and satisfying as I can.
