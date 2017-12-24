@@ -14,6 +14,9 @@ public class GroundCollider : MonoBehaviour {
 			player.HitGround(col);
 			currentCollisions.Add(col.gameObject);
 		}
+		else if (col.collider.tag.Equals("killzone")) {
+			player.Die();
+		}
 	}
 
 	void OnCollisionStay2D(Collision2D col) {

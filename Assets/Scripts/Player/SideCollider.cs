@@ -10,6 +10,9 @@ public class SideCollider : MonoBehaviour {
 	{
 		if (col.collider.tag.Contains("wall"))
 			player.HitWall(col);
+		else if (col.collider.tag.Equals("killzone")) {
+			player.Die();
+		}
 	}
 
 	void OnCollisionStay2D(Collision2D col) {
