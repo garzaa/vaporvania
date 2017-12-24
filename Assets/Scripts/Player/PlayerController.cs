@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerController : Entity 
 {
-    public int hp = 5;
-    public int maxHP = 5;
+    public int hp = 10;
+    public int maxHP = 10;
 
     public float jumpSpeed = 5f;
     public float moveSpeed = 5f;
@@ -63,9 +63,12 @@ public class PlayerController : Entity
     int dashTimeout = 0;
     int FRAME_WINDOW = 5;
 
-    [HideInInspector] public Transform respawnPoint;
     public bool savePossible = false;
     public GameController gc;
+
+    //for triggering events/savepoints/etc
+    private Collider2D playerTrigger;
+    GameObject savePoint;
 
 	void Start () 
 	{
@@ -138,17 +141,12 @@ public class PlayerController : Entity
         this.airJumps = maxAirJumps;
     }
 
-    public void StayOnWall(Collision2D col) {
-
-    }
-
     public void LeaveWall(Collision2D col) {
         StopWallSliding();
         anim.SetBool("falling", true);
     }
 
-    void Jump()
-    {
+    void Jump() {
     if (!(
             (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow)) && 
             (grounded || wallSliding || airJumps >= 0)
@@ -168,6 +166,8 @@ public class PlayerController : Entity
         {
             if (grounded) createDust();
             rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
+
+            //right now you can jump-cancel attacks and parries
             InterruptAttack();
         }
         anim.SetBool("grounded", false);
@@ -195,17 +195,19 @@ public class PlayerController : Entity
             AirAttack();
         }
 
+        //can be generous with key checking here for reasons below
         else if ((Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.DownArrow))
                 || (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKey(KeyCode.DownArrow))) {
             Dodge();
         }
 
         //on pressing shift, wait a few frames to dash to give the player a window to press Z to parry
-        //the dash timwout won't be started if the player has already started parrying
+        //the dash timwout won't be started if the player has already started parrying, which is checked for at the start of this function
         else if (HorizontalInput() && Input.GetKeyDown(KeyCode.LeftShift)) {
             dashTimeout = FRAME_WINDOW;
         }
         
+        //decrement the timer after pressing shift to dash, but leave a window for input combos
         if (dashTimeout > 0) {
             dashTimeout--;
             if (dashTimeout <= 0 && !frozen) {
@@ -216,7 +218,6 @@ public class PlayerController : Entity
 
     void Parry() {
         InterruptAttack();
-        Debug.Log("parrying");
         anim.SetTrigger("parry");
     }
 
@@ -247,6 +248,12 @@ public class PlayerController : Entity
             anim.SetBool("running", false);
         }
 
+        //save logic
+        if (Input.GetKeyDown(KeyCode.DownArrow) && savePossible) {
+            gc.Save(this.savePoint);
+        }
+
+        //check for no opposite inputs to prevent moonwalking
         if (grounded && HorizontalInput() && !swinging && !frozen)
         {
             if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
@@ -286,6 +293,7 @@ public class PlayerController : Entity
             }
         }
 
+        //flip sprites depending on movement direction
         if (!facingRight && rb2d.velocity.x > 0 && !Input.GetKey(KeyCode.LeftArrow))
         {
             Flip();
@@ -431,7 +439,7 @@ public class PlayerController : Entity
         airJumps = maxAirJumps;
     }
 
-    //called from animation event
+    //this stuff is to interface with animation events
     public void OpenHurtbox(string hurtboxName) {
         //find the jab1 object and activate it
         foreach (Transform hurtbox in hurtboxes.GetComponentInChildren<Transform>()) {
@@ -603,7 +611,8 @@ public class PlayerController : Entity
         anim.SetTrigger("dash");
         dashing = true;
         Freeze();
-        //preserve horizontal velocity but cancel falling, for instance
+
+        //preserve horizontal velocity but cancel falling
         preDashVelocity = new Vector2(rb2d.velocity.x, 0);
     }
 
@@ -640,4 +649,18 @@ public class PlayerController : Entity
             this.hp += health;
         }
     }
+
+    void OnTriggerEnter2D(Collider2D other) {
+		if (other.gameObject.tag == "savepoint") {
+            savePoint = other.gameObject;
+			savePossible = true;
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D other) {
+		if (other.gameObject.tag == "savepoint") {
+            savePoint = null;
+			savePossible = false;
+		}
+	}
 }

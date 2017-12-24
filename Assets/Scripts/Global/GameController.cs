@@ -7,9 +7,11 @@ public class GameController : MonoBehaviour {
 
 	public PlayerController pc;
 	int lastHealth;
+	Transform playerRespawnPoint;
 
 	public Transform heartContainer;
 	public Transform heartSprite;
+	public Transform heartContainerSprite;
 
 	// Use this for initialization
 	void Start () {
@@ -49,6 +51,24 @@ public class GameController : MonoBehaviour {
 				//and then update the offset for the next heart image
 				offset += 15;
 			}
+
+			//and then do the same for heart containers
+			for (int j=pc.hp; j<pc.maxHP; j++) {
+				Vector2 newpos = new Vector2(offset, 0);
+				Transform currHeart = Instantiate(heartContainerSprite, newpos, Quaternion.identity);
+				currHeart.SetParent(heartContainer, worldPositionStays:false);
+
+				//and then update the offset for the next heart image
+				offset += 15;
+			}
+		}
+	}
+
+	public void Save(GameObject savePoint) {
+		//also need to find a way to freeze the player until the animation is finished
+		//also hide them, but there's already a method for that
+		if (savePoint.GetComponent<Animator>() != null) {
+			savePoint.GetComponent<Animator>().SetTrigger("save");
 		}
 	}
 }
