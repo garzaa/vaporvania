@@ -245,7 +245,7 @@ public class PlayerController : Entity
         }
 
         //save logic
-        if (Input.GetKeyDown(KeyCode.DownArrow) && savePossible) {
+        if (Input.GetKeyDown(KeyCode.DownArrow) && savePossible && grounded) {
             gc.Save(this.savePoint);
         }
 
