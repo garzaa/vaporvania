@@ -5,7 +5,7 @@ A vaporwave-themed metroidvania that's still in development. Play a small demo [
 ### controls
 `left`/`right`: run
 
-`up`: jump 
+`up`: jump (you can jump again in the air)
 
 `down`: drop through platform
 

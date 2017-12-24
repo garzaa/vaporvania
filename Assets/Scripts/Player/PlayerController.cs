@@ -58,11 +58,14 @@ public class PlayerController : Entity
     public bool DAMAGE_DASH = false;
     public bool dashing = false;
     public bool dashCooldown = false;
-    //a few frames' window to parry (vapor+attack) when also pressing movement keys, since dash is (vapor+move)
-    public int dashTimeout = 0;
-    private int FRAME_WINDOW = 5;
 
-    public Transform respawnPoint;
+    //a few frames' window to parry (vapor+attack) when also pressing movement keys, since dash is (vapor+move)
+    int dashTimeout = 0;
+    int FRAME_WINDOW = 5;
+
+    [HideInInspector] public Transform respawnPoint;
+    public bool savePossible = false;
+    public GameController gc;
 
 	void Start () 
 	{
