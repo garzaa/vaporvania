@@ -177,20 +177,28 @@ public class PlayerController : Entity
         if (attackCooldown || parrying) {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Z) && (Input.GetKey(KeyCode.LeftShift) || dashTimeout > 0) && !swinging && !dashing)
-        {
+        //if dashTimeout > 0, that means the player has pressed Shift down in the last few frames
+        if (Input.GetKeyDown(KeyCode.Z) && (Input.GetKey(KeyCode.LeftShift) || dashTimeout > 0) && !swinging && !dashing) {
+            dashTimeout = 0;
             Parry();
-        } else if (Input.GetKeyDown(KeyCode.Z) && CanGroundAttack())
-		{
+        } 
+        
+        else if (Input.GetKeyDown(KeyCode.Z) && CanGroundAttack()) {
             anim.SetTrigger("groundAttack");
             rb2d.velocity = new Vector2(0, rb2d.velocity.y);
-		} else if (Input.GetKeyDown(KeyCode.Z) && !grounded && !swinging && !wallSliding && !dashing){
+		} 
+        
+        else if (Input.GetKeyDown(KeyCode.Z) && !grounded && !swinging && !wallSliding && !dashing) {
             AirAttack();
         }
+
         else if ((Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.DownArrow))
                 || (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKey(KeyCode.DownArrow))) {
             Dodge();
         }
+
+        //on pressing shift, wait a few frames to dash to give the player a window to press Z to parry
+        //the dash timwout won't be started if the player has already started parrying
         else if (HorizontalInput() && Input.GetKeyDown(KeyCode.LeftShift)) {
             dashTimeout = FRAME_WINDOW;
         }
@@ -205,6 +213,7 @@ public class PlayerController : Entity
 
     void Parry() {
         InterruptAttack();
+        Debug.Log("parrying");
         anim.SetTrigger("parry");
     }
 
@@ -237,11 +246,11 @@ public class PlayerController : Entity
 
         if (grounded && HorizontalInput() && !swinging && !frozen)
         {
-            if (Input.GetKey(KeyCode.RightArrow))
+            if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
             {
                 rb2d.velocity = new Vector2(moveSpeed, rb2d.velocity.y);
             }
-            else if (Input.GetKey(KeyCode.LeftArrow))
+            else if (Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
             {
                 rb2d.velocity = new Vector2(-moveSpeed, rb2d.velocity.y);
             }
@@ -574,7 +583,7 @@ public class PlayerController : Entity
         cameraShaker.SmallShake();
     }
     public void Dash() {
-        if (dashCooldown || dashing) {
+        if (dashCooldown || dashing || parrying) {
             return;
         }
         InterruptAttack();
