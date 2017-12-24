@@ -187,7 +187,8 @@ public class PlayerController : Entity
 		} else if (Input.GetKeyDown(KeyCode.Z) && !grounded && !swinging && !wallSliding && !dashing){
             AirAttack();
         }
-        else if (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.DownArrow)) {
+        else if ((Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.DownArrow))
+                || (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKey(KeyCode.DownArrow))) {
             Dodge();
         }
         else if (HorizontalInput() && Input.GetKeyDown(KeyCode.LeftShift)) {

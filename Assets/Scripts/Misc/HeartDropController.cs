@@ -5,17 +5,7 @@ using UnityEngine;
 public class HeartDropController : MonoBehaviour {
 
 	public int health = 1;
-	GameObject hitmarker;
-
-	// Use this for initialization
-	void Start () {
-		hitmarker = (GameObject) Resources.Load("Prefabs/Particles/Hitmarker");
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	public GameObject hitmarker;
 
 	void OnCollisionEnter2D(Collision2D col) {
 		if (col.gameObject.tag == "Player") {

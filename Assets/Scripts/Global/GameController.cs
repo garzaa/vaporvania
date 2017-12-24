@@ -47,7 +47,7 @@ public class GameController : MonoBehaviour {
 				currHeart.SetParent(heartContainer, worldPositionStays:false);
 
 				//and then update the offset for the next heart image
-				offset += 30;
+				offset += 15;
 			}
 		}
 	}

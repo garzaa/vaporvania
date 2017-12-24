@@ -12,7 +12,7 @@ public class Entity : MonoBehaviour {
     [HideInInspector] public bool movingRight = false;
     public bool frozen = false;
 
-    GameObject dustSprite;
+    public GameObject dustSprite;
 
     //being lazy is valid :^)
     public void Log(string str)
@@ -62,7 +62,7 @@ public class Entity : MonoBehaviour {
     }
 
     public void createDust() {
-        dustSprite = (GameObject) Resources.Load("Prefabs/Particles/Dust");
+        //dustSprite = (GameObject) Resources.Load("Prefabs/Particles/Dust");
         SpriteRenderer spr = this.GetComponent<SpriteRenderer>();
         Instantiate(dustSprite, new Vector2(spr.transform.position.x, spr.bounds.min.y), Quaternion.identity);
     }
