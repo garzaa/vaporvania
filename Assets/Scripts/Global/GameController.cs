@@ -15,6 +15,8 @@ public class GameController : MonoBehaviour {
 
 	GameObject savePoint;
 	bool saving = false;
+
+	int currentHearts;
 	
 	// Update is called once per frame
 	void Update () {
@@ -50,7 +52,7 @@ public class GameController : MonoBehaviour {
 
 	void UpdateHealth() {
 		//only update UI if pc health changes
-		if (heartContainer.childCount != pc.hp) {
+		if (currentHearts != pc.hp) {
 			//clear all
 			foreach(Transform child in heartContainer) {
     			Destroy(child.gameObject);
@@ -67,6 +69,7 @@ public class GameController : MonoBehaviour {
 
 				//and then update the offset for the next heart image
 				offset += 15;
+				currentHearts = pc.hp;
 			}
 
 			//and then do the same for heart containers
@@ -93,6 +96,8 @@ public class GameController : MonoBehaviour {
 		//then lock further inputs
 		pc.Freeze();
 		pc.SetInvincible(true);
+		//finally, heal
+		pc.Heal();
 		if (savePoint.GetComponent<Animator>() != null) {
 			savePoint.GetComponent<Animator>().SetTrigger("save");
 		}

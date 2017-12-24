@@ -663,4 +663,8 @@ public class PlayerController : Entity
 			savePossible = false;
 		}
 	}
+
+    public void Heal() {
+        this.hp = maxHP;
+    }
 }
