@@ -68,10 +68,9 @@ public class PlayerController : Entity
 
     //for triggering events/savepoints/etc
     private Collider2D playerTrigger;
-    GameObject savePoint;
+    public GameObject savePoint;
 
-	void Start () 
-	{
+	void Start () {
         anim = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         swinging = false;
@@ -90,8 +89,7 @@ public class PlayerController : Entity
         redMaterial = Resources.Load<Material>("Shaders/RedFlash");
     }
 
-	void FixedUpdate () 
-	{
+	void FixedUpdate() {
         Jump();
 		Attack();
         Move();
@@ -147,13 +145,12 @@ public class PlayerController : Entity
     }
 
     void Jump() {
-    if (!(
+        if (!(
             (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow)) && 
             (grounded || wallSliding || airJumps >= 0)
-        )
-        || frozen) {
+        ) || frozen) {
                 return;
-            }
+        }
 
         if (!grounded || !wallSliding) {
             airJumps--;
@@ -175,8 +172,7 @@ public class PlayerController : Entity
         anim.SetBool("falling", false);
     }
 
-	void Attack()
-	{
+	void Attack() {
         if (attackCooldown || parrying) {
             return;
         }
@@ -560,7 +556,11 @@ public class PlayerController : Entity
     }
 
     public void Hide() {
-        spr.color = new Color(0, 0, 0, 0);
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+    }
+
+    public void Show() {
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
 
     public void Dodge() {
