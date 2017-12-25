@@ -91,8 +91,8 @@ public class PlayerController : Entity
 
 	void FixedUpdate() {
         Jump();
-		Attack();
         Move();
+		Attack();
     }
 
     public void HitGround(Collision2D col) {
@@ -233,11 +233,11 @@ public class PlayerController : Entity
         UnFreeze();
     }
 
-    void Move()
-    {
+    void Move() {
         float h = Input.GetAxis("Horizontal");
 
         //stop the player if they're moving on the ground
+        //check if it's less than 1 because unity does weird smoothing on arrow key inputs
         if (Mathf.Abs(h) < 1 && grounded)
         {
             rb2d.velocity = new Vector2(0, rb2d.velocity.y);
@@ -659,6 +659,7 @@ public class PlayerController : Entity
 
     void OnTriggerEnter2D(Collider2D other) {
 		if (other.gameObject.tag == "savepoint") {
+            other.GetComponent<Interactable>().AddPrompt();
             savePoint = other.gameObject;
 			savePossible = true;
 		}
@@ -669,6 +670,7 @@ public class PlayerController : Entity
             return;
         }
 		if (other.gameObject.tag == "savepoint") {
+            other.GetComponent<Interactable>().RemovePrompt();
             savePoint = null;
 			savePossible = false;
 		}
@@ -676,6 +678,7 @@ public class PlayerController : Entity
 
     void OnTriggerStay2D(Collider2D other) {
         if (other.gameObject.tag == "savepoint") {
+            other.GetComponent<Interactable>().AddPrompt();
             savePossible = true;
             savePoint = other.gameObject;
         }

@@ -38,7 +38,7 @@ public class HorizontalRepeater : MonoBehaviour {
       
         //get the left edge of the camera
 		mainCamera = GameObject.FindGameObjectsWithTag("MainCamera")[0];
-		cameraSize = mainCamera.GetComponent<Camera>().orthographicSize *2;
+		cameraSize = mainCamera.GetComponent<Camera>().orthographicSize * 2;
 
         sr = other.GetComponent<SpriteRenderer>();
         //other.transform.position = new Vector3(2 * (temp.bounds.max.x - temp.bounds.min.x), this.transform.position.y, this.transform.position.z);
