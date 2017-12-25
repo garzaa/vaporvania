@@ -17,6 +17,8 @@ A vaporwave-themed metroidvania that's still in development. Play a small demo [
 
 `lshift`+`left`/`right`: dash (fully upgraded dash with invincibility/damage is unlocked for the dev build)
 
+`X`: interact (only works with save points for now, but eventually you can talk with NPCs and such)
+
 ### what's happening now
 I'm working on making movement and combat feel as fluid and satisfying as I can.
 
