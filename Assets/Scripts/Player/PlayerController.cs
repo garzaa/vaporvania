@@ -249,6 +249,13 @@ public class PlayerController : Entity
             gc.Save(this.savePoint);
         }
 
+        //interaction
+        if (Input.GetKeyDown(KeyCode.X)) {
+            if (savePossible && grounded) {
+                gc.Save(this.savePoint);
+            }
+        }
+
         //check for no opposite inputs to prevent moonwalking
         if (grounded && HorizontalInput() && !swinging && !frozen)
         {
@@ -658,13 +665,23 @@ public class PlayerController : Entity
 	}
 
 	void OnTriggerExit2D(Collider2D other) {
+        if (other.transform.IsChildOf(transform)) {
+            return;
+        }
 		if (other.gameObject.tag == "savepoint") {
             savePoint = null;
 			savePossible = false;
 		}
 	}
 
-    public void Heal() {
+    void OnTriggerStay2D(Collider2D other) {
+        if (other.gameObject.tag == "savepoint") {
+            savePossible = true;
+            savePoint = other.gameObject;
+        }
+    }
+
+    public void FullHeal() {
         this.hp = maxHP;
     }
 }

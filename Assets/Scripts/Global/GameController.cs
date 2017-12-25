@@ -41,10 +41,6 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
-	void InitUI() {
-
-	}
-
 	void UpdateUI() {
 		UpdateHealth();
 	}
@@ -97,9 +93,18 @@ public class GameController : MonoBehaviour {
 		pc.Freeze();
 		pc.SetInvincible(true);
 		//finally, heal
-		pc.Heal();
+		pc.FullHeal();
 		if (savePoint.GetComponent<Animator>() != null) {
 			savePoint.GetComponent<Animator>().SetTrigger("save");
 		}
+	}
+
+	//lets an interactable know to put an arrow above it
+	public void AddPrompt(Interactable i) {
+		i.AddPrompt();
+	}
+
+	public void RemovePrompt(Interactable i) {
+		i.RemovePrompt();
 	}
 }
