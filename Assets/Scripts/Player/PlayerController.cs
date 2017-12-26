@@ -187,6 +187,8 @@ public class PlayerController : Entity
         }
 
         else if (Input.GetKeyDown(KeyCode.Z) && CanGroundAttack()) {
+            //in case of canceling another attack somehow
+            //InterruptAttack();
             anim.SetTrigger("groundAttack");
             rb2d.velocity = new Vector2(0, rb2d.velocity.y);
 		} 
