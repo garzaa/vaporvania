@@ -161,7 +161,7 @@ public class PlayerController : Entity
             StartCoroutine(WallJump());
         } else
         {
-            if (grounded) createDust();
+            createDust();
             rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
 
             //right now you can jump-cancel attacks and parries
@@ -182,6 +182,10 @@ public class PlayerController : Entity
             Parry();
         } 
         
+        if (Input.GetKeyDown(KeyCode.D) && !invincible) {
+            Die();
+        }
+
         else if (Input.GetKeyDown(KeyCode.Z) && CanGroundAttack()) {
             anim.SetTrigger("groundAttack");
             rb2d.velocity = new Vector2(0, rb2d.velocity.y);
@@ -242,11 +246,6 @@ public class PlayerController : Entity
         {
             rb2d.velocity = new Vector2(0, rb2d.velocity.y);
             anim.SetBool("running", false);
-        }
-
-        //save logic
-        if (Input.GetKeyDown(KeyCode.DownArrow) && savePossible && grounded) {
-            gc.Save(this.savePoint);
         }
 
         //interaction
@@ -316,7 +315,7 @@ public class PlayerController : Entity
         }
 
         //if they press down to drop through a platform
-        if (Input.GetKeyDown(KeyCode.DownArrow) && !Input.GetKey(KeyCode.LeftShift)) {
+        if (Input.GetKeyDown(KeyCode.DownArrow) && !Input.GetKey(KeyCode.LeftShift) && !frozen) {
             //if they can actually drop through a platform
             if (platformTouching != null && platformTouching.GetComponent<PlatformEffector2D>() != null) {
                 //disable the platform collider for a second
@@ -560,6 +559,12 @@ public class PlayerController : Entity
         SetInvincible(true);
         anim.SetBool("dead", true);
         anim.SetTrigger("die");
+        StartCoroutine(WaitAndRespawn());
+    }
+
+    public IEnumerator WaitAndRespawn() {
+        yield return new WaitForSeconds(1f);
+        gc.Respawn();
     }
 
     public void Hide() {
@@ -686,5 +691,15 @@ public class PlayerController : Entity
 
     public void FullHeal() {
         this.hp = maxHP;
+    }
+
+    public void Respawn() {
+        UnFreeze();
+        UnFreezeInSpace();
+        SetInvincible(false);
+        anim.SetBool("dead", false);
+        anim.SetTrigger("respawn");
+        FullHeal();
+        Show();
     }
 }

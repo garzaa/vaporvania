@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
 	public PlayerController pc;
 	int lastHealth;
-	Transform playerRespawnPoint;
+	Vector2 playerRespawnPoint;
+	string playerRespawnScene = null;
 
 	public Transform heartContainer;
 	public Transform heartSprite;
@@ -18,6 +20,11 @@ public class GameController : MonoBehaviour {
 
 	int currentHearts;
 	
+	void Start() {
+		playerRespawnPoint = pc.transform.position;
+		playerRespawnScene = SceneManager.GetActiveScene().name;
+	}
+
 	// Update is called once per frame
 	void Update () {
 		UpdateUI();
@@ -97,6 +104,8 @@ public class GameController : MonoBehaviour {
 		if (savePoint.GetComponent<Animator>() != null) {
 			savePoint.GetComponent<Animator>().SetTrigger("save");
 		}
+		playerRespawnPoint = savePoint.transform.position;
+		playerRespawnScene = SceneManager.GetActiveScene().name;
 	}
 
 	//lets an interactable know to put an arrow above it
@@ -106,5 +115,16 @@ public class GameController : MonoBehaviour {
 
 	public void RemovePrompt(Interactable i) {
 		i.RemovePrompt();
+	}
+
+	public void Respawn() {
+		if (SceneManager.GetActiveScene().name.Equals(playerRespawnScene)) {
+			pc.transform.position = playerRespawnPoint;
+			pc.Respawn();
+		} else {
+			Debug.LogError("ruh-roh");
+			//this means save point is in another scene, when scene transitions are a thing then load it based on the path
+			//and then move the player to the last respawn point
+		}
 	}
 }
