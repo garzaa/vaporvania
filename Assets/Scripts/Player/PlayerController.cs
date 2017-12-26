@@ -182,7 +182,7 @@ public class PlayerController : Entity
             Parry();
         } 
         
-        if (Input.GetKeyDown(KeyCode.D) && !invincible) {
+        else if (Input.GetKeyDown(KeyCode.D) && !invincible) {
             Die();
         }
 
