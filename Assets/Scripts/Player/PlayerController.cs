@@ -482,7 +482,7 @@ public class PlayerController : Entity
     private bool CanGroundAttack() {
         if (!grounded) return false;
         //fix the down arrow check, combine inputs more gracefully
-        return (!swinging && !Input.GetKey(KeyCode.DownArrow)) || comboWindow;
+        return (!swinging && !Input.GetKey(KeyCode.DownArrow)) || (comboWindow);
     }
 
     public void CyanSprite() {
