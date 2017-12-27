@@ -71,6 +71,7 @@ public class PlayerController : Entity
     public GameObject savePoint;
 
 	void Start () {
+        Flip();
         anim = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         swinging = false;
