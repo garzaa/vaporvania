@@ -4,7 +4,6 @@ public class Interactable : MonoBehaviour {
 
 	public GameObject promptPrefab;
 	GameObject currentPrompt = null;
-	bool hasPrompt = false;
 
 	//how far above a sprite to drop the prompt object
 	//since we're working with 54 ppu, this is three pixels
