@@ -42,6 +42,7 @@ public class JumpAtPlayer : EnemyBehavior {
 		if (c.gameObject.tag.Contains("platform") && rb2d.velocity.y == 0) {
 			if (!grounded) { 
 				print("GROUNDED");
+				anim.ResetTrigger("land");
 				anim.SetTrigger("land");
 				grounded = true;
 				StartCoroutine(JumpTimeout());
