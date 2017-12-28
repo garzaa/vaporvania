@@ -21,7 +21,7 @@ public class GroundCollider : MonoBehaviour {
 
 	void OnCollisionStay2D(Collision2D col) {
 		if (col.collider.tag.Contains("platform")) {
-			//player.StayOnGround(col);
+			player.StayOnGround(col);
 		}
 	}
 

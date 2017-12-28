@@ -70,6 +70,8 @@ public class PlayerController : Entity
     private Collider2D playerTrigger;
     public GameObject savePoint;
 
+    public bool animateSpawn = true;
+
 	void Start () {
         Flip();
         anim = GetComponent<Animator>();
@@ -88,6 +90,15 @@ public class PlayerController : Entity
         defaultMaterial = spr.material;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
         redMaterial = Resources.Load<Material>("Shaders/RedFlash");
+
+        if (savePoint != null) {
+            this.transform.position = savePoint.transform.position;
+            savePoint = null;
+        }
+
+        if (animateSpawn) {
+            Respawn();
+        }
     }
 
 	void FixedUpdate() {
@@ -120,6 +131,11 @@ public class PlayerController : Entity
 
         //track if they're on a passthrough, one-way platform
         platformTouching = col.collider.gameObject;
+    }
+
+    public void StayOnGround(Collision2D col) {
+        this.grounded = true;
+        anim.SetBool("grounded", true);
     }
 
     public void LeaveGround(Collision2D col) {
