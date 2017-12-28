@@ -666,7 +666,7 @@ public class PlayerController : Entity
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-		if (other.gameObject.tag == "savepoint") {
+		if (other.gameObject.tag == "savepoint" && !frozen) {
             other.GetComponent<Interactable>().AddPrompt();
             savePoint = other.gameObject;
 			savePossible = true;
@@ -689,6 +689,9 @@ public class PlayerController : Entity
             other.GetComponent<Interactable>().AddPrompt();
             savePossible = true;
             savePoint = other.gameObject;
+        }
+        if (other.gameObject.tag == "savepoint" && frozen) {
+            other.GetComponent<Interactable>().RemovePrompt();
         }
     }
 
