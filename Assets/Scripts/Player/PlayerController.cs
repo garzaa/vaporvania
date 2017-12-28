@@ -113,7 +113,7 @@ public class PlayerController : Entity
                 } else {
                     anim.SetTrigger("hardLand");
                 }
-                createDust();
+                CreateDust();
             }
         }
         this.airJumps = maxAirJumps;
@@ -162,7 +162,7 @@ public class PlayerController : Entity
             StartCoroutine(WallJump());
         } else
         {
-            createDust();
+            CreateDust();
             rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
 
             //right now you can jump-cancel attacks and parries

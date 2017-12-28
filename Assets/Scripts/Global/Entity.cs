@@ -61,9 +61,9 @@ public class Entity : MonoBehaviour {
         }
     }
 
-    public void createDust() {
+    public void CreateDust() {
         //dustSprite = (GameObject) Resources.Load("Prefabs/Particles/Dust");
-        SpriteRenderer spr = this.GetComponent<SpriteRenderer>();
-        Instantiate(dustSprite, new Vector2(spr.transform.position.x, spr.bounds.min.y), Quaternion.identity);
+        BoxCollider2D bc = this.GetComponent<BoxCollider2D>();
+        Instantiate(dustSprite, new Vector2(bc.transform.position.x, bc.bounds.min.y), Quaternion.identity);
     }
 }

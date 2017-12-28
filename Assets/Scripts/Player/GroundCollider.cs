@@ -28,9 +28,7 @@ public class GroundCollider : MonoBehaviour {
 	void OnCollisionExit2D(Collision2D col) {
 		if (col.collider.tag.Contains("platform")){
 			currentCollisions.Remove(col.gameObject);
-			if (currentCollisions.Count == 0) {
-				player.LeaveGround(col);
-			}
+			player.LeaveGround(col);
 		}
 	}
 }
