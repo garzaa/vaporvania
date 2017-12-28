@@ -41,4 +41,4 @@ done:
 ![fight some more!](https://68.media.tumblr.com/6fc81e64f40611ba75ed299ec21504e1/tumblr_outf25Irw91tk26l4o1_400.gif)
 ![take it to the bank boys, this one's just like marth!](https://68.media.tumblr.com/2072af438e8d20659056adf4f6c70a56/tumblr_ouyviaopEb1tk26l4o1_400.gif)
 ![fight a wide variety (twp) of enemies!](https://78.media.tumblr.com/1175772b1a454e26d75f687d94088a49/tumblr_p1m1k4oGas1tk26l4o1_r1_400.gif)
-![respawn!](https://78.media.tumblr.com/aeb16bd8638b861a29f9ac25e3695a6a/tumblr_p1ndmf4W0j1tk26l4o1_400.gif)
+![respawn!](https://78.media.tumblr.com/6f62a3cc26e32c56124d95b2d7bccbe1/tumblr_p1ndmf4W0j1tk26l4o1_r1_400.gif)
