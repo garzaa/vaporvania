@@ -697,8 +697,6 @@ public class PlayerController : Entity
     }
 
     public void Respawn() {
-        UnFreeze();
-        UnFreezeInSpace();
         SetInvincible(false);
         anim.SetBool("dead", false);
         anim.SetTrigger("respawn");
