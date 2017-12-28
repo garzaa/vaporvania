@@ -104,7 +104,8 @@ public class GameController : MonoBehaviour {
 		if (savePoint.GetComponent<Animator>() != null) {
 			savePoint.GetComponent<Animator>().SetTrigger("save");
 		}
-		playerRespawnPoint = savePoint.transform.position;
+		//only set X to prevent weird grounding issues
+		playerRespawnPoint = new Vector2(savePoint.transform.position.x, pc.transform.position.y);
 		playerRespawnScene = SceneManager.GetActiveScene().name;
 	}
 
