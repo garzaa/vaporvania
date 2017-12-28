@@ -703,6 +703,10 @@ public class PlayerController : Entity
         anim.SetBool("dead", false);
         anim.SetTrigger("respawn");
         FullHeal();
+        //see what happens when you make your sprites all face left?
+        if (!facingRight) {
+            Flip();
+        }
         Show();
     }
 }
