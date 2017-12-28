@@ -71,6 +71,8 @@ public class PlayerController : Entity
     public GameObject savePoint;
 
     public bool animateSpawn = true;
+    bool interactPossible = false;
+    Interactable interactable;
 
 	void Start () {
         Flip();
@@ -138,7 +140,7 @@ public class PlayerController : Entity
         anim.SetBool("grounded", true);
     }
 
-    public void LeaveGround(Collision2D col) {
+    public void LeaveGround() {
         grounded = false;
         anim.SetBool("grounded", false);
         if (!dashing) {
@@ -271,6 +273,8 @@ public class PlayerController : Entity
         if (Input.GetKeyDown(KeyCode.X)) {
             if (savePossible && grounded) {
                 gc.Save(this.savePoint);
+            } else if (interactPossible) {
+                this.interactable.Interact(this.gameObject);
             }
         }
 
@@ -687,6 +691,11 @@ public class PlayerController : Entity
             savePoint = other.gameObject;
 			savePossible = true;
 		}
+        else if (other.gameObject.tag == "interactable") {
+            other.GetComponent<Interactable>().AddPrompt();
+            this.interactable = other.GetComponent<Interactable>();
+            this.interactPossible = true;
+        }
 	}
 
 	void OnTriggerExit2D(Collider2D other) {
@@ -698,6 +707,11 @@ public class PlayerController : Entity
             savePoint = null;
 			savePossible = false;
 		}
+        else if (other.gameObject.tag == "interactable") {
+            other.GetComponent<Interactable>().RemovePrompt();
+            this.interactable = null;
+            this.interactPossible = false;
+        }
 	}
 
     void OnTriggerStay2D(Collider2D other) {
@@ -724,6 +738,7 @@ public class PlayerController : Entity
         if (!facingRight) {
             Flip();
         }
+        Debug.Log("showing player");
         Show();
     }
 }

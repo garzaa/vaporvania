@@ -21,10 +21,15 @@ public class GameController : MonoBehaviour {
 	int currentHearts;
 
 	TransitionController tc;
+
+	bool toRespawn = false;
+	GameObject teleportTarget = null;
 	
 	void Start() {
 		playerRespawnPoint = pc.transform.position;
 		playerRespawnScene = SceneManager.GetActiveScene().name;
+		tc = GetComponent<TransitionController>();
+		tc.LoadSceneFade("env");
 	}
 
 	// Update is called once per frame
@@ -125,9 +130,27 @@ public class GameController : MonoBehaviour {
 			pc.transform.position = playerRespawnPoint;
 			pc.Respawn();
 		} else {
-			Debug.LogError("ruh-roh");
+			Debug.Log("loading scene " + playerRespawnScene);
 			//this means save point is in another scene, when scene transitions are a thing then load it based on the path
 			//and then move the player to the last respawn point
+			tc.LoadSceneFade(playerRespawnScene);
+			toRespawn = true;
+		}
+	}
+
+	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+		//on level loaded, move the player back to their original spawn point	
+		if (toRespawn) {
+			print("right scene loaded, triggering respawn");
+			Respawn();
+			toRespawn = false;
+		}
+		else if (teleportTarget != null) {
+			//if we're moving to a new TP location instead
+			pc.transform.position = teleportTarget.transform.position;
+			teleportTarget = null;
+			Debug.Log("leaving ground");
+			pc.LeaveGround();
 		}
 	}
 }
