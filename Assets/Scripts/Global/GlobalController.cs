@@ -5,6 +5,6 @@ using UnityEngine;
 public class GlobalController : MonoBehaviour {
 
 	void Awake() {
-		//DontDestroyOnLoad(this.gameObject);
+		DontDestroyOnLoad(this.gameObject);
 	}
 }

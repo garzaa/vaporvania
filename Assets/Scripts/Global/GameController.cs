@@ -19,6 +19,8 @@ public class GameController : MonoBehaviour {
 	bool saving = false;
 
 	int currentHearts;
+
+	TransitionController tc;
 	
 	void Start() {
 		playerRespawnPoint = pc.transform.position;
