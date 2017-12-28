@@ -138,6 +138,11 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+	void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		//on level loaded, move the player back to their original spawn point	
 		if (toRespawn) {

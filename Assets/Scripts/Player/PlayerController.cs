@@ -20,7 +20,6 @@ public class PlayerController : Entity
 	public bool swinging = false;
 
     //if this is true, the player is invincible to enemy attacks and will trigger a riposte on hit
-    //(todo)
     public bool parrying;
 
     public bool attackCooldown = false;
