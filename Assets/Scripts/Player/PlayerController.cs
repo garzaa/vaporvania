@@ -737,7 +737,6 @@ public class PlayerController : Entity
         if (!facingRight) {
             Flip();
         }
-        Debug.Log("showing player");
         Show();
     }
 }

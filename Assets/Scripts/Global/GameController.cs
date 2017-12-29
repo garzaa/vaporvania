@@ -11,30 +11,28 @@ public class GameController : MonoBehaviour {
 	Vector2 playerRespawnPoint;
 	string playerRespawnScene = null;
 
-	public Transform heartContainer;
-	public Transform heartSprite;
-	public Transform heartContainerSprite;
-
 	GameObject savePoint;
 	bool saving = false;
-
-	int currentHearts;
 
 	TransitionController tc;
 
 	bool toRespawn = false;
 	public string teleportTarget = null;
 	
+	UIController uc;
+	
 	void Start() {
 		playerRespawnPoint = pc.transform.position;
 		playerRespawnScene = SceneManager.GetActiveScene().name;
 		tc = GetComponent<TransitionController>();
-		tc.LoadSceneFade("env");
+		if (SceneManager.GetActiveScene().name == "start") {
+			tc.LoadSceneFade("env");
+		}
+		uc = GetComponent<UIController>();
 	}
 
 	// Update is called once per frame
-	void Update () {
-		UpdateUI();
+	void Update() {
 
 		//show the player once the save point animation is done
 		if (this.savePoint != null) {
@@ -51,45 +49,6 @@ public class GameController : MonoBehaviour {
 				//then unlink the save point and stop checking for saving
 				this.savePoint = null;
 				this.saving = false;
-			}
-		}
-	}
-
-	void UpdateUI() {
-		UpdateHealth();
-	}
-
-
-	void UpdateHealth() {
-		//only update UI if pc health changes
-		if (currentHearts != pc.hp) {
-			//clear all
-			foreach(Transform child in heartContainer) {
-    			Destroy(child.gameObject);
-			}
-
-			//then append to the heartContainer
-			//offset: the distance sideways to put the next heart
-			int offset = 0;
-			for (int i=0; i<pc.hp; i++) {
-				//create the first heart sprite
-				Vector2 newpos = new Vector2(offset, 0);
-				Transform currHeart = Instantiate(heartSprite, newpos, Quaternion.identity);
-				currHeart.SetParent(heartContainer, worldPositionStays:false);
-
-				//and then update the offset for the next heart image
-				offset += 15;
-				currentHearts = pc.hp;
-			}
-
-			//and then do the same for heart containers
-			for (int j=pc.hp; j<pc.maxHP; j++) {
-				Vector2 newpos = new Vector2(offset, 0);
-				Transform currHeart = Instantiate(heartContainerSprite, newpos, Quaternion.identity);
-				currHeart.SetParent(heartContainer, worldPositionStays:false);
-
-				//and then update the offset for the next heart image
-				offset += 15;
 			}
 		}
 	}
@@ -150,7 +109,7 @@ public class GameController : MonoBehaviour {
 			Respawn();
 			toRespawn = false;
 		}
-		else if (teleportTarget != null) {
+		else if (!string.IsNullOrEmpty(teleportTarget)) {
 			//if we're moving to a new TP location instead
 			pc.transform.position = GameObject.Find(teleportTarget).transform.position;
 			teleportTarget = null;

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //basic NPC to talk to. maybe have a Shopkeeper to extend the NPC 
 public class NPC : Interactable {
@@ -17,6 +18,10 @@ public class NPC : Interactable {
 
 	PlayerController pc;
 
+	//make this a list, so they can change after certain lines
+	public Image[] portraits;
+	public string npcName;
+
 	void Start() {
 		pc = GameObject.Find("Player").GetComponent<PlayerController>();
 	}
@@ -29,15 +34,14 @@ public class NPC : Interactable {
 
 	void OpenDialogue() {
 		pc.Freeze();
-
 		//then do whatever
+		//call the UIController here though, don't directly interact with the UI system
 	}
 
 	void CloseDialogue() {
 		//finish up UI things
 		//in the eventual UIController, unlink this NPC from the current thing being talked to
 
-		FinishConversation(currentConvo);
 		pc.UnFreeze();
 	}
 
@@ -52,20 +56,17 @@ public class NPC : Interactable {
 
 	//to be called by UIController on player pressing enter if a dialogue box is open
 	public void AdvanceLine() {
+		FinishLine(currentConvo, currentLine);
 		//if at the last line
 		if (++currentLine == convos[currentConvo].Count) {
 			CloseDialogue();
 		}
-	}
-
-	//writes a line to the dialogue output
-	void WriteLine(int line) {
-
+		//then the UI controller will write a new line if there's still one available
 	}
 
 	//called at the end of every conversation subtree when the dialogue is closed
 	//can be a hook for NPC-specific functions
-	public virtual void FinishConversation(int convo) {
+	public virtual void FinishLine(int convo, int line) {
 		
 	}
 }
