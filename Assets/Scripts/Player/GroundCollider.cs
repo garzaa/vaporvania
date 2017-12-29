@@ -10,7 +10,8 @@ public class GroundCollider : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D col)
 	{	
-		if (col.collider.tag.Contains("platform") && col.transform.position.y < this.GetComponent<BoxCollider2D>().bounds.min.y) {
+		//the collider needs to be lower so the player doesn't get grounded when they're jumping up through a platform
+		if (col.collider.tag.Contains("platform") && col.gameObject.GetComponent<Collider2D>().bounds.max.y <= this.GetComponent<BoxCollider2D>().bounds.min.y) {
 			player.HitGround(col);
 			currentCollisions.Add(col.gameObject);
 		}

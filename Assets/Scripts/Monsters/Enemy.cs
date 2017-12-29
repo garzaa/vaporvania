@@ -48,6 +48,7 @@ public class Enemy : Entity {
 	public void Die(){
 		this.frozen = true;
 		DropPickups();
+		CloseHurtboxes();
 		if (this.GetComponent<Animator>() != null) {
 			this.GetComponent<Animator>().SetTrigger("die");
 		} else {
@@ -87,6 +88,15 @@ public class Enemy : Entity {
 		if (Random.Range(0f, 1f) < healthChance) {
 			GameObject h = (GameObject) Instantiate(healthPrefab, this.transform.position, Quaternion.identity);
 			h.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-1, 1), Random.Range(1, 3));
+		}
+	}
+
+	//on death, remove damage dealing even though it'll live a little bit while the dying animation finishes
+	public void CloseHurtboxes() {
+		foreach (Transform child in transform) {
+			if (child.gameObject.tag == "EnemyHitbox") {
+				child.gameObject.SetActive(false);
+			}
 		}
 	}
 

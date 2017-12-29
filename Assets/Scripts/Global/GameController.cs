@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour {
 	TransitionController tc;
 
 	bool toRespawn = false;
-	GameObject teleportTarget = null;
+	public string teleportTarget = null;
 	
 	void Start() {
 		playerRespawnPoint = pc.transform.position;
@@ -152,7 +152,7 @@ public class GameController : MonoBehaviour {
 		}
 		else if (teleportTarget != null) {
 			//if we're moving to a new TP location instead
-			pc.transform.position = teleportTarget.transform.position;
+			pc.transform.position = GameObject.Find(teleportTarget).transform.position;
 			teleportTarget = null;
 			Debug.Log("leaving ground");
 			pc.LeaveGround();
