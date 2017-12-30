@@ -58,7 +58,6 @@ public class NPC : Interactable {
 	//to be called by UIController on player pressing enter if a dialogue box is open
 	public void AdvanceLine() {
 		//if at the last line, the UI controller will close everything and unlink from this NPC
-		print("current line: " + (currentLine) + "\n conversation length: " + convos[currentConvo].Count);
 		if (++currentLine == convos[currentConvo].Count) {
 			uc.CloseDialogue();
 			currentConvo++;
@@ -70,8 +69,6 @@ public class NPC : Interactable {
 
 		FinishLine(currentConvo, currentLine);
 
-		print(currentConvo);
-		print(currentLine);
 		uc.RenderLine(convos[currentConvo][currentLine]);
 	}
 

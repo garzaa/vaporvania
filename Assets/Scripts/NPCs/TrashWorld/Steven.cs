@@ -7,7 +7,7 @@ public class Steven : NPC {
 	public override void CreateDialogue() {
 		List<string> testConvo = new List<string>();
 		testConvo.Add("Nice sword!\nIt really ties the look together.");
-		testConvo.Add("Really, though, I expected more from one of you.");
+		testConvo.Add("Really, though, I expected more from one of you sentient clouds.");
 		testConvo.Add("!...");
 		
 		convos.Add(testConvo);
