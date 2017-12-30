@@ -58,10 +58,6 @@ public class PlayerController : Entity
     public bool dashing = false;
     public bool dashCooldown = false;
 
-    //a few frames' window to parry (vapor+attack) when also pressing movement keys, since dash is (vapor+move)
-    int dashTimeout = 0;
-    int FRAME_WINDOW = 5;
-
     public bool savePossible = false;
     public GameController gc;
 
@@ -74,6 +70,9 @@ public class PlayerController : Entity
     Interactable interactable;
 
     FightController fc;
+
+    //for dialogue (also so it can be changed in-game?)
+    public string playerName = "VAL";
 
 	void Start () {
         Flip();

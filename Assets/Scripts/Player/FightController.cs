@@ -15,7 +15,7 @@ public class FightController : MonoBehaviour {
 	}
 
 	public void Attack() {
-        if (pc.attackCooldown || pc.parrying) {
+        if (pc.attackCooldown || pc.parrying || pc.frozen) {
             return;
         }
 
