@@ -12,7 +12,7 @@ public class PlayerController : Entity
     public float airControlRatio = .7f;
 
 	public bool grounded = false;
-    private bool wallSliding = false;
+    public bool wallSliding = false;
 
     private Animator anim;
     public Rigidbody2D rb2d;
@@ -73,10 +73,13 @@ public class PlayerController : Entity
     bool interactPossible = false;
     Interactable interactable;
 
+    FightController fc;
+
 	void Start () {
         Flip();
         anim = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
+        fc = GetComponent<FightController>();
         swinging = false;
         grounded = false;
         anim.SetBool("falling", true);
@@ -105,7 +108,7 @@ public class PlayerController : Entity
 	void FixedUpdate() {
         Jump();
         Move();
-		Attack();
+		fc.Attack();
     }
 
     public void HitGround(Collision2D col) {
@@ -190,57 +193,6 @@ public class PlayerController : Entity
         anim.SetBool("falling", false);
     }
 
-	void Attack() {
-        if (attackCooldown || parrying) {
-            return;
-        }
-        //if dashTimeout > 0, that means the player has pressed Shift down in the last few frames
-        if (Input.GetKeyDown(KeyCode.Z) && (Input.GetKey(KeyCode.LeftShift) || dashTimeout > 0) && !swinging && !dashing) {
-            dashTimeout = 0;
-            Parry();
-        } 
-        
-        else if (Input.GetKeyDown(KeyCode.D) && !invincible) {
-            Die();
-        }
-
-        else if (Input.GetKeyDown(KeyCode.Z) && CanGroundAttack()) {
-            //in case of canceling another attack somehow
-            //InterruptAttack();
-            anim.SetTrigger("groundAttack");
-            rb2d.velocity = new Vector2(0, rb2d.velocity.y);
-		} 
-        
-        else if (Input.GetKeyDown(KeyCode.Z) && !grounded && !swinging && !wallSliding && !dashing) {
-            AirAttack();
-        }
-
-        //can be generous with key checking here for reasons below
-        else if ((Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.DownArrow))
-                || (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKey(KeyCode.DownArrow))) {
-            Dodge();
-        }
-
-        //on pressing shift, wait a few frames to dash to give the player a window to press Z to parry
-        //the dash timwout won't be started if the player has already started parrying, which is checked for at the start of this function
-        else if (HorizontalInput() && Input.GetKeyDown(KeyCode.LeftShift)) {
-            dashTimeout = FRAME_WINDOW;
-        }
-        
-        //decrement the timer after pressing shift to dash, but leave a window for input combos
-        if (dashTimeout > 0) {
-            dashTimeout--;
-            if (dashTimeout <= 0 && !frozen) {
-                Dash();
-            }
-        }
-	}
-
-    void Parry() {
-        InterruptAttack();
-        anim.SetTrigger("parry");
-    }
-
     /**
     This adds a small force opposite the wall and freezes the player for a moment so they don't 
     immediately move back to it.
@@ -269,7 +221,7 @@ public class PlayerController : Entity
         }
 
         //interaction
-        if (Input.GetKeyDown(KeyCode.X)) {
+        if (Input.GetKeyDown(KeyCode.C)) {
             if (savePossible && grounded) {
                 gc.Save(this.savePoint);
             } else if (interactPossible) {
@@ -385,7 +337,7 @@ public class PlayerController : Entity
         this.wallSliding = true;
     }
 		
-    bool HorizontalInput()
+    public bool HorizontalInput()
     {
         return Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow);
     }
@@ -411,10 +363,6 @@ public class PlayerController : Entity
 
     void ResetAttackCooldown() {
         this.attackCooldown = false;
-    }
-
-    void AirAttack() {
-        anim.SetTrigger("airAttack");
     }
 
     public void StartParrying() {
@@ -499,7 +447,7 @@ public class PlayerController : Entity
         this.comboWindow = false;
     }
 
-    private bool CanGroundAttack() {
+    public bool CanGroundAttack() {
         if (!grounded) return false;
         //fix the down arrow check, combine inputs more gracefully
         return (!swinging && !Input.GetKey(KeyCode.DownArrow)) || (comboWindow);
