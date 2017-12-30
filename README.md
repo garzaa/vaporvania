@@ -32,8 +32,10 @@ done:
 - hitstop on attack connect
 - parry and riposte on melee hit
 - hurt animation
-- death
-- dash
+- death and respawning
+- dash, with upgrades
+- level transitions
+- NPC dialogue
 
 ### gameplay gifs
 ![dash!](https://68.media.tumblr.com/de29d78f722bb799a518e2f4f491bfbd/tumblr_ovey38k7zT1tk26l4o1_400.gif)
