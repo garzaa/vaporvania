@@ -24,6 +24,8 @@ public class Enemy : Entity {
 
 	[HideInInspector] public EnemyBehavior[] behaviors;
 
+	bool dead = false;
+
 	// Use this for initialization
 	void Start () {
 		rb2d = this.GetComponent<Rigidbody2D>();
@@ -36,7 +38,7 @@ public class Enemy : Entity {
 
 	public void DamageFor(int dmg) {
 		this.hp -= dmg;
-		if (this.hp <= 0) {
+		if (this.hp <= 0 && !dead) {
 			Die();
 		}
 	}
@@ -47,6 +49,7 @@ public class Enemy : Entity {
 
 	public void Die(){
 		this.frozen = true;
+		this.dead = true;
 		DropPickups();
 		CloseHurtboxes();
 		if (this.GetComponent<Animator>() != null) {
