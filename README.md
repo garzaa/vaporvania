@@ -20,7 +20,7 @@ A vaporwave-themed metroidvania that's still in development. Play a small demo [
 `X`: interact with save points and NPCs (when you see the prompt)
 
 ### what's happening now
-I'm working on making movement and combat feel as fluid and satisfying as I can.
+I'm working on UI-related things like inventory and NPC dialogue.
 
 done:
 - wall-jumping
