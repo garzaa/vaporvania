@@ -7,12 +7,9 @@ public class Sign : Interactable {
 
 	public string text;
 
-	PlayerController pc;
-
 	UIController uc;
 
 	void Start() {
-		pc = GameObject.Find("Player").GetComponent<PlayerController>();
 		uc = GameObject.Find("GameController").GetComponent<UIController>();
 	}
 

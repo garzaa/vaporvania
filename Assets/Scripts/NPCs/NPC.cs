@@ -25,11 +25,14 @@ public class NPC : Interactable {
 	UIController uc;
 
 	void Start() {
-		pc = GameObject.Find("Player").GetComponent<PlayerController>();
 		uc = GameObject.Find("GameController").GetComponent<UIController>();
 		ambientLines = new List<string>();
 		convos = new List<List<string>>();
 		CreateDialogue();
+	}
+
+	void GetPlayer() {
+		pc = GameObject.Find("Player").GetComponent<PlayerController>();
 	}
 
 	//to be overwritten by individual NPC controllers.

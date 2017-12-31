@@ -37,11 +37,11 @@ public class FightController : MonoBehaviour {
         //neutral-air vs down-air
         else if (Input.GetKeyDown(KeyCode.Z) && 
             !(Input.GetKey(KeyCode.DownArrow)) &&
-            !pc.grounded && !pc.swinging && !pc.wallSliding && !pc.dashing) {
+            CanAirAttack()) {
             AirAttack();
         } else if (Input.GetKeyDown(KeyCode.Z) && 
             (Input.GetKey(KeyCode.DownArrow)) &&
-            !pc.grounded && !pc.swinging && !pc.wallSliding && !pc.dashing) {
+            CanAirAttack()) {
             DownAir();
         }
 
@@ -69,10 +69,10 @@ public class FightController : MonoBehaviour {
     }
 
     void DownAir() {
-        //cancel any upward momentum to simulate a short-hop
-        if (rb2d.velocity.y > 0) {
-            rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
-        }
         anim.SetTrigger("downAir");
+    }
+
+    bool CanAirAttack() {
+        return (!pc.grounded && !pc.swinging && !pc.wallSliding && !pc.dashing);
     }
 }

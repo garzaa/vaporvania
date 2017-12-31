@@ -24,6 +24,9 @@ public class Enemy : Entity {
 
 	[HideInInspector] public EnemyBehavior[] behaviors;
 
+	Material whiteMaterial;
+	bool white;
+
 	bool dead = false;
 
 	// Use this for initialization
