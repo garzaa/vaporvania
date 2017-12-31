@@ -21,7 +21,7 @@ public class GroundCollider : MonoBehaviour {
 	}
 
 	void OnCollisionStay2D(Collision2D col) {
-		if (col.collider.tag.Contains("platform")) {
+		if (col.collider.tag.Contains("platform") && col.gameObject.GetComponent<Collider2D>().bounds.max.y <= this.GetComponent<BoxCollider2D>().bounds.min.y) {
 			player.StayOnGround(col);
 		}
 	}
