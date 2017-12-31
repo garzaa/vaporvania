@@ -70,8 +70,8 @@ public class Enemy : Entity {
 		}
 		if (hasAnimator && !dead) {
 			anim.SetTrigger("hurt");
+			DamageFor(other.gameObject.GetComponent<HurtboxController>().damage);
 		}
-		DamageFor(other.gameObject.GetComponent<HurtboxController>().damage);
 	}
 
 	//for each added behavior, call it

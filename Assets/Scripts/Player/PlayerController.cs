@@ -116,7 +116,7 @@ public class PlayerController : Entity
             grounded = true;
             anim.SetBool("grounded", true);
             //cancel an aerial attack
-            StopSwinging();
+            swinging = false;
             //anim.SetBool("grounded", true);
             StopFalling();
             StopWallSliding();
@@ -325,7 +325,7 @@ public class PlayerController : Entity
     void StopWallSliding()
     {
         anim.SetBool("wallSliding", false);
-        anim.SetBool("falling", true);
+        if (!grounded) anim.SetBool("falling", true);
         this.wallSliding = false;
     }
 
@@ -339,14 +339,6 @@ public class PlayerController : Entity
     public bool HorizontalInput()
     {
         return Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.LeftArrow);
-    }
-
-    void StartSwinging() {
-        this.swinging = true;
-    }
-
-    void StopSwinging() {
-        this.swinging = false;
     }
 
     public void AttackCooldown(float seconds) {
@@ -364,9 +356,6 @@ public class PlayerController : Entity
         this.attackCooldown = false;
     }
 
-    public void StartParrying() {
-        this.parrying = true;
-    }
     public void StopParrying() {
         this.parrying = false;
     }
@@ -438,10 +427,6 @@ public class PlayerController : Entity
         }
     }
 
-    public void OpenComboWindow() {
-        this.comboWindow = true;
-    }
-
     public void CloseComboWindow() {
         this.comboWindow = false;
     }
@@ -497,12 +482,9 @@ public class PlayerController : Entity
     }
 
     public void OnMonsterHit(Collider2D boneHurtingCollider) {
-        if (parrying) {
-            //the special parry hitbox takes precedence here
+        if (parrying || invincible || inHitstop) {
             return;
         }
-
-        if (invincible || inHitstop) return;
 
         int dmg;
         if (boneHurtingCollider.GetComponent<HurtboxController>() != null) {
@@ -572,6 +554,7 @@ public class PlayerController : Entity
         anim.SetTrigger("riposte");
         cameraShaker.SmallShake();
     }
+
     public void Dash() {
         if (dashCooldown || dashing || parrying) {
             return;
@@ -678,6 +661,7 @@ public class PlayerController : Entity
         anim.SetBool("dead", false);
         anim.SetTrigger("respawn");
         FullHeal();
+        
         //see what happens when you make your sprites all face left?
         if (!facingRight) {
             Flip();
