@@ -52,7 +52,7 @@ public class NPC : Interactable {
 			currentConvo = convos.Count - 1;
 		}
 
-		uc.RenderLine(convos[currentConvo][currentLine]);
+		uc.RenderDialogue(convos[currentConvo][currentLine]);
 	}
 
 	//to be called by UIController on player pressing enter if a dialogue box is open
@@ -69,7 +69,7 @@ public class NPC : Interactable {
 
 		FinishLine(currentConvo, currentLine);
 
-		uc.RenderLine(convos[currentConvo][currentLine]);
+		uc.RenderDialogue(convos[currentConvo][currentLine]);
 	}
 
 	public bool HasNext() {

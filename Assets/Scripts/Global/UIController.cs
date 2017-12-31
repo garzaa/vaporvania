@@ -24,11 +24,16 @@ public class UIController : MonoBehaviour {
 	public Sprite playerPortrait;
 	public Text speakerName;
 
+	//signs
+	Sign currentSign;
+	public Sprite signPortrait;
+
 	void Start() {
 		gc = GetComponent<GameController>();
 		pc = GameObject.Find("Player").GetComponent<PlayerController>();
 		HideDialogueUI();
 		ClearText();
+		ClearPortrait();
 	}
 
 	void Update() {
@@ -43,6 +48,8 @@ public class UIController : MonoBehaviour {
 	void CheckForLineAdvance() {
 		if (currentNPC != null && Input.GetKeyDown(KeyCode.Return)) {
 			currentNPC.AdvanceLine();
+		} else if (currentSign != null && Input.GetKeyDown(KeyCode.Return)) {
+			CloseDialogue();
 		}
 	}
 
@@ -88,16 +95,31 @@ public class UIController : MonoBehaviour {
 		ShowDialogueUI();
 	}
 
+	public void OpenDialogue(Sign sign) {
+		currentSign = sign;
+		SetPortrait(signPortrait);
+		pc.Freeze();
+		pc.SetInvincible(true);
+		ShowDialogueUI();
+		HideArrow();
+	}
+
 	//called by the NPC controller if the NPC is out of dialogue
 	public void CloseDialogue() {
 		pc.UnFreeze();
 		pc.SetInvincible(false);
 		this.currentNPC = null;
+		this.currentSign = null;
 		HideDialogueUI();
 	}
 
+	//for one-off signs
+	public void RenderText(string text) {
+		SetText(text);
+	}
+
 	//also called by the NPC controller, there's some intermediary parsing that goes on here
-	public void RenderLine(string line) {
+	public void RenderDialogue(string line) {
 		//setting the player portrait for a reply
 		if (line[0].Equals('!')) {
 			SetPortrait(playerPortrait);
@@ -131,6 +153,8 @@ public class UIController : MonoBehaviour {
 		currentPortrait.enabled = false;
 		dialogueText.enabled = false;
 		speakerName.enabled = false;
+		ClearText();
+		ClearName();
 	}
 
 	void SetText(string str) {
@@ -142,7 +166,15 @@ public class UIController : MonoBehaviour {
 	}
 
 	void SetPortrait(Sprite spr) {
+		if (spr == null) {
+			currentPortrait.enabled = false;
+			return;
+		}
 		currentPortrait.sprite = spr;
+	}
+
+	void ClearPortrait() {
+		currentPortrait.enabled = false;
 	}
 
 	void ShowArrow() {
@@ -155,6 +187,10 @@ public class UIController : MonoBehaviour {
 
 	void SetName(string name) {
 		speakerName.text = name;
+	}
+
+	void ClearName() {
+		SetName("");
 	}
 
 }

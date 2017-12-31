@@ -220,8 +220,8 @@ public class PlayerController : Entity
         }
 
         //interaction
-        if (Input.GetKeyDown(KeyCode.C)) {
-            if (savePossible && grounded && !frozen && !dashing) {
+        if (Input.GetKeyDown(KeyCode.C) && grounded && !frozen && !dashing) {
+            if (savePossible) {
                 gc.Save(this.savePoint);
             } else if (interactPossible) {
                 this.interactable.Interact(this.gameObject);
@@ -447,7 +447,12 @@ public class PlayerController : Entity
     }
 
     public bool CanGroundAttack() {
-        if (!grounded) return false;
+        if (!grounded){
+            return false;
+        }
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Roll") || anim.GetCurrentAnimatorStateInfo(0).IsName("HardLand")) {
+            return false;
+        }
         //fix the down arrow check, combine inputs more gracefully
         return (!swinging && !Input.GetKey(KeyCode.DownArrow)) || (comboWindow);
     }

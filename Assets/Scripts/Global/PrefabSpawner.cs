@@ -22,7 +22,8 @@ public class PrefabSpawner : MonoBehaviour {
 
 	IEnumerator Spawn() {
 		yield return new WaitForSeconds(interval);
-		Instantiate(toSpawn, this.transform.position, Quaternion.identity);
+		GameObject tmp = (GameObject) Instantiate(toSpawn, this.transform.position, Quaternion.identity);
+		tmp.transform.parent = this.transform;
 		StartCoroutine(Spawn());
 	}
 }
