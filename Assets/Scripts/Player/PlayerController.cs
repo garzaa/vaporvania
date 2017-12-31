@@ -221,7 +221,7 @@ public class PlayerController : Entity
 
         //interaction
         if (Input.GetKeyDown(KeyCode.C)) {
-            if (savePossible && grounded) {
+            if (savePossible && grounded && !frozen && !dashing) {
                 gc.Save(this.savePoint);
             } else if (interactPossible) {
                 this.interactable.Interact(this.gameObject);
