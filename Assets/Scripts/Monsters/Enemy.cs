@@ -68,7 +68,7 @@ public class Enemy : Entity {
 			}
 			Hitstop.Run(other.GetComponent<HurtboxController>().hitstop, this.gameObject);
 		}
-		if (hasAnimator) {
+		if (hasAnimator && !dead) {
 			anim.SetTrigger("hurt");
 		}
 		DamageFor(other.gameObject.GetComponent<HurtboxController>().damage);

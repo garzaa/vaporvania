@@ -566,15 +566,8 @@ public class PlayerController : Entity
         AttackCooldown(.2f);
     }
 
-    //hhhgngh animation events don't support booleans
-    public void MakeInvincible() {
-        SetInvincible(true);
-    }
-    public void MakeVincible() {
-        SetInvincible(false);
-    }
-
     public void Riposte(GameObject enemyParent) {
+        enemyParent.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         StopParrying();
         anim.SetTrigger("riposte");
         cameraShaker.SmallShake();
