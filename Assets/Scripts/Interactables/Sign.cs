@@ -14,7 +14,6 @@ public class Sign : Interactable {
 	}
 
 	public override void Interact(GameObject player) {
-		print("opening dialog");
 		uc.OpenDialogue(this);
 
 		uc.RenderText(text);
