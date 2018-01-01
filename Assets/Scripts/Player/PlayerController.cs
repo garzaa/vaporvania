@@ -74,11 +74,15 @@ public class PlayerController : Entity
     //for dialogue (also so it can be changed in-game?)
     public string playerName = "VAL";
 
+    GameObject hitmarker;
+
 	void Start () {
         Flip();
         anim = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         fc = GetComponent<FightController>();
+        hitmarker = (GameObject) Resources.Load("Prefabs/Particles/Hitmarker");
+
         swinging = false;
         grounded = false;
         anim.SetBool("falling", true);
@@ -493,6 +497,7 @@ public class PlayerController : Entity
         } else {
             dmg = 1;
         }
+        Instantiate(hitmarker, this.transform.position, Quaternion.identity);
         cameraShaker.SmallShake();
         this.StartHurting(dmg);
     }
