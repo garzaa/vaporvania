@@ -7,17 +7,17 @@ A vaporwave-themed metroidvania that's still in development. Play a small demo [
 
 `up`: jump (you can jump again in the air)
 
-`down`: drop through platform
+`down`: drop through platforms
 
 `Z`: attack (can chain two hits on the ground)
 
-`lshift`+`Z`: parry (reflects projectiles, high-damage riposte triggered on enemy melee contact)
+`X`+`Z`: parry (reflects projectiles, high-damage riposte triggered on enemy melee contact)
 
-`lshift`+`down`: spot-dodge (invincible for duration)
+`X`+`down`: spot-dodge (invincible for duration)
 
 `lshift`+`left`/`right`: dash (fully upgraded dash with invincibility/damage is unlocked for the dev build)
 
-`X`: interact with save points and NPCs (when you see the prompt)
+`C`: interact with save points and NPCs (when you see the prompt)
 
 ### what's happening now
 I'm working on UI-related things like inventory and NPC dialogue.
