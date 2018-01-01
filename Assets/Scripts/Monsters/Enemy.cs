@@ -25,9 +25,12 @@ public class Enemy : Entity {
 	[HideInInspector] public EnemyBehavior[] behaviors;
 
 	Material whiteMaterial;
+	Material defaultMaterial;
 	bool white;
 
 	bool dead = false;
+
+	public SpriteRenderer spr;
 
 	// Use this for initialization
 	void Start () {
@@ -37,6 +40,10 @@ public class Enemy : Entity {
 			this.hasAnimator = true;
 		}
 		behaviors = this.GetComponents<EnemyBehavior>();
+
+		spr = this.GetComponent<SpriteRenderer>();
+		defaultMaterial = spr.material;
+		whiteMaterial = Resources.Load<Material>("Shaders/WhiteFlash");
 	}
 
 	public void DamageFor(int dmg) {
@@ -64,17 +71,20 @@ public class Enemy : Entity {
 
 	public void CheckDamage(Collider2D other) {
 		//if it's a player sword
-		if (other.tag.Equals("sword") || other.tag.Equals("playerAttack")) {
+		if (other.tag.Equals("sword") || other.tag.Equals("playerAttack") && hasAnimator && !dead) {
 			int scale = playerObject.GetComponent<PlayerController>().facingRight ? 1: -1;
 			if (other.GetComponent<HurtboxController>() != null){
 				this.rb2d.velocity = (new Vector2(other.GetComponent<HurtboxController>().knockbackVector.x * scale, other.GetComponent<HurtboxController>().knockbackVector.y));
 			}
-			Hitstop.Run(other.GetComponent<HurtboxController>().hitstop, this.gameObject);
-		}
-		if (hasAnimator && !dead) {
+
 			anim.SetTrigger("hurt");
 			DamageFor(other.gameObject.GetComponent<HurtboxController>().damage);
+			WhiteSprite();
+			white = true;
+
+			Hitstop.Run(other.GetComponent<HurtboxController>().hitstop, this.gameObject);
 		}
+
 	}
 
 	//for each added behavior, call it
@@ -83,6 +93,10 @@ public class Enemy : Entity {
 			eb.Move();
 		}
 		CheckFlip();
+		if (white) {
+			white = false;
+			StartCoroutine(normalSprite());
+		}
 	}
 
 	public void DropPickups() {
@@ -108,5 +122,14 @@ public class Enemy : Entity {
 
 	public void DropMoney() {
 
+	}
+
+	public void WhiteSprite() {
+        spr.material = whiteMaterial;
+    }
+
+	IEnumerator normalSprite() {
+		yield return new WaitForSeconds(.05f);
+		spr.material = defaultMaterial;
 	}
 }
