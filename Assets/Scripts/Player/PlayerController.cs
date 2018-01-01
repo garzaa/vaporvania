@@ -27,7 +27,7 @@ public class PlayerController : Entity
     public float ROLL_VELOCITY = -4f;
     public float DASH_SPEED = 20f;
     Vector2 preDashVelocity;
-    bool fastFalling = false;
+    public bool fastFalling = false;
 
     List<KeyCode> forcedInputs;
 
@@ -65,7 +65,7 @@ public class PlayerController : Entity
     private Collider2D playerTrigger;
     public GameObject savePoint;
 
-    public bool animateSpawn = true;
+    public bool animateSpawn = false;
     bool interactPossible = false;
     Interactable interactable;
 
@@ -102,6 +102,7 @@ public class PlayerController : Entity
         if (animateSpawn) {
             Respawn();
         }
+        LeaveGround();
     }
 
 	void FixedUpdate() {
@@ -111,13 +112,13 @@ public class PlayerController : Entity
     }
 
     public void HitGround(Collision2D col) {
-        InterruptAttack();
+        Debug.Log("first line of hitground");
         if (col.transform.position.y < this.transform.position.y) {
-            grounded = true;
+            InterruptAttack();
+            this.grounded = true;
             anim.SetBool("grounded", true);
             //cancel an aerial attack
             swinging = false;
-            //anim.SetBool("grounded", true);
             StopFalling();
             StopWallSliding();
             
@@ -646,9 +647,6 @@ public class PlayerController : Entity
             other.GetComponent<Interactable>().AddPrompt();
             savePossible = true;
             savePoint = other.gameObject;
-        }
-        if (other.gameObject.tag == "savepoint" && frozen) {
-            other.GetComponent<Interactable>().RemovePrompt();
         }
     }
 
