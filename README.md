@@ -1,4 +1,7 @@
-A vaporwave-themed metroidvania that's still in development. Play a small demo [here](https://adriangarza.github.io/vaporvania).
+A vaporwave-themed metroidvania that's still in development. 
+
+### [demo](https://adriangarza.github.io/vaporvania)
+(can play in-browser)
 
 ### controls
 `left`/`right`: run
