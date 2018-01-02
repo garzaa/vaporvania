@@ -56,14 +56,17 @@ public class GameController : MonoBehaviour {
 	public void Save(GameObject sp) {
 		//also need to find a way to freeze the player until the animation is finished
 		//also hide them, but there's already a method for that
+		if (pc.frozen) {
+			return;
+		}
+		//then lock further inputs
+		pc.Freeze();
 		this.savePoint = sp;
 		pc.Hide();
 		//then move the player character to the save point so it doesn't look weird
 		pc.transform.position = new Vector3(sp.transform.position.x, pc.transform.position.y, pc.transform.position.z);
 		//also, cancel their momentum
 		pc.rb2d.velocity = Vector3.zero;
-		//then lock further inputs
-		pc.Freeze();
 		pc.SetInvincible(true);
 		//finally, heal
 		pc.FullHeal();

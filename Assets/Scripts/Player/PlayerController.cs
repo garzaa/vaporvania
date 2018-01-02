@@ -225,7 +225,7 @@ public class PlayerController : Entity
 
         //interaction
         if (Input.GetKeyDown(KeyCode.C) && grounded && !frozen && !dashing) {
-            if (savePossible) {
+            if (savePossible && !anim.GetCurrentAnimatorStateInfo(0).IsName("Spawn")) {
                 gc.Save(this.savePoint);
             } else if (interactPossible) {
                 this.interactable.Interact(this.gameObject);
@@ -389,7 +389,7 @@ public class PlayerController : Entity
         //this should always be called
         this.CloseAllHurtboxes();
         this.CloseComboWindow();
-        this.frozen = false;
+        UnFreeze();
         //InterruptDash();
         //right now you can jump cancel parries, but it could be a bit OP
         if (!swinging && !parrying) return;
