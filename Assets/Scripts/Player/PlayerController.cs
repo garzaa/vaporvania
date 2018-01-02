@@ -116,7 +116,6 @@ public class PlayerController : Entity
     }
 
     public void HitGround(Collision2D col) {
-        Debug.Log("first line of hitground");
         if (col.transform.position.y < this.transform.position.y) {
             InterruptAttack();
             this.grounded = true;
@@ -516,6 +515,8 @@ public class PlayerController : Entity
     }
 
     public void Die() {
+        InterruptAttack();
+        InterruptDash();
         this.Freeze();
         FreezeInSpace();
         SetInvincible(true);
