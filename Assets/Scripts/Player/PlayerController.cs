@@ -383,6 +383,7 @@ public class PlayerController : Entity
     }
     
     public void UnFreeze() {
+        print("yeet");
         this.frozen = false;
     }
 
@@ -390,13 +391,11 @@ public class PlayerController : Entity
         //this should always be called
         this.CloseAllHurtboxes();
         this.CloseComboWindow();
-        UnFreeze();
         //InterruptDash();
         //right now you can jump cancel parries, but it could be a bit OP
         if (!swinging && !parrying) return;
         this.swinging = false;
         StopParrying();
-        this.UnFreeze();
         this.attackCooldown = false;
     }
 
