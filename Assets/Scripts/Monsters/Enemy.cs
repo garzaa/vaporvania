@@ -107,7 +107,7 @@ public class Enemy : Entity {
 	public void DropHealth() {
 		if (Random.Range(0f, 1f) < healthChance) {
 			GameObject h = (GameObject) Instantiate(healthPrefab, this.transform.position, Quaternion.identity);
-			h.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-1, 1), Random.Range(1, 3));
+			h.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-1, 1), Random.Range(3, 5));
 		}
 	}
 
