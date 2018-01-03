@@ -88,6 +88,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void Respawn() {
+		pc.Freeze();
 		if (SceneManager.GetActiveScene().name.Equals(playerRespawnScene)) {
 			pc.transform.position = playerRespawnPoint;
 			pc.Respawn();
@@ -116,7 +117,6 @@ public class GameController : MonoBehaviour {
 			//if we're moving to a new TP location instead
 			pc.transform.position = GameObject.Find(teleportTarget).transform.position;
 			teleportTarget = null;
-			Debug.Log("leaving ground");
 			pc.LeaveGround();
 		}
 	}

@@ -24,7 +24,7 @@ public class PlayerController : Entity
 
     public bool attackCooldown = false;
 
-    public float ROLL_VELOCITY = -4f;
+    public float ROLL_VELOCITY = -5f;
     public float DASH_SPEED = 20f;
     Vector2 preDashVelocity;
     public bool fastFalling = false;
@@ -110,9 +110,9 @@ public class PlayerController : Entity
     }
 
 	void FixedUpdate() {
-        Jump();
-        Move();
 		fc.Attack();
+        Move();
+        Jump();
     }
 
     public void HitGround(Collision2D col) {
@@ -273,11 +273,11 @@ public class PlayerController : Entity
         }
 
         //flip sprites depending on movement direction
-        if (!facingRight && rb2d.velocity.x > 0 && !Input.GetKey(KeyCode.LeftArrow))
+        if (!facingRight && rb2d.velocity.x > 0 && !Input.GetKey(KeyCode.LeftArrow) && !frozen)
         {
             Flip();
         }
-        else if (facingRight && rb2d.velocity.x < 0 && !Input.GetKey(KeyCode.RightArrow))
+        else if (facingRight && rb2d.velocity.x < 0 && !Input.GetKey(KeyCode.RightArrow) && !frozen)
         {
             Flip();
         }
@@ -381,6 +381,7 @@ public class PlayerController : Entity
     public void Freeze() {
         this.frozen = true;
     }
+    
     public void UnFreeze() {
         this.frozen = false;
     }
@@ -517,7 +518,8 @@ public class PlayerController : Entity
     public void Die() {
         InterruptAttack();
         InterruptDash();
-        this.Freeze();
+        
+        Freeze();
         FreezeInSpace();
         SetInvincible(true);
         anim.SetBool("dead", true);
@@ -662,8 +664,11 @@ public class PlayerController : Entity
 
     public void Respawn() {
         SetInvincible(false);
-        anim.SetBool("dead", false);
         anim.SetTrigger("respawn");
+
+        //this line right here makes it so that the player can interrupt the respawn animation
+        anim.SetBool("dead", false);
+        
         FullHeal();
         
         //see what happens when you make your sprites all face left?
