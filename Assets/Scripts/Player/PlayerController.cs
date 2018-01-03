@@ -24,8 +24,8 @@ public class PlayerController : Entity
 
     public bool attackCooldown = false;
 
-    public float ROLL_VELOCITY = -5f;
-    public float DASH_SPEED = 20f;
+    float ROLL_VELOCITY = -5f;
+    float DASH_SPEED = 20f;
     Vector2 preDashVelocity;
     public bool fastFalling = false;
 
@@ -383,7 +383,6 @@ public class PlayerController : Entity
     }
     
     public void UnFreeze() {
-        print("yeet");
         this.frozen = false;
     }
 
