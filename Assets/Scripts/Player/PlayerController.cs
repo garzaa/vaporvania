@@ -162,10 +162,8 @@ public class PlayerController : Entity
     public void LeaveGround() {
         grounded = false;
         anim.SetBool("grounded", false);
-        if (!dashing) {
-            if (rb2d.velocity.y < 0) {
-              anim.SetTrigger("fall");
-            }
+        if (!dashing && !Input.GetKey(KeyCode.UpArrow)) {
+            anim.SetTrigger("fall");
         }
         platformTouching = null;
     }
