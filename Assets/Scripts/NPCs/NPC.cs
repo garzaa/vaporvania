@@ -10,7 +10,7 @@ public class NPC : Interactable {
 	public List<string> ambientLines;
 
 	//then a list of sub-trees for actual dialogue lines
-	public List<List<string>> convos;
+	public List<Conversation> convos;
 
 	//keeping track of where they are in the conversation tree
 	public int currentConvo;
@@ -27,7 +27,7 @@ public class NPC : Interactable {
 	void Start() {
 		uc = GameObject.Find("GameController").GetComponent<UIController>();
 		ambientLines = new List<string>();
-		convos = new List<List<string>>();
+		convos = new List<Conversation>();
 		CreateDialogue();
 	}
 
@@ -61,7 +61,7 @@ public class NPC : Interactable {
 	//to be called by UIController on player pressing enter if a dialogue box is open
 	public void AdvanceLine() {
 		//if at the last line, the UI controller will close everything and unlink from this NPC
-		if (++currentLine == convos[currentConvo].Count) {
+		if (++currentLine == convos[currentConvo].Length()) {
 			uc.CloseDialogue();
 			currentConvo++;
 			currentLine = 0;
@@ -76,12 +76,28 @@ public class NPC : Interactable {
 	}
 
 	public bool HasNext() {
-		return (currentLine+1 < convos[currentConvo].Count);
+		return (currentLine+1 < convos[currentConvo].Length());
 	}
 
 	//called at the end of every conversation subtree when the dialogue is closed
 	//can be a hook for NPC-specific functions
 	public virtual void FinishLine(int convo, int line) {
 		
+	}
+
+	//default NPC name and portrait
+	public DialogueLine MakeLine(string content) {
+		return new DialogueLine(content, this.npcName, 0);
+	}
+
+	//default NPC name
+	//if the image is <0, then it'll just use the player name
+	public DialogueLine MakeLine(string content, int image) {
+		return new DialogueLine(content, "", image);
+	}
+
+	//making all the info
+	public DialogueLine MakeLine(string content, string name, int image) {
+		return new DialogueLine(content, name, image);
 	}
 }

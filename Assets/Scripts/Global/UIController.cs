@@ -119,24 +119,16 @@ public class UIController : MonoBehaviour {
 	}
 
 	//also called by the NPC controller, there's some intermediary parsing that goes on here
-	public void RenderDialogue(string line) {
+	public void RenderDialogue(DialogueLine line) {
 		//setting the player portrait for a reply
-		if (line[0].Equals('!')) {
+		if (line.image < 0) {
 			SetPortrait(playerPortrait);
-			line = line.Substring(1);
 			SetName(pc.playerName);
 		} else {
-			SetPortrait(currentNPC.portraits[0]);
-			SetName(currentNPC.npcName);
+			SetPortrait(currentNPC.portraits[line.image]);
+			SetName(line.name);
 		}
-
-		SetText(line);
-
-		if (currentNPC.HasNext()) {
-			ShowArrow();
-		} else {
-			HideArrow();
-		}
+		SetText(line.text);
 	}
 
 	void ShowDialogueUI() {
