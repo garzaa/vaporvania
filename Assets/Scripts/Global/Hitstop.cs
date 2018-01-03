@@ -40,7 +40,14 @@ public class Hitstop : MonoBehaviour{
 		}
 		pc.GetComponent<Animator>().speed = 0;
 		Vector2 lastV = rb2d.velocity;
-		enemyParent.GetComponent<Enemy>().FreezeInSpace();
+
+		//don't want to unfreeze the enemy afterwards if they're already frozen for some reason
+		//so if they're not already frozen, then freeze them and store that info
+		bool frozenEnemy = false;
+		if (!enemyParent.GetComponent<Enemy>().frozenInSpace) {
+			enemyParent.GetComponent<Enemy>().FreezeInSpace();
+			frozenEnemy = true;
+		}
 		yield return new WaitForSeconds(seconds);
 
 		//then undo everything
@@ -51,7 +58,10 @@ public class Hitstop : MonoBehaviour{
 
 		//the enemy might have died
 		if (enemyParent != null) {
-			enemyParent.GetComponent<Enemy>().UnFreezeInSpace();
+			//also then unfreeze them if they were frozen from hitstop
+			if (frozenEnemy) {
+				enemyParent.GetComponent<Enemy>().UnFreezeInSpace();
+			}
 			rb2d.velocity = lastV;
 			enemyParent.GetComponent<Enemy>().inHitstop = false;
 		}

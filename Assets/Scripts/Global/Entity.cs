@@ -11,6 +11,7 @@ public class Entity : MonoBehaviour {
     [HideInInspector] public bool facingRight = true;
     [HideInInspector] public bool movingRight = false;
     public bool frozen = false;
+    public bool frozenInSpace = false;
 
     public GameObject dustSprite;
 
@@ -51,6 +52,7 @@ public class Entity : MonoBehaviour {
         Rigidbody2D rb2d;
         if ((rb2d = GetComponent<Rigidbody2D>()) != null) {
             rb2d.constraints = RigidbodyConstraints2D.FreezeAll;
+            this.frozenInSpace = true;
         }
     }
 
@@ -58,6 +60,7 @@ public class Entity : MonoBehaviour {
         Rigidbody2D rb2d;
         if ((rb2d = GetComponent<Rigidbody2D>()) != null) {
             rb2d.constraints = RigidbodyConstraints2D.FreezeRotation;
+            this.frozenInSpace = false;
         }
     }
 
