@@ -7,9 +7,9 @@ public class PlayerController : Entity
     public int hp = 10;
     public int maxHP = 10;
 
-    public float jumpSpeed = 5f;
-    public float moveSpeed = 5f;
-    public float airControlRatio = .7f;
+    float jumpSpeed = 5f;
+    float moveSpeed = 4f;
+    float airControlRatio = .7f;
 
 	public bool grounded = false;
     public bool wallSliding = false;
@@ -24,15 +24,17 @@ public class PlayerController : Entity
 
     public bool attackCooldown = false;
 
+    float TERMINAL_VELOCITY = -10f;
     float ROLL_VELOCITY = -5f;
     float DASH_SPEED = 20f;
     Vector2 preDashVelocity;
-    public bool fastFalling = false;
+    bool fastFalling = false;
+    bool terminalFalling = false;
 
     List<KeyCode> forcedInputs;
 
-    public int maxAirJumps = 0;
-    private int airJumps;
+    int maxAirJumps = 1;
+    int airJumps;
 
     [HideInInspector] public GameObject platformTouching;
 
@@ -75,6 +77,13 @@ public class PlayerController : Entity
     public string playerName = "VAL";
 
     GameObject hitmarker;
+
+    //analog jump, oboy
+    //so the player jumps at 5f and it decreases until it hits zero
+    //so then what should the cutoff be? should you be able to jump to 50% height?
+    //let's say the cutoff is 3f
+    //if the player's y-velocity is above this and the jump key is released, then set their y-velocity to this instead
+    float JUMP_CUTOFF = 2f;
 
 	void Start () {
         Flip();
@@ -125,14 +134,19 @@ public class PlayerController : Entity
             StopFalling();
             StopWallSliding();
             
-            if (fastFalling) {
+            if (fastFalling || terminalFalling) {
                 if (HorizontalInput()) {
                     anim.SetTrigger("roll");
                 } else {
                     anim.SetTrigger("hardLand");
                 }
                 CreateDust();
+
+                if (terminalFalling) {
+                    cameraShaker.SmallShake();
+                }
             }
+            
         }
         this.airJumps = maxAirJumps;
 
@@ -313,6 +327,20 @@ public class PlayerController : Entity
             this.fastFalling = true;
         } else {
             this.fastFalling = false;
+        }
+
+        if (rb2d.velocity.y < TERMINAL_VELOCITY) {
+            this.terminalFalling = true;
+            rb2d.velocity = new Vector2(rb2d.velocity.x, TERMINAL_VELOCITY);
+        } else {
+            this.terminalFalling = false;
+        }
+
+        //emulate an analog jump
+        //if the jump button is released
+        if (Input.GetKeyUp(KeyCode.UpArrow) && rb2d.velocity.y > JUMP_CUTOFF) {
+            //then clamp the y velocity to the jump cutoff
+            rb2d.velocity = new Vector2(rb2d.velocity.x, JUMP_CUTOFF);
         }
     }
 

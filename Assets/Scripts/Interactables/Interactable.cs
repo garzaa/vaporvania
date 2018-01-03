@@ -19,7 +19,9 @@ public class Interactable : MonoBehaviour {
 				float upperBound = spr.bounds.max.y;
 				float yPos = upperBound + TOP_MARGIN + promptPrefab.GetComponent<SpriteRenderer>().bounds.extents.y;
 				currentPrompt = (GameObject) Instantiate(promptPrefab, new Vector2(this.transform.position.x, yPos), Quaternion.identity);
-			} else {
+			} 
+			//otherwise just do it above the gameobject's center
+			else {
 				currentPrompt = (GameObject) Instantiate(promptPrefab, new Vector2(this.transform.position.x, this.transform.position.y + TOP_MARGIN), Quaternion.identity);
 			}
 		}
@@ -36,5 +38,9 @@ public class Interactable : MonoBehaviour {
 
 	public virtual void Interact(GameObject player) {
 		//to be extended by child classes
+	}
+
+	void Start() {
+		this.gameObject.layer = LayerMask.NameToLayer("Interactables");
 	}
 }
