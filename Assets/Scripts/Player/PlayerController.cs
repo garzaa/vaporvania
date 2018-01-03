@@ -422,6 +422,7 @@ public class PlayerController : Entity
         this.swinging = false;
         StopParrying();
         this.attackCooldown = false;
+        anim.SetBool("running", false);
     }
 
     void resetJumps() {
@@ -689,9 +690,6 @@ public class PlayerController : Entity
     public void Respawn() {
         SetInvincible(false);
         anim.SetTrigger("respawn");
-
-        //this line right here makes it so that the player can interrupt the respawn animation
-        anim.SetBool("dead", false);
         
         FullHeal();
         
@@ -700,5 +698,9 @@ public class PlayerController : Entity
             Flip();
         }
         Show();
+    }
+
+    public void SetLiveAnimation() {
+        anim.SetBool("dead", false);
     }
 }
