@@ -598,7 +598,9 @@ public class PlayerController : Entity
     }
 
     public void Riposte(GameObject enemyParent) {
-        enemyParent.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        if (enemyParent.GetComponent<Rigidbody2D>() != null) {
+            enemyParent.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        }
         StopParrying();
         anim.SetTrigger("riposte");
         cameraShaker.SmallShake();
