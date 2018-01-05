@@ -22,7 +22,7 @@ public class Breakable : SelfDestruct {
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		if (other.gameObject.tag == "playerAttack" && !broken) {
+		if (other.gameObject.tag == Tags.playerAttack && !broken) {
 			Break();
 		}
 	}

@@ -647,12 +647,12 @@ public class PlayerController : Entity
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-		if (other.gameObject.tag == "savepoint" && !frozen) {
+		if (other.gameObject.tag == Tags.savepoint && !frozen) {
             other.GetComponent<Interactable>().AddPrompt();
             savePoint = other.gameObject;
 			savePossible = true;
 		}
-        else if (other.gameObject.tag == "interactable") {
+        else if (other.gameObject.tag == Tags.interactable) {
             other.GetComponent<Interactable>().AddPrompt();
             this.interactable = other.GetComponent<Interactable>();
             this.interactPossible = true;
@@ -663,12 +663,12 @@ public class PlayerController : Entity
         if (other.transform.IsChildOf(transform)) {
             return;
         }
-		if (other.gameObject.tag == "savepoint") {
+		if (other.gameObject.tag == Tags.Sa) {
             other.GetComponent<Interactable>().RemovePrompt();
             savePoint = null;
 			savePossible = false;
 		}
-        else if (other.gameObject.tag == "interactable") {
+        else if (other.gameObject.tag == Tags.interactable) {
             other.GetComponent<Interactable>().RemovePrompt();
             this.interactable = null;
             this.interactPossible = false;
@@ -676,7 +676,7 @@ public class PlayerController : Entity
 	}
 
     void OnTriggerStay2D(Collider2D other) {
-        if (other.gameObject.tag == "savepoint") {
+        if (other.gameObject.tag == Tags.interactable) {
             other.GetComponent<Interactable>().AddPrompt();
             savePossible = true;
             savePoint = other.gameObject;

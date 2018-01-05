@@ -8,7 +8,7 @@ public class HeartDropController : MonoBehaviour {
 	public GameObject hitmarker;
 
 	void OnCollisionEnter2D(Collision2D col) {
-		if (col.gameObject.tag == "Player") {
+		if (col.gameObject.tag == Tags.Player) {
 			col.gameObject.GetComponent<PlayerController>().GetHealth(this.health);
 			Instantiate(hitmarker, this.transform.position, Quaternion.identity);
 			Destroy(this.gameObject);
