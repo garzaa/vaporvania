@@ -85,7 +85,7 @@ public class PlayerController : Entity
     //so then what should the cutoff be? should you be able to jump to 50% height?
     //let's say the cutoff is 3f
     //if the player's y-velocity is above this and the jump key is released, then set their y-velocity to this instead
-    float JUMP_CUTOFF = 2f;
+    float JUMP_CUTOFF = 2.5f;
 
 	void Start () {
         Flip();
@@ -127,7 +127,8 @@ public class PlayerController : Entity
     }
 
     public void HitGround(Collision2D col) {
-        if (col.transform.position.y < this.transform.position.y) {
+        if (col.transform.position.y < this.transform.position.y
+            && rb2d.velocity.y < 0) {
             InterruptAttack();
             this.grounded = true;
             anim.SetBool("grounded", true);
@@ -164,7 +165,9 @@ public class PlayerController : Entity
     public void LeaveGround() {
         grounded = false;
         anim.SetBool("grounded", false);
-        if (!dashing && !Input.GetKey(KeyCode.UpArrow)) {
+        if ((!dashing && !Input.GetKey(KeyCode.UpArrow)) 
+            //passing upwards through a platform
+            || rb2d.velocity.y > 0) {
             anim.SetTrigger("fall");
         }
         platformTouching = null;
@@ -185,29 +188,40 @@ public class PlayerController : Entity
     void Jump() {
         if (!(
             (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow)) && 
-            (grounded || wallSliding || airJumps >= 0)
+            (grounded || wallSliding || airJumps > 0)
         ) || frozen) {
                 return;
         }
 
-        if (!grounded || !wallSliding) {
-            airJumps--;
-        }
-        if (wallSliding)
+        if (wallSliding && !grounded)
         {
             //jump away from the current wall, and freeze player inputs so they don't instantly move back
             StartCoroutine(WallJump());
-        } else
-        {
+            anim.SetBool("grounded", false);
+            anim.SetTrigger("jump");
+            anim.SetBool("falling", false);
+        } 
+        
+        else if (!wallSliding && !grounded) {
+            airJumps--;
+            anim.SetBool("grounded", false);
+            anim.SetTrigger("airJump");
+            anim.SetBool("falling", false);
+            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed * 1.2f);
+            CreateDust();
+            InterruptAttack();
+        } 
+        
+        else {
+            anim.SetBool("grounded", false);
+            anim.SetTrigger("jump");
+            anim.SetBool("falling", false);
             CreateDust();
             rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed);
 
             //right now you can jump-cancel attacks and parries
             InterruptAttack();
         }
-        anim.SetBool("grounded", false);
-        anim.SetTrigger("jump");
-        anim.SetBool("falling", false);
     }
 
     /**
