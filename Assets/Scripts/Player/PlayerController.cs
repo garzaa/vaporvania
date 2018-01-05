@@ -7,6 +7,8 @@ public class PlayerController : Entity
     public int hp = 10;
     public int maxHP = 10;
 
+    public int BASE_ATTACK_DMG = 1;
+
     float jumpSpeed = 5f;
     float moveSpeed = 4f;
     float airControlRatio = .7f;
@@ -24,7 +26,7 @@ public class PlayerController : Entity
 
     public bool attackCooldown = false;
 
-    float TERMINAL_VELOCITY = -10f;
+    float TERMINAL_VELOCITY = -8f;
     float ROLL_VELOCITY = -5f;
     float DASH_SPEED = 20f;
     Vector2 preDashVelocity;
@@ -55,8 +57,8 @@ public class PlayerController : Entity
 
     public CameraShaker cameraShaker;
 
-    public bool VAPOR_DASH = false;
-    public bool DAMAGE_DASH = false;
+    public bool VAPOR_DASH = true;
+    public bool DAMAGE_DASH = true;
     public bool dashing = false;
     public bool dashCooldown = false;
 
@@ -518,7 +520,7 @@ public class PlayerController : Entity
 
         int dmg;
         if (boneHurtingCollider.GetComponent<HurtboxController>() != null) {
-            dmg = boneHurtingCollider.GetComponent<HurtboxController>().damage;
+            dmg = boneHurtingCollider.GetComponent<HurtboxController>().GetDamage();
         } else {
             dmg = 1;
         }
@@ -531,7 +533,7 @@ public class PlayerController : Entity
         if (invincible) return;
         int dmg = 1;
         if (boneHurtingCollider.GetComponent<HurtboxController>() != null) {
-            dmg = boneHurtingCollider.GetComponent<HurtboxController>().damage;
+            dmg = boneHurtingCollider.GetComponent<HurtboxController>().GetDamage();
         }
         this.StartHurting(dmg);
     }
@@ -663,7 +665,7 @@ public class PlayerController : Entity
         if (other.transform.IsChildOf(transform)) {
             return;
         }
-		if (other.gameObject.tag == Tags.Sa) {
+		if (other.gameObject.tag == Tags.savepoint) {
             other.GetComponent<Interactable>().RemovePrompt();
             savePoint = null;
 			savePossible = false;

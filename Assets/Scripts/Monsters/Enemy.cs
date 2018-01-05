@@ -81,7 +81,7 @@ public class Enemy : Entity {
 
 			if (!invincible) {
 				anim.SetTrigger("hurt");
-				DamageFor(other.gameObject.GetComponent<HurtboxController>().damage);
+				DamageFor(other.gameObject.GetComponent<HurtboxController>().GetDamage());
 				WhiteSprite();
 				white = true;
 			}
