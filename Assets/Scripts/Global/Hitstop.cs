@@ -39,7 +39,11 @@ public class Hitstop : MonoBehaviour{
 			parentAnim.speed = 0;
 		}
 		pc.GetComponent<Animator>().speed = 0;
-		Vector2 lastV = rb2d.velocity;
+
+		Vector2 lastV = Vector2.zero;
+		if (rb2d != null) {
+			lastV = rb2d.velocity;
+		}
 
 		//don't want to unfreeze the enemy afterwards if they're already frozen for some reason
 		//so if they're not already frozen, then freeze them and store that info
@@ -62,7 +66,8 @@ public class Hitstop : MonoBehaviour{
 			if (frozenEnemy) {
 				enemyParent.GetComponent<Enemy>().UnFreezeInSpace();
 			}
-			rb2d.velocity = lastV;
+		
+			if (rb2d != null) rb2d.velocity = lastV;
 			enemyParent.GetComponent<Enemy>().inHitstop = false;
 		}
 

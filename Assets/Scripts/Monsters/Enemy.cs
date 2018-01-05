@@ -75,7 +75,8 @@ public class Enemy : Entity {
 		//if it's a player sword
 		if (other.tag.Equals("sword") || other.tag.Equals("playerAttack") && hasAnimator && !dead) {
 			int scale = playerObject.GetComponent<PlayerController>().facingRight ? 1: -1;
-			if (other.GetComponent<HurtboxController>() != null){
+			if (other.GetComponent<HurtboxController>() != null 
+				&& this.rb2d != null){
 				this.rb2d.velocity = (new Vector2(other.GetComponent<HurtboxController>().knockbackVector.x * scale, other.GetComponent<HurtboxController>().knockbackVector.y));
 			}
 
