@@ -127,8 +127,7 @@ public class PlayerController : Entity
     }
 
     public void HitGround(Collision2D col) {
-        if (col.transform.position.y < this.transform.position.y
-            && rb2d.velocity.y < 0) {
+        if (col.transform.position.y < this.transform.position.y) {
             InterruptAttack();
             this.grounded = true;
             anim.SetBool("grounded", true);
@@ -207,7 +206,7 @@ public class PlayerController : Entity
             anim.SetBool("grounded", false);
             anim.SetTrigger("airJump");
             anim.SetBool("falling", false);
-            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed * 1.2f);
+            rb2d.velocity = new Vector2(rb2d.velocity.x, jumpSpeed * 1.1f);
             CreateDust();
             InterruptAttack();
         } 
