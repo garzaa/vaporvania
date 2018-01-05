@@ -29,6 +29,7 @@ public class Enemy : Entity {
 	bool white;
 
 	bool dead = false;
+	public bool invincible = false;
 
 	public SpriteRenderer spr;
 
@@ -70,6 +71,7 @@ public class Enemy : Entity {
 	}
 
 	public void CheckDamage(Collider2D other) {
+
 		//if it's a player sword
 		if (other.tag.Equals("sword") || other.tag.Equals("playerAttack") && hasAnimator && !dead) {
 			int scale = playerObject.GetComponent<PlayerController>().facingRight ? 1: -1;
@@ -77,10 +79,12 @@ public class Enemy : Entity {
 				this.rb2d.velocity = (new Vector2(other.GetComponent<HurtboxController>().knockbackVector.x * scale, other.GetComponent<HurtboxController>().knockbackVector.y));
 			}
 
-			anim.SetTrigger("hurt");
-			DamageFor(other.gameObject.GetComponent<HurtboxController>().damage);
-			WhiteSprite();
-			white = true;
+			if (!invincible) {
+				anim.SetTrigger("hurt");
+				DamageFor(other.gameObject.GetComponent<HurtboxController>().damage);
+				WhiteSprite();
+				white = true;
+			}
 
 			Hitstop.Run(other.GetComponent<HurtboxController>().hitstop, this.gameObject);
 		}
@@ -114,8 +118,8 @@ public class Enemy : Entity {
 	//on death, remove damage dealing even though it'll live a little bit while the dying animation finishes
 	public void CloseHurtboxes() {
 		foreach (Transform child in transform) {
-			if (child.gameObject.tag == "EnemyHitbox") {
-				child.gameObject.SetActive(false);
+			if (child.gameObject.tag.Equals("enemyHitbox")) {
+				child.GetComponent<BoxCollider2D>().enabled = false;
 			}
 		}
 	}
