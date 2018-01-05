@@ -1,13 +1,15 @@
 fileFormatVersion: 2
-guid: 123fe01d476805c479dfe3d43dafb64c
-timeCreated: 1514754046
+guid: 76e97cd03d8f89846a27bb56bcd56634
+timeCreated: 1515113837
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: dair-spritesheet_0
-    21300002: dair-spritesheet_1
-    21300004: dair-spritesheet_2
-    21300006: dair-spritesheet_3
+    21300000: dair_0
+    21300002: dair_1
+    21300004: dair_2
+    21300006: dair_3
+    21300008: dair_4
+    21300010: dair_5
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -95,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: dair-spritesheet_0
+      name: dair_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 64
-        height: 65
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -109,13 +111,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: dair-spritesheet_1
+      name: dair_1
       rect:
         serializedVersion: 2
         x: 64
         y: 0
         width: 64
-        height: 65
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -123,13 +125,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: dair-spritesheet_2
+      name: dair_2
       rect:
         serializedVersion: 2
         x: 128
         y: 0
         width: 64
-        height: 65
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,13 +139,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: dair-spritesheet_3
+      name: dair_3
       rect:
         serializedVersion: 2
         x: 192
         y: 0
         width: 64
-        height: 65
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: dair_4
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: dair_5
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
