@@ -118,7 +118,7 @@ public class Enemy : Entity {
 	//on death, remove damage dealing even though it'll live a little bit while the dying animation finishes
 	public void CloseHurtboxes() {
 		foreach (Transform child in transform) {
-			if (child.gameObject.tag.Equals("enemyHitbox")) {
+			if (child.gameObject.tag.Equals(Tags.enemyHitbox)) {
 				child.GetComponent<BoxCollider2D>().enabled = false;
 			}
 		}
