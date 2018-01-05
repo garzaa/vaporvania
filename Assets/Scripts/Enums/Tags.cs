@@ -9,7 +9,7 @@ public abstract class Tags {
 	public const string killzone = "killzone";
 	public const string MainCamera = "MainCamera";
 	public const string platform = "platform";
-	public const string platformwall = "platform-wall";
+	public const string platformwall = "platformwall";
 	public const string Player = "Player";
 	public const string playerAttack = "playerAttack";
 	public const string Respawn = "Respawn";
