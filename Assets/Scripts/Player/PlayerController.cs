@@ -678,7 +678,7 @@ public class PlayerController : Entity
 	}
 
     void OnTriggerStay2D(Collider2D other) {
-        if (other.gameObject.tag == Tags.interactable) {
+        if (other.gameObject.tag == Tags.savepoint) {
             other.GetComponent<Interactable>().AddPrompt();
             savePossible = true;
             savePoint = other.gameObject;
