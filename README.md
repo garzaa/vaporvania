@@ -10,9 +10,9 @@ A vaporwave-themed metroidvania that's still in development.
 
 `down`: drop through platforms
 
-`Z`: attack (can chain two hits on the ground)
+`Z`: attack (can chain two hits on the ground), advance dialogue line
 
-`X`+`Z`: parry (reflects projectiles, high-damage riposte triggered on enemy melee contact)
+`X`: parry (reflects projectiles, high-damage riposte triggered on enemy melee contact)
 
 `X`+`down`: spot-dodge (invincible for duration)
 
