@@ -19,7 +19,7 @@ public class FightController : MonoBehaviour {
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.Z) && Input.GetKey(KeyCode.X) && !pc.swinging && !pc.dashing) {
+        if (Input.GetKey(KeyCode.X) && !Input.GetKeyDown(KeyCode.DownArrow) && !pc.swinging && !pc.dashing) {
             Parry();
         } 
         
@@ -29,9 +29,8 @@ public class FightController : MonoBehaviour {
 
         else if (Input.GetKeyDown(KeyCode.Z) && pc.CanGroundAttack()) {
             //in case of canceling another attack somehow
-            //InterruptAttack();
+            //InterruptAttack();   
             anim.SetTrigger("groundAttack");
-            rb2d.velocity = new Vector2(0, rb2d.velocity.y);
 		} 
         
         //neutral-air vs down-air

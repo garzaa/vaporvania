@@ -10,7 +10,7 @@ public class Enemy : Entity {
 	public int moveSpeed;
 	public int maxSpeed;
 
-	public bool inHitstop;
+	[HideInInspector] public bool inHitstop;
 
 	public float healthChance = 2f;
 	public float moneyChance = 0f;
@@ -29,9 +29,11 @@ public class Enemy : Entity {
 	bool white;
 
 	bool dead = false;
-	public bool invincible = false;
+	[HideInInspector] public bool invincible = false;
 
-	public SpriteRenderer spr;
+	public bool staggerable = true;
+
+	[HideInInspector] public SpriteRenderer spr;
 
 	// Use this for initialization
 	void Start () {
@@ -81,7 +83,9 @@ public class Enemy : Entity {
 			}
 
 			if (!invincible) {
-				anim.SetTrigger("hurt");
+				if (staggerable) {
+					anim.SetTrigger("hurt");
+				}
 				DamageFor(other.gameObject.GetComponent<HurtboxController>().GetDamage());
 				WhiteSprite();
 				white = true;
@@ -126,7 +130,10 @@ public class Enemy : Entity {
 	}
 
 	public void DropMoney() {
-
+		if (Random.Range(0f, 1f) < moneyChance) {
+			GameObject m = (GameObject) Instantiate(moneyPrefab, this.transform.position, Quaternion.identity);
+			m.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(Random.Range(-1, 1), Random.Range(3, 5));
+		}
 	}
 
 	public void WhiteSprite() {

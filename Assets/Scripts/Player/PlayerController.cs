@@ -35,7 +35,7 @@ public class PlayerController : Entity
 
     List<KeyCode> forcedInputs;
 
-    int maxAirJumps = 1;
+    public int maxAirJumps = 1;
     int airJumps;
 
     [HideInInspector] public GameObject platformTouching;
@@ -271,7 +271,7 @@ public class PlayerController : Entity
                 rb2d.velocity = new Vector2(-moveSpeed, rb2d.velocity.y);
             }
 
-            if ((rb2d.velocity.x != 0 || HorizontalInput()) && grounded)
+            if (rb2d.velocity.x != 0 && HorizontalInput() && grounded)
             {
                 anim.SetBool("running", true);
             }
@@ -719,5 +719,9 @@ public class PlayerController : Entity
 
     public void SetLiveAnimation() {
         anim.SetBool("dead", false);
+    }
+
+    public void ZeroVelocity() {
+        rb2d.velocity = Vector2.zero;
     }
 }

@@ -46,9 +46,9 @@ public class UIController : MonoBehaviour {
 	}
 
 	void CheckForLineAdvance() {
-		if (currentNPC != null && Input.GetKeyDown(KeyCode.Return)) {
+		if (currentNPC != null && Input.GetKeyDown(KeyCode.Z)) {
 			currentNPC.AdvanceLine();
-		} else if (currentSign != null && Input.GetKeyDown(KeyCode.Return)) {
+		} else if (currentSign != null && Input.GetKeyDown(KeyCode.Z)) {
 			CloseDialogue();
 		}
 	}
