@@ -6,12 +6,10 @@ public class FightController : MonoBehaviour {
 
 	PlayerController pc;
 	Animator anim;
-	Rigidbody2D rb2d;
 
 	void Start() {
 		pc = GetComponent<PlayerController>();
 		anim = GetComponent<Animator>();
-		rb2d = GetComponent<Rigidbody2D>();
 	}
 
 	public void Attack() {
@@ -19,7 +17,7 @@ public class FightController : MonoBehaviour {
             return;
         }
 
-        if (Input.GetKey(KeyCode.X) && !Input.GetKeyDown(KeyCode.DownArrow) && !pc.swinging && !pc.dashing) {
+        if (Input.GetKey(KeyCode.X) && !Input.GetKey(KeyCode.DownArrow) && !pc.swinging && !pc.dashing && pc.grounded) {
             Parry();
         } 
         
