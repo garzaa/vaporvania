@@ -80,11 +80,6 @@ public class PlayerController : Entity
 
     GameObject hitmarker;
 
-    //analog jump, oboy
-    //so the player jumps at 5f and it decreases until it hits zero
-    //so then what should the cutoff be? should you be able to jump to 50% height?
-    //let's say the cutoff is 3f
-    //if the player's y-velocity is above this and the jump key is released, then set their y-velocity to this instead
     float JUMP_CUTOFF = 2.5f;
 
 	void Start () {
@@ -260,41 +255,45 @@ public class PlayerController : Entity
         }
 
         //check for no opposite inputs to prevent moonwalking
-        if (grounded && HorizontalInput() && !swinging && !frozen)
-        {
-            if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
+        if (HorizontalInput() && !swinging && !frozen) {
+            if (grounded)
             {
-                rb2d.velocity = new Vector2(moveSpeed, rb2d.velocity.y);
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
-            {
-                rb2d.velocity = new Vector2(-moveSpeed, rb2d.velocity.y);
-            }
-
-            if (rb2d.velocity.x != 0 && HorizontalInput() && grounded)
-            {
-                anim.SetBool("running", true);
-            }
-        } else if (!grounded && HorizontalInput() && !swinging && !frozen)
-        {
-            //in the air, lessen control but maintain existing airspeed if moving at max
-            if (Input.GetKey(KeyCode.RightArrow) && rb2d.velocity.x < moveSpeed)
-            {
-                rb2d.velocity = new Vector2(rb2d.velocity.x + moveSpeed * airControlRatio, rb2d.velocity.y);
-            }
-            else if (Input.GetKey(KeyCode.LeftArrow) && rb2d.velocity.x > (moveSpeed * -1))
-            {
-                rb2d.velocity = new Vector2(-moveSpeed * airControlRatio, rb2d.velocity.y);
-            }
-            
-            //and then clamp the speed depending on movement direction
-            if (rb2d.velocity.x < 0) {
-                if (rb2d.velocity.x < -1 * moveSpeed) {
-                    rb2d.velocity = new Vector2(-1 * moveSpeed, rb2d.velocity.y);
+                if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
+                {
+                    rb2d.velocity = new Vector2(moveSpeed, rb2d.velocity.y);
                 }
-            } else {
-                if (rb2d.velocity.x > 1 * moveSpeed) {
-                    rb2d.velocity = new Vector2(1 * moveSpeed, rb2d.velocity.y);
+                else if (Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
+                {
+                    rb2d.velocity = new Vector2(-moveSpeed, rb2d.velocity.y);
+                }
+
+                //again, prevent moonwalking
+                if (rb2d.velocity.x != 0 && HorizontalInput() && grounded)
+                {
+                    anim.SetBool("running", true);
+                }
+            } 
+            else
+            {
+                //in the air, lessen control but maintain existing airspeed if moving at max
+                if (Input.GetKey(KeyCode.RightArrow) && rb2d.velocity.x < moveSpeed)
+                {
+                    rb2d.velocity = new Vector2(rb2d.velocity.x + moveSpeed * airControlRatio, rb2d.velocity.y);
+                }
+                else if (Input.GetKey(KeyCode.LeftArrow) && rb2d.velocity.x > (moveSpeed * -1))
+                {
+                    rb2d.velocity = new Vector2(-moveSpeed * airControlRatio, rb2d.velocity.y);
+                }
+                
+                //and then clamp the speed depending on movement direction
+                if (rb2d.velocity.x < 0) {
+                    if (rb2d.velocity.x < -1 * moveSpeed) {
+                        rb2d.velocity = new Vector2(-1 * moveSpeed, rb2d.velocity.y);
+                    }
+                } else {
+                    if (rb2d.velocity.x > 1 * moveSpeed) {
+                        rb2d.velocity = new Vector2(1 * moveSpeed, rb2d.velocity.y);
+                    }
                 }
             }
         }
@@ -484,7 +483,7 @@ public class PlayerController : Entity
             return false;
         }
         //fix the down arrow check, combine inputs more gracefully
-        return (!swinging && !Input.GetKey(KeyCode.DownArrow)) || (comboWindow);
+        return (!swinging && !Input.GetKey(KeyCode.DownArrow)) || comboWindow;
     }
 
     public void CyanSprite() {
