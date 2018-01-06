@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Sign : Interactable {
 
-
+	public Sprite portrait;
 	public string text;
+
+	public string signName = null;
 
 	UIController uc;
 

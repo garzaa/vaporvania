@@ -97,11 +97,19 @@ public class UIController : MonoBehaviour {
 
 	public void OpenDialogue(Sign sign) {
 		currentSign = sign;
-		SetPortrait(signPortrait);
+		if (sign.portrait != null) {
+			SetPortrait(sign.portrait);
+		} else {
+			SetPortrait(signPortrait);
+		}
+
+		if (!string.IsNullOrEmpty(sign.signName)) {
+			SetName(sign.signName);
+		}
+
 		pc.Freeze();
 		pc.SetInvincible(true);
 		ShowDialogueUI();
-		HideArrow();
 	}
 
 	//called by the NPC controller if the NPC is out of dialogue
