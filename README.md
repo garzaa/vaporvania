@@ -3,23 +3,6 @@ A vaporwave-themed metroidvania that's still in development.
 ### [demo](https://adriangarza.github.io/vaporvania)
 (can play in-browser)
 
-### controls
-`left`/`right`: run
-
-`up`: jump (you can jump again in the air)
-
-`down`: drop through platforms
-
-`Z`: attack (can chain two hits on the ground), advance dialogue line
-
-`X`: parry (reflects projectiles, high-damage riposte triggered on enemy melee contact)
-
-`X`+`down`: spot-dodge (invincible for duration)
-
-`lshift`+`left`/`right`: dash (fully upgraded dash with invincibility/damage is unlocked for the dev build)
-
-`C`: interact with save points and NPCs (when you see the prompt)
-
 ### what's happening now
 I'm working on UI-related things like inventory and NPC dialogue.
 
@@ -38,7 +21,7 @@ done:
 - level transitions
 - NPC dialogue
 
-### gameplay gifs
+### (old) gameplay gifs
 ![dash!](https://68.media.tumblr.com/de29d78f722bb799a518e2f4f491bfbd/tumblr_ovey38k7zT1tk26l4o1_400.gif)
 ![animation cancel!](https://78.media.tumblr.com/485fb20f6c272ae64cc0a9502b275975/tumblr_p22ndamOgi1tk26l4o1_400.gif)
 ![fight some more!](https://68.media.tumblr.com/6fc81e64f40611ba75ed299ec21504e1/tumblr_outf25Irw91tk26l4o1_400.gif)
