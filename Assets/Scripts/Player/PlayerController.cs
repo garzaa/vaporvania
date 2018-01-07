@@ -255,8 +255,8 @@ public class PlayerController : Entity
         }
 
         //check for no opposite inputs to prevent moonwalking
-        if (HorizontalInput() && !swinging && !frozen) {
-            if (grounded)
+        if (HorizontalInput()) {
+            if (grounded && !swinging && !frozen)
             {
                 if (Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow))
                 {
@@ -273,7 +273,7 @@ public class PlayerController : Entity
                     anim.SetBool("running", true);
                 }
             } 
-            else
+            else if (!grounded && !frozen)
             {
                 //in the air, lessen control but maintain existing airspeed if moving at max
                 if (Input.GetKey(KeyCode.RightArrow) && rb2d.velocity.x < moveSpeed)
