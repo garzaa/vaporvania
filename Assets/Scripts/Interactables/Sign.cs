@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//similar to an NPC, but you set the lines in the editor
 public class Sign : Interactable {
 
 	public Sprite portrait;

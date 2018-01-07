@@ -28,6 +28,8 @@ public class UIController : MonoBehaviour {
 	Sign currentSign;
 	public Sprite signPortrait;
 
+	bool openedThisFrame = false;
+
 	void Start() {
 		gc = GetComponent<GameController>();
 		pc = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -39,6 +41,10 @@ public class UIController : MonoBehaviour {
 	void Update() {
 		UpdateUI();
 		CheckForLineAdvance();
+		//don't immediately advance dialogue on the first opening
+		if (openedThisFrame) {
+			openedThisFrame = false;
+		}
 	}
 
 	void UpdateUI() {
@@ -46,10 +52,16 @@ public class UIController : MonoBehaviour {
 	}
 
 	void CheckForLineAdvance() {
-		if (currentNPC != null && Input.GetKeyDown(KeyCode.Z)) {
-			currentNPC.AdvanceLine();
-		} else if (currentSign != null && Input.GetKeyDown(KeyCode.Z)) {
-			CloseDialogue();
+		if (openedThisFrame) {
+			openedThisFrame = false;
+			return;
+		}
+		if (Input.GetKeyDown(KeyCode.C)) {
+			if (currentNPC != null) {
+				currentNPC.AdvanceLine();
+			} else if (currentSign != null) {
+				CloseDialogue();
+			}
 		}
 	}
 
@@ -88,6 +100,7 @@ public class UIController : MonoBehaviour {
 	}
 
 	public void OpenDialogue(NPC npc) {
+		openedThisFrame = true;
 		this.currentNPC = npc;
 		pc.Freeze();
 		pc.SetInvincible(true);
@@ -96,6 +109,7 @@ public class UIController : MonoBehaviour {
 	}
 
 	public void OpenDialogue(Sign sign) {
+		openedThisFrame = true;
 		currentSign = sign;
 		if (sign.portrait != null) {
 			SetPortrait(sign.portrait);
@@ -141,7 +155,7 @@ public class UIController : MonoBehaviour {
 
 	void ShowDialogueUI() {
 		dialogueBox.enabled = true;
-		advanceArrow.enabled = true;
+		//advanceArrow.enabled = true;
 		currentPortrait.enabled = true;
 		dialogueText.enabled = true;
 		speakerName.enabled = true;
@@ -175,14 +189,6 @@ public class UIController : MonoBehaviour {
 
 	void ClearPortrait() {
 		currentPortrait.enabled = false;
-	}
-
-	void ShowArrow() {
-		advanceArrow.enabled = true;
-	}
-
-	void HideArrow() {
-		advanceArrow.enabled = false;
 	}
 
 	void SetName(string name) {

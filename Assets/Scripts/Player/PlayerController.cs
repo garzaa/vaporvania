@@ -80,7 +80,7 @@ public class PlayerController : Entity
 
     GameObject hitmarker;
 
-    float JUMP_CUTOFF = 2.5f;
+    float JUMP_CUTOFF = 2.0f;
 
 	void Start () {
         Flip();
@@ -483,7 +483,7 @@ public class PlayerController : Entity
             return false;
         }
         //fix the down arrow check, combine inputs more gracefully
-        return (!swinging && !Input.GetKey(KeyCode.DownArrow)) || comboWindow;
+        return (!swinging || comboWindow);
     }
 
     public void CyanSprite() {
