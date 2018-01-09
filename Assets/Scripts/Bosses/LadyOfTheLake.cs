@@ -5,6 +5,7 @@ using UnityEngine;
 public class LadyOfTheLake : Boss {
 
     void Start() {
+        monologue = new List<DialogueLine>();
         AddLines();
     }
 
@@ -51,12 +52,12 @@ public class LadyOfTheLake : Boss {
         ));
         monologue.Add(new DialogueLine(
             "But not to you, yet.\n" +
-            "Are you here to kill? To maim?",
+            "Are you here to kill? To maim? To take what you can from these wastes?",
             this.bossName,
             0
         ));
         monologue.Add(new DialogueLine(
-            "Let's just get it over with.",
+            "Let's get it over with, then.",
             this.bossName,
             1
         ));
