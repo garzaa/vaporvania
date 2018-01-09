@@ -14,7 +14,7 @@ public class DialogueLine {
 
 	public DialogueLine(string text, string name, int image=0) {
 		this.text = text;
-		this.image = image;
 		this.name = name;
+		this.image = image;
 	}
 }

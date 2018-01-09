@@ -13,8 +13,14 @@ So the boss needs to:
 7. die
 8. reward the player
 9. update game state accordingly
- */
 
+so then the script will rely on:
+a ui controller to freeze the player and open dialogue
+a collider2d trigger to detect when the player enters the area
+some walls to lower? i guess it depends on the boss, maybe
+	the equivalent could just be disabling exits or whatever
+a game controller to store the final state
+ */
 
 public class Boss : Enemy {
 
@@ -27,7 +33,15 @@ public class Boss : Enemy {
 
 	BoxCollider2D activationTrigger;
 
-	bool fighting = false;
+	public bool fighting = false;
+
+	public Sprite[] bossPortraits;
+	public UIController uc;
+
+	public GameController gc;
+
+	public List<DialogueLine> monologue;
+	int currentLine = 0;
 
 	//always keep track of the player
 	void UpdatePlayerPos() {
@@ -35,6 +49,7 @@ public class Boss : Enemy {
 	}
 
 	new void Update() {
+		if (!fighting) return;
 		UpdatePlayerPos();
 		BossMove();
 	}
@@ -51,7 +66,20 @@ public class Boss : Enemy {
 	}
 
 	public virtual void StartFight() {
-		
+
 	}
 
+	public void AdvanceLine() {
+		if (++currentLine == monologue.Count) {
+			uc.CloseDialogue();
+			currentLine = 0;
+		} else {
+			uc.RenderDialogue(monologue[currentLine]);
+		}
+	}
+
+	//called when the intro dialogue is closed
+    public virtual void StopTalking() {
+        
+    }
 }

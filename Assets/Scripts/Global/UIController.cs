@@ -16,6 +16,7 @@ public class UIController : MonoBehaviour {
 
 	//dialogue
 	NPC currentNPC;	
+	Boss currentBoss;
 	//these are to be hooked up in the editor along with heart containers as above
 	public Image dialogueBox;
 	public Text dialogueText;
@@ -29,6 +30,8 @@ public class UIController : MonoBehaviour {
 	public Sprite signPortrait;
 
 	bool openedThisFrame = false;
+
+	bool dialogueOpen = false;
 
 	void Start() {
 		gc = GetComponent<GameController>();
@@ -57,7 +60,10 @@ public class UIController : MonoBehaviour {
 			return;
 		}
 		if (Input.GetKeyDown(KeyCode.C)) {
-			if (currentNPC != null) {
+			if (currentBoss != null) {
+				currentBoss.AdvanceLine();
+			}
+			else if (currentNPC != null) {
 				currentNPC.AdvanceLine();
 			} else if (currentSign != null) {
 				CloseDialogue();
@@ -100,15 +106,18 @@ public class UIController : MonoBehaviour {
 	}
 
 	public void OpenDialogue(NPC npc) {
+		if (dialogueOpen) return;
 		openedThisFrame = true;
 		this.currentNPC = npc;
 		pc.Freeze();
 		pc.SetInvincible(true);
 		SetPortrait(npc.portraits[0]);
 		ShowDialogueUI();
+		dialogueOpen = true;
 	}
 
 	public void OpenDialogue(Sign sign) {
+		if (dialogueOpen) return;
 		openedThisFrame = true;
 		currentSign = sign;
 		if (sign.portrait != null) {
@@ -124,6 +133,14 @@ public class UIController : MonoBehaviour {
 		pc.Freeze();
 		pc.SetInvincible(true);
 		ShowDialogueUI();
+		dialogueOpen = true;
+	}
+
+	public void OpenDialogue(Boss b) {
+		if (dialogueOpen) return;
+		openedThisFrame = true;
+		currentBoss = b;
+		dialogueOpen = true;
 	}
 
 	//called by the NPC controller if the NPC is out of dialogue
@@ -133,6 +150,11 @@ public class UIController : MonoBehaviour {
 		this.currentNPC = null;
 		this.currentSign = null;
 		HideDialogueUI();
+		dialogueOpen = false;
+		if (currentBoss != null) {
+			currentBoss.StopTalking();
+			currentBoss = null;
+		}
 	}
 
 	//for one-off signs
@@ -147,7 +169,11 @@ public class UIController : MonoBehaviour {
 			SetPortrait(playerPortrait);
 			SetName(pc.playerName);
 		} else {
-			SetPortrait(currentNPC.portraits[line.image]);
+			if (currentNPC != null) {
+				SetPortrait(currentNPC.portraits[line.image]);
+			} else if (currentBoss != null) {
+				SetPortrait(currentBoss.bossPortraits[line.image]);
+			}
 			SetName(line.name);
 		}
 		SetText(line.text);
@@ -198,5 +224,4 @@ public class UIController : MonoBehaviour {
 	void ClearName() {
 		SetName("");
 	}
-
 }
