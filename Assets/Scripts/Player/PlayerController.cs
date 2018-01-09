@@ -179,6 +179,10 @@ public class PlayerController : Entity
         anim.SetBool("falling", true);
     }
 
+    public void StayOnWall(Collision2D col) {
+
+    }
+
     void Jump() {
         if (!(
             (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow)) && 
@@ -449,7 +453,7 @@ public class PlayerController : Entity
         foreach (Transform hurtbox in hurtboxes.GetComponentInChildren<Transform>()) {
             if (hurtbox.name.Equals(hurtboxName)) {
                 this.currentHurtbox = hurtbox.gameObject;
-                hurtbox.GetComponent<BoxCollider2D>().enabled = true;
+                hurtbox.GetComponent<Collider2D>().enabled = true;
                 return;
             }
         }
@@ -458,15 +462,15 @@ public class PlayerController : Entity
 
     public void CloseHurtbox(string hurtboxName) {
         if (this.currentHurtbox != null) {
-            this.currentHurtbox.GetComponent<BoxCollider2D>().enabled = false;
+            this.currentHurtbox.GetComponent<Collider2D>().enabled = false;
         }
         this.currentHurtbox = null;
     }
 
     public void CloseAllHurtboxes() {
         foreach (Transform hurtbox in hurtboxes.GetComponentInChildren<Transform>()) {
-            if (hurtbox.GetComponent<BoxCollider2D>().enabled) {
-                hurtbox.GetComponent<BoxCollider2D>().enabled = false;
+            if (hurtbox.GetComponent<Collider2D>().enabled) {
+                hurtbox.GetComponent<Collider2D>().enabled = false;
             } 
         }
     }

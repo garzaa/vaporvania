@@ -14,7 +14,7 @@ public class Breakable : SelfDestruct {
 			anim = GetComponent<Animator>();
 		}
 		foreach (Transform child in transform) {
-			if (child.GetComponent<BoxCollider2D>()) {
+			if (child.GetComponent<Collider2D>()) {
 				wallCollider = child.gameObject;
 				return;
 			}
