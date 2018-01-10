@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class LadyOfTheLake : Boss {
 
+    int eyeCount;
+    public GameObject eyeContainer;
+
     void Start() {
         monologue = new List<DialogueLine>();
         AddLines();
+        eyeCount = eyeContainer.transform.childCount;
     }
+
 
     public override void BossMove() {
         //maybe check for one of a few actions to take?
@@ -65,5 +70,9 @@ public class LadyOfTheLake : Boss {
 
     public override void StopTalking() {
         StartFight();
+    }
+
+    void CloseEye() {
+
     }
 }
