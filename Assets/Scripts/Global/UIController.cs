@@ -31,7 +31,7 @@ public class UIController : MonoBehaviour {
 
 	bool openedThisFrame = false;
 
-	bool dialogueOpen = false;
+	public bool dialogueOpen = false;
 
 	void Start() {
 		gc = GetComponent<GameController>();
@@ -110,6 +110,7 @@ public class UIController : MonoBehaviour {
 		openedThisFrame = true;
 		this.currentNPC = npc;
 		pc.Freeze();
+		pc.ZeroVelocity();
 		pc.SetInvincible(true);
 		SetPortrait(npc.portraits[0]);
 		ShowDialogueUI();
@@ -131,16 +132,23 @@ public class UIController : MonoBehaviour {
 		}
 
 		pc.Freeze();
+		pc.ZeroVelocity();
 		pc.SetInvincible(true);
 		ShowDialogueUI();
 		dialogueOpen = true;
 	}
 
-	public void OpenDialogue(Boss b) {
+	public void OpenDialogue(Boss boss) {
 		if (dialogueOpen) return;
 		openedThisFrame = true;
-		currentBoss = b;
+		currentBoss = boss;
 		dialogueOpen = true;
+		pc.Freeze();
+		pc.ZeroVelocity();
+		pc.SetInvincible(true);
+		SetName(boss.bossName);
+		SetPortrait(boss.bossPortraits[0]);
+		ShowDialogueUI();
 	}
 
 	//called by the NPC controller if the NPC is out of dialogue

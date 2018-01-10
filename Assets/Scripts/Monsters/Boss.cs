@@ -56,7 +56,7 @@ public class Boss : Enemy {
 
 
 	void OnTriggerEnter2D(Collider2D other) {
-		if (other.gameObject.CompareTag(Tags.Player)) {
+		if (other.gameObject.CompareTag(Tags.Player) && !fighting) {
 			StartFight();
 		}
 	}
@@ -71,8 +71,8 @@ public class Boss : Enemy {
 
 	public void AdvanceLine() {
 		if (++currentLine == monologue.Count) {
-			uc.CloseDialogue();
 			currentLine = 0;
+			uc.CloseDialogue();
 		} else {
 			uc.RenderDialogue(monologue[currentLine]);
 		}

@@ -243,7 +243,7 @@ public class PlayerController : Entity
 
         //stop the player if they're moving on the ground
         //check if it's less than 1 because unity does weird smoothing on arrow key inputs
-        if (Mathf.Abs(h) < 1 && grounded)
+        if ((Mathf.Abs(h) < 1 && grounded) || frozen)
         {
             rb2d.velocity = new Vector2(0, rb2d.velocity.y);
             anim.SetBool("running", false);

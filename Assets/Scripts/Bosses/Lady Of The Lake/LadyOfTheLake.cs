@@ -7,10 +7,12 @@ public class LadyOfTheLake : Boss {
     int eyeCount;
     public GameObject eyeContainer;
 
-    void Initialize() {
+    public override void Initialize() {
         monologue = new List<DialogueLine>();
         AddLines();
         eyeCount = eyeContainer.transform.childCount;
+        uc = GameObject.Find("GameController").GetComponent<UIController>();
+        gc = uc.GetComponent<GameController>();
     }
 
 
@@ -32,6 +34,8 @@ public class LadyOfTheLake : Boss {
     }
 
     public override void StartFight() {
+        //disable further player interactions
+        GetComponent<BoxCollider2D>().enabled = false;
         if (!foughtBefore) {
             Intro();
         } else {
@@ -41,7 +45,9 @@ public class LadyOfTheLake : Boss {
     }
 
     void Intro() {
-
+        this.foughtBefore = true;
+        uc.OpenDialogue(this);
+        uc.RenderDialogue(monologue[0]);
     }
 
     void AddLines() {
@@ -56,15 +62,24 @@ public class LadyOfTheLake : Boss {
             0
         ));
         monologue.Add(new DialogueLine(
-            "But not to you, yet.\n" +
+            "But not to you, yet.\n",
+            this.bossName,
+            0
+        ));
+        monologue.Add(new DialogueLine(
             "Are you here to kill? To maim? To take what you can from these wastes?",
             this.bossName,
             0
         ));
         monologue.Add(new DialogueLine(
-            "Let's get it over with, then.",
+            "...",
+            "VAL",
+            -1
+        ));
+        monologue.Add(new DialogueLine(
+            "Get it over with, then.",
             this.bossName,
-            1
+            0
         ));
     }
 

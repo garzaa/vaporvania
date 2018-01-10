@@ -7,6 +7,7 @@ public class HurtboxController : MonoBehaviour {
 	public float hitstop = .04f;
 	public bool cameraShake = false;
 	public Vector2 knockbackVector = new Vector2(3, 1);
+	public GameObject hitmarker;
 
 	PlayerController pc;
 
