@@ -33,9 +33,9 @@ public class Enemy : Entity {
 
 	public bool staggerable = true;
 
-	[HideInInspector] public SpriteRenderer spr;
+	public SpriteRenderer spr;
 
-	// Use this for initialization
+	//WHHY ISNT THIS BEING CALLED ON BOSS INIT
 	void Start () {
 		rb2d = this.GetComponent<Rigidbody2D>();
 		playerObject = GameObject.Find("Player");
@@ -47,6 +47,11 @@ public class Enemy : Entity {
 		spr = this.GetComponent<SpriteRenderer>();
 		defaultMaterial = spr.material;
 		whiteMaterial = Resources.Load<Material>("Shaders/WhiteFlash");
+		Initialize();
+	}
+
+	public virtual void Initialize() {
+
 	}
 
 	public void DamageFor(int dmg) {
@@ -73,19 +78,22 @@ public class Enemy : Entity {
 	}
 
 	public void CheckDamage(Collider2D other) {
-
 		//if it's a player sword
-		if (other.tag.Equals("sword") || other.tag.Equals("playerAttack") && hasAnimator && !dead) {
-			int scale = playerObject.GetComponent<PlayerController>().facingRight ? 1: -1;
-			if (other.GetComponent<HurtboxController>() != null 
-				&& this.rb2d != null){
-				this.rb2d.velocity = (new Vector2(other.GetComponent<HurtboxController>().knockbackVector.x * scale, other.GetComponent<HurtboxController>().knockbackVector.y));
-			}
-
+		if (other.CompareTag(Tags.sword) || other.CompareTag(Tags.playerAttack) && !dead) {
 			if (!invincible) {
 				if (staggerable) {
-					anim.SetTrigger("hurt");
+
+					if (hasAnimator) {
+						anim.SetTrigger("hurt");
+					}
+
+					int scale = playerObject.GetComponent<PlayerController>().facingRight ? 1: -1;
+					if (other.GetComponent<HurtboxController>() != null && this.rb2d != null) {
+						this.rb2d.velocity = (new Vector2(other.GetComponent<HurtboxController>().knockbackVector.x * scale, 
+							other.GetComponent<HurtboxController>().knockbackVector.y));
+					}
 				}
+
 				DamageFor(other.gameObject.GetComponent<HurtboxController>().GetDamage());
 				WhiteSprite();
 				white = true;
@@ -106,6 +114,11 @@ public class Enemy : Entity {
 			white = false;
 			StartCoroutine(normalSprite());
 		}
+		ExtendedUpdate();
+	}
+
+	public virtual void ExtendedUpdate() {
+
 	}
 
 	public void DropPickups() {

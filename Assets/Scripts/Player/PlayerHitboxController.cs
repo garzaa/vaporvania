@@ -11,7 +11,7 @@ public class PlayerHitboxController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D boneHurtingCollider) {
-		if (boneHurtingCollider.gameObject.tag.Equals("enemyHitbox")) {
+		if (boneHurtingCollider.gameObject.CompareTag(Tags.enemyHurtbox)) {
 			pc.OnMonsterHit(boneHurtingCollider);
 		} else if(boneHurtingCollider.gameObject.tag.Equals("envDamage")) {
 			pc.OnEnvDamage(boneHurtingCollider);

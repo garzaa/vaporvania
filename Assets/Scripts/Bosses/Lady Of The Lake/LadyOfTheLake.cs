@@ -7,7 +7,7 @@ public class LadyOfTheLake : Boss {
     int eyeCount;
     public GameObject eyeContainer;
 
-    void Start() {
+    void Initialize() {
         monologue = new List<DialogueLine>();
         AddLines();
         eyeCount = eyeContainer.transform.childCount;
@@ -72,7 +72,9 @@ public class LadyOfTheLake : Boss {
         StartFight();
     }
 
-    void CloseEye() {
-
+    void CloseEye(int eyeNum) {
+        GameObject e = eyeContainer.transform.GetChild(eyeCount).gameObject;
+        e.GetComponent<BoxCollider2D>().enabled = false;
+        e.GetComponent<SpriteRenderer>().enabled = false;
     }
 }

@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour {
 
-    SpriteRenderer myRenderer;
-    Shader shaderGUItext;
-    Shader shaderSpritesDefault;
-
     [HideInInspector] public bool facingRight = true;
     [HideInInspector] public bool movingRight = false;
     public bool frozen = false;

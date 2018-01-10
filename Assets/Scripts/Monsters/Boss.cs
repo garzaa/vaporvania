@@ -48,7 +48,7 @@ public class Boss : Enemy {
 		this.playerPos = playerObject.transform.position;
 	}
 
-	new void Update() {
+	public override void ExtendedUpdate() {
 		if (!fighting) return;
 		UpdatePlayerPos();
 		BossMove();
