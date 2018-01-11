@@ -83,4 +83,8 @@ public class Boss : Enemy {
     public virtual void StopTalking() {
         
     }
+
+	public void StartMoving() {
+		this.moving = true;
+	}
 }

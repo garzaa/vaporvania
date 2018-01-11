@@ -33,6 +33,7 @@ public class Enemy : Entity {
 	[HideInInspector] public bool invincible = false;
 
 	public bool staggerable = true;
+	public bool killzoneSusceptible = true;
 
 	public SpriteRenderer spr;
 

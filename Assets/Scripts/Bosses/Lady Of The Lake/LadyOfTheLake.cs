@@ -11,6 +11,12 @@ public class LadyOfTheLake : Boss {
     //or just nest it in an empty gameobject, actually, and then change its animator
     public GameObject tiledSludgeContainer;
 
+    //for the sludge throwing attack
+    public GameObject thrownSludge;
+    //initial vector for throwing sludges, the y value will decrease and she'll throw three at the player
+    public Vector2 sludgeVector;
+    public Transform sludgePoint;
+
     public override void Initialize() {
         monologue = new List<DialogueLine>();
         AddLines();
@@ -22,12 +28,15 @@ public class LadyOfTheLake : Boss {
 
     public override void BossMove() {
         //maybe check for one of a few actions to take?
-        if (!fighting || moving) return;
-        FloodStage();
+        if (!fighting || !moving) return;
+        ThrowSludges();
     }
 
-    void SpawnSludges() {
-        //throw three sludges at the player
+    //move back and throw three sludges at the player
+    public void ThrowSludges() {
+        moving = false;
+        anim.SetTrigger("throwSludges");
+        //and then set moving to true at the end of the sludge throwing animation
     }
 
     void MeleeAttack() {
@@ -36,14 +45,14 @@ public class LadyOfTheLake : Boss {
 
     void FloodStage() {
         //disperse into sludge and flood the bottom of the stage
-        moving = true;
-        anim.SetTrigger("descend");
-        StartCoroutine(WaitAndFloodStage(1f));
-        StartCoroutine(WaitAndRise(5f));
+        moving = false;
+        StartCoroutine(WaitAndFloodStage(5f));
+        StartCoroutine(WaitAndRise(9f));
     }
 
     IEnumerator WaitAndFloodStage(float seconds) {
         yield return new WaitForSeconds(seconds);
+        anim.SetTrigger("descend");
         tiledSludgeContainer.GetComponent<Animator>().SetTrigger("rise");
     }
 
@@ -122,10 +131,20 @@ public class LadyOfTheLake : Boss {
     void CloseEye(int eyeNum) {
         GameObject e = eyeContainer.transform.GetChild(eyeCount).gameObject;
         e.GetComponent<BoxCollider2D>().enabled = false;
-        e.GetComponent<SpriteRenderer>().enabled = false;
+        e.GetComponent<Animator>().SetTrigger("close");
     }
 
     public override void OnDamage() {
         //if the current health is below a certain fraction of its total and more than enough eyes are open, close one
+        
     }
+
+    public void ThrowSludgeball(int sludgeNum) {
+        print("threw a sludge");
+        GameObject sludge = (GameObject) Instantiate(thrownSludge, sludgePoint.position, Quaternion.identity);
+        float xVec = sludgeVector.x;
+        float yVec = sludgeVector.y;
+        sludge.GetComponent<Rigidbody2D>().velocity = new Vector2(-xVec, yVec / sludgeNum);
+        }
+     
 }
