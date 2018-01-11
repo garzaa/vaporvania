@@ -15,9 +15,7 @@ public class HitboxController : MonoBehaviour {
 			//this works for tiny enemies, we might have to have multiple hitboxes on bosses (or SOMETHING else with dynamically calculating 
 			//the collision midway point based on relative positions of the two hitboxes)
 			GameObject h = (GameObject) Instantiate(hitmarker, this.transform.position, Quaternion.identity);
-			print(other.name);
 			if (hurtbox.flipHitmarker) {
-				print("ASDasd");
 				h.GetComponent<SpriteRenderer>().flipX = true;
 			}
 
