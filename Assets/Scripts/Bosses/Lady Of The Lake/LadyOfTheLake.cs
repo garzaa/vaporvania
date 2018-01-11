@@ -23,6 +23,7 @@ public class LadyOfTheLake : Boss {
     public override void BossMove() {
         //maybe check for one of a few actions to take?
         if (!fighting || moving) return;
+        FloodStage();
     }
 
     void SpawnSludges() {
@@ -37,13 +38,26 @@ public class LadyOfTheLake : Boss {
         //disperse into sludge and flood the bottom of the stage
         moving = true;
         anim.SetTrigger("descend");
+        StartCoroutine(WaitAndFloodStage(1f));
+        StartCoroutine(WaitAndRise(5f));
+    }
+
+    IEnumerator WaitAndFloodStage(float seconds) {
+        yield return new WaitForSeconds(seconds);
         tiledSludgeContainer.GetComponent<Animator>().SetTrigger("rise");
-        StartCoroutine(WaitAndRise(3f));
     }
 
     IEnumerator WaitAndRise(float seconds) {
         yield return new WaitForSeconds(seconds);
         anim.SetTrigger("awake");
+        StartCoroutine(WaitAndStartMoving(2f));
+    }
+
+    IEnumerator WaitAndStartMoving(float seconds) {
+        yield return new WaitForSeconds(seconds);
+        fighting = true;
+        anim.SetBool("fighting", true);
+        moving = true;
     }
 
     void SwitchSides() {
@@ -102,7 +116,7 @@ public class LadyOfTheLake : Boss {
     }
 
     public override void StopTalking() {
-        StartFight();
+        StartCoroutine(WaitAndStartMoving(2f));
     }
 
     void CloseEye(int eyeNum) {
@@ -112,6 +126,6 @@ public class LadyOfTheLake : Boss {
     }
 
     public override void OnDamage() {
-        //if the current health is below a certain fraction of its total and 
+        //if the current health is below a certain fraction of its total and more than enough eyes are open, close one
     }
 }
