@@ -12,8 +12,8 @@ public class GroundCollider : MonoBehaviour {
 		if (col.collider.tag.Contains("platform") 
 		&& col.gameObject.GetComponent<Collider2D>().bounds.max.y <= this.GetComponent<Collider2D>().transform.position.y) {
 			player.HitGround(col);
-		}
-		else if (col.collider.tag.Equals("killzone")) {
+		} else if (col.gameObject.CompareTag(Tags.killzone)) {
+			player.cameraShaker.SmallShake();
 			player.Die();
 		}
 	}

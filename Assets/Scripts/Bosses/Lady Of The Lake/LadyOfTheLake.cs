@@ -7,6 +7,10 @@ public class LadyOfTheLake : Boss {
     int eyeCount;
     public GameObject eyeContainer;
 
+    //this needs to be a broken prefab since it'll have an animation controller attached to it
+    //or just nest it in an empty gameobject, actually, and then change its animator
+    public GameObject tiledSludgeContainer;
+
     public override void Initialize() {
         monologue = new List<DialogueLine>();
         AddLines();
@@ -46,6 +50,7 @@ public class LadyOfTheLake : Boss {
 
     void Intro() {
         this.foughtBefore = true;
+        anim.SetTrigger("awake");
         uc.OpenDialogue(this);
         uc.RenderDialogue(monologue[0]);
     }
