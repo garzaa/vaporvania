@@ -29,7 +29,11 @@ public class LadyOfTheLake : Boss {
     public override void BossMove() {
         //maybe check for one of a few actions to take?
         if (!fighting || !moving) return;
-        ThrowSludges();
+        if (Random.Range(0, 2) < 1) {
+            ThrowSludges();
+        } else {
+            FloodStage();
+        }
     }
 
     //move back and throw three sludges at the player
@@ -40,7 +44,7 @@ public class LadyOfTheLake : Boss {
     }
 
     void MeleeAttack() {
-        //wind up and make an attack in the area around herself
+        //wind up and make an attack in the area around herself?
     }
 
     void FloodStage() {
@@ -53,6 +57,9 @@ public class LadyOfTheLake : Boss {
     IEnumerator WaitAndFloodStage(float seconds) {
         yield return new WaitForSeconds(seconds);
         anim.SetTrigger("descend");
+    }
+
+    public void RiseWater() {
         tiledSludgeContainer.GetComponent<Animator>().SetTrigger("rise");
     }
 
@@ -140,7 +147,6 @@ public class LadyOfTheLake : Boss {
     }
 
     public void ThrowSludgeball(int sludgeNum) {
-        print("threw a sludge");
         GameObject sludge = (GameObject) Instantiate(thrownSludge, sludgePoint.position, Quaternion.identity);
         float xVec = sludgeVector.x;
         float yVec = sludgeVector.y;

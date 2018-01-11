@@ -87,4 +87,8 @@ public class Boss : Enemy {
 	public void StartMoving() {
 		this.moving = true;
 	}
+
+	public void StopMoving() {
+		this.moving = false;
+	}
 }
