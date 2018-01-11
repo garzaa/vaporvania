@@ -6,6 +6,11 @@ public class HitboxController : MonoBehaviour {
 
 	public GameObject parentObject;
 
+	PlayerController pc;
+	void Start() {
+		pc = parentObject.GetComponent<Enemy>().playerObject.GetComponent<PlayerController>();
+	}
+
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.gameObject.CompareTag(Tags.playerAttack)) {
 			parentObject.GetComponent<Enemy>().OnHit(other.gameObject.GetComponent<Collider2D>());
@@ -15,8 +20,13 @@ public class HitboxController : MonoBehaviour {
 			//this works for tiny enemies, we might have to have multiple hitboxes on bosses (or SOMETHING else with dynamically calculating 
 			//the collision midway point based on relative positions of the two hitboxes)
 			GameObject h = (GameObject) Instantiate(hitmarker, this.transform.position, Quaternion.identity);
+			SpriteRenderer spr = h.GetComponent<SpriteRenderer>();
 			if (hurtbox.flipHitmarker) {
-				h.GetComponent<SpriteRenderer>().flipX = true;
+				spr.flipX = !spr.flipX;
+			}
+			//then flip again
+			if (!pc.facingRight) {
+				spr.flipX = !spr.flipX;
 			}
 
 			//check for camera shake
