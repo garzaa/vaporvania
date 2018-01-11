@@ -35,6 +35,15 @@ public class LadyOfTheLake : Boss {
 
     void FloodStage() {
         //disperse into sludge and flood the bottom of the stage
+        moving = true;
+        anim.SetTrigger("descend");
+        tiledSludgeContainer.GetComponent<Animator>().SetTrigger("rise");
+        StartCoroutine(WaitAndRise(3f));
+    }
+
+    IEnumerator WaitAndRise(float seconds) {
+        yield return new WaitForSeconds(seconds);
+        anim.SetTrigger("awake");
     }
 
     void SwitchSides() {

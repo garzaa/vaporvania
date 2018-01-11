@@ -31,10 +31,12 @@ public class CameraShaker : MonoBehaviour
 	}
 
 	public void SmallShake() {
+		this.shakeAmount = .3f;
 		this.shakeDuration = .1f;
 	}
 
 	public void TinyShake() {
+		this.shakeAmount = .1f;
 		this.shakeDuration = .01f;
 	}
 
