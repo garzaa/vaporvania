@@ -565,6 +565,7 @@ public class PlayerController : Entity
         Freeze();
         FreezeInSpace();
         SetInvincible(true);
+        anim.ResetTrigger("groundAttack");
         anim.SetBool("dead", true);
         anim.SetTrigger("die");
         StartCoroutine(WaitAndRespawn());
@@ -650,7 +651,7 @@ public class PlayerController : Entity
         dashCooldown = false;
     }
 
-    void InterruptDash() {
+    public void InterruptDash() {
         dashing = false;
         StartCoroutine(StartDashCooldown(.2f));
         if (VAPOR_DASH || DAMAGE_DASH) {

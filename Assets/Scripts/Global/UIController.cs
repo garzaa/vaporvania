@@ -109,9 +109,7 @@ public class UIController : MonoBehaviour {
 		if (dialogueOpen) return;
 		openedThisFrame = true;
 		this.currentNPC = npc;
-		pc.Freeze();
-		pc.ZeroVelocity();
-		pc.SetInvincible(true);
+		FreezePlayer();
 		SetPortrait(npc.portraits[0]);
 		ShowDialogueUI();
 		dialogueOpen = true;
@@ -131,9 +129,7 @@ public class UIController : MonoBehaviour {
 			SetName(sign.signName);
 		}
 
-		pc.Freeze();
-		pc.ZeroVelocity();
-		pc.SetInvincible(true);
+		FreezePlayer();
 		ShowDialogueUI();
 		dialogueOpen = true;
 	}
@@ -143,12 +139,18 @@ public class UIController : MonoBehaviour {
 		openedThisFrame = true;
 		currentBoss = boss;
 		dialogueOpen = true;
-		pc.Freeze();
-		pc.ZeroVelocity();
-		pc.SetInvincible(true);
+		FreezePlayer();
 		SetName(boss.bossName);
 		SetPortrait(boss.bossPortraits[0]);
 		ShowDialogueUI();
+	}
+
+	public void FreezePlayer() {
+		pc.Freeze();
+		pc.ZeroVelocity();
+		pc.InterruptAttack();
+		pc.InterruptDash();
+		pc.SetInvincible(true);
 	}
 
 	//called by the NPC controller if the NPC is out of dialogue
