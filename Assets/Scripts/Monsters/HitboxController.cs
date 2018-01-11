@@ -4,23 +4,22 @@ using UnityEngine;
 
 public class HitboxController : MonoBehaviour {
 
-	GameObject parentObject;
-
-	public GameObject hitmarker;
-
-	void Start() {
-		parentObject = this.gameObject.transform.parent.gameObject;
-		//hitmarker = (GameObject) Resources.Load("Prefabs/Particles/Hitmarker");
-	}
+	public GameObject parentObject;
 
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.gameObject.CompareTag(Tags.playerAttack)) {
 			parentObject.GetComponent<Enemy>().OnHit(other.gameObject.GetComponent<Collider2D>());
-			GameObject hitmarker = other.GetComponent<HurtboxController>().hitmarker;
+			HurtboxController hurtbox = other.GetComponent<HurtboxController>();
+			GameObject hitmarker = hurtbox.hitmarker;
 			//instantiate a hitmarker at the point of contact
 			//this works for tiny enemies, we might have to have multiple hitboxes on bosses (or SOMETHING else with dynamically calculating 
 			//the collision midway point based on relative positions of the two hitboxes)
-			Instantiate(hitmarker, this.transform.position, Quaternion.identity);
+			GameObject h = (GameObject) Instantiate(hitmarker, this.transform.position, Quaternion.identity);
+			print(other.name);
+			if (hurtbox.flipHitmarker) {
+				print("ASDasd");
+				h.GetComponent<SpriteRenderer>().flipX = true;
+			}
 
 			//check for camera shake
 			HurtboxController otherHurtbox;

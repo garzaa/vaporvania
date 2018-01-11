@@ -10,13 +10,6 @@ public class HitmarkerController : MonoBehaviour {
 	void Start () {
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		//if (activeFrames-- <= 0) {
-			//Destroy(this.gameObject);
-		//}
-	}
 
 	void Destroy() {
 		Destroy(this.gameObject);

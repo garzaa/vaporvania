@@ -9,6 +9,8 @@ public class HurtboxController : MonoBehaviour {
 	public Vector2 knockbackVector = new Vector2(3, 1);
 	public GameObject hitmarker;
 
+	public bool flipHitmarker = false;
+
 	PlayerController pc;
 
 	void Start() {
