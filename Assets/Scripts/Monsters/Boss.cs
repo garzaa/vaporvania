@@ -33,7 +33,8 @@ public class Boss : Enemy {
 
 	BoxCollider2D activationTrigger;
 
-	public bool fighting = false;
+	[HideInInspector] public bool fighting = false;
+	[HideInInspector] public bool moving = false;
 
 	public Sprite[] bossPortraits;
 	public UIController uc;

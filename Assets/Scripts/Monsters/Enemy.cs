@@ -7,6 +7,7 @@ public class Enemy : Entity {
 	[HideInInspector] public Rigidbody2D rb2d;
 
 	public int hp;
+	[HideInInspector] public int totalHP;
 	public int moveSpeed;
 	public int maxSpeed;
 
@@ -35,8 +36,8 @@ public class Enemy : Entity {
 
 	public SpriteRenderer spr;
 
-	//WHHY ISNT THIS BEING CALLED ON BOSS INIT
 	void Start () {
+		totalHP = hp;
 		rb2d = this.GetComponent<Rigidbody2D>();
 		playerObject = GameObject.Find("Player");
 		if ((anim = this.GetComponent<Animator>()) != null) {
@@ -100,6 +101,7 @@ public class Enemy : Entity {
 			}
 
 			Hitstop.Run(other.GetComponent<HurtboxController>().hitstop, this.gameObject);
+			OnDamage();
 		}
 
 	}
@@ -156,5 +158,9 @@ public class Enemy : Entity {
 	IEnumerator normalSprite() {
 		yield return new WaitForSeconds(.05f);
 		spr.material = defaultMaterial;
+	}
+
+	public virtual void OnDamage() {
+
 	}
 }

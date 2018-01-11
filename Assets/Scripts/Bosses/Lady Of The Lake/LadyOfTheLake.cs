@@ -22,7 +22,7 @@ public class LadyOfTheLake : Boss {
 
     public override void BossMove() {
         //maybe check for one of a few actions to take?
-        if (!fighting) return;
+        if (!fighting || moving) return;
     }
 
     void SpawnSludges() {
@@ -35,6 +35,10 @@ public class LadyOfTheLake : Boss {
 
     void FloodStage() {
         //disperse into sludge and flood the bottom of the stage
+    }
+
+    void SwitchSides() {
+        //move to the other side of the stage
     }
 
     public override void StartFight() {
@@ -96,5 +100,9 @@ public class LadyOfTheLake : Boss {
         GameObject e = eyeContainer.transform.GetChild(eyeCount).gameObject;
         e.GetComponent<BoxCollider2D>().enabled = false;
         e.GetComponent<SpriteRenderer>().enabled = false;
+    }
+
+    public override void OnDamage() {
+        //if the current health is below a certain fraction of its total and 
     }
 }

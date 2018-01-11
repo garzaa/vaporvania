@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: cab77686dcb50d542b3b2b1f58344399
-timeCreated: 1514670452
+guid: d8654102333b69047b0f837017b9cda4
+timeCreated: 1515638637
 licenseType: Free
 TrueTypeFontImporter:
   serializedVersion: 4
@@ -9,9 +9,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Minecraftia
+  fontName: MonteCarlo Fixed 12
   fontNames:
-  - Minecraftia
+  - MonteCarlo Fixed 12
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
