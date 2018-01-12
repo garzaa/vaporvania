@@ -20,14 +20,8 @@ public class FightController : MonoBehaviour {
         if (Input.GetKey(KeyCode.X) && !Input.GetKey(KeyCode.DownArrow) && !pc.swinging && !pc.dashing && pc.grounded) {
             Parry();
         } 
-        
-        else if (Input.GetKeyDown(KeyCode.D) && !pc.invincible) {
-            pc.Die();
-        }
 
         else if (Input.GetKeyDown(KeyCode.Z) && pc.CanGroundAttack()) {
-            //in case of canceling another attack somehow
-            //InterruptAttack();   
             anim.SetTrigger("groundAttack");
 		} 
         
