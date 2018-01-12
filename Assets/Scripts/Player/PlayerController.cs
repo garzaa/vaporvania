@@ -559,6 +559,7 @@ public class PlayerController : Entity
     }
 
     public void Die() {
+        this.hp = 0;
         InterruptAttack();
         InterruptDash();
         
@@ -566,6 +567,7 @@ public class PlayerController : Entity
         FreezeInSpace();
         SetInvincible(true);
         anim.ResetTrigger("groundAttack");
+        anim.ResetTrigger("respawn");
         anim.SetBool("dead", true);
         anim.SetTrigger("die");
         StartCoroutine(WaitAndRespawn());

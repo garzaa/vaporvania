@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class LevelTeleporter : Interactable {
 
-	public string sourceName;
 	public string destScene;
 	public string destName;
 

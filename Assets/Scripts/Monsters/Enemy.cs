@@ -18,7 +18,7 @@ public class Enemy : Entity {
 
 	public GameObject healthPrefab, moneyPrefab;
 
-	[HideInInspector] public GameObject playerObject;
+	public GameObject playerObject;
 
 	[HideInInspector] public Animator anim;
 	[HideInInspector] public bool hasAnimator;
@@ -37,7 +37,7 @@ public class Enemy : Entity {
 
 	public SpriteRenderer spr;
 
-	void Start () {
+	void Awake() {
 		totalHP = hp;
 		rb2d = this.GetComponent<Rigidbody2D>();
 		playerObject = GameObject.Find("Player");

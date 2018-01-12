@@ -118,6 +118,8 @@ public class GameController : MonoBehaviour {
 			pc.transform.position = GameObject.Find(teleportTarget).transform.position;
 			teleportTarget = null;
 			pc.LeaveGround();
+			pc.UnFreeze();
+			pc.UnFreezeInSpace();
 		}
 	}
 }
