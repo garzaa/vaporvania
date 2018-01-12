@@ -13,11 +13,11 @@ public class ParryHitboxController : MonoBehaviour {
 	}
 
 	public void OnTriggerEnter2D(Collider2D boneHurtingCollider) {
-		if (pc.parrying && boneHurtingCollider.tag == Tags.enemyHitbox) {
+		if (pc.parrying && boneHurtingCollider.CompareTag(Tags.enemyHurtbox)) {
 			if (boneHurtingCollider.GetComponent<Projectile>()) {
                 boneHurtingCollider.GetComponent<Projectile>().Reflect();
             } else if (boneHurtingCollider.transform.parent.GetComponent<Enemy>()) {
-                if (boneHurtingCollider.tag == Tags.enemyHitbox) {
+                if (boneHurtingCollider.CompareTag(Tags.enemyHurtbox)) {
                     pc.Riposte(boneHurtingCollider.transform.parent.gameObject);
                 }
             }

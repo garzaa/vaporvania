@@ -94,7 +94,6 @@ public class GameController : MonoBehaviour {
 			pc.transform.position = playerRespawnPoint;
 			pc.Respawn();
 		} else {
-			Debug.Log("loading scene " + playerRespawnScene);
 			//this means save point is in another scene, when scene transitions are a thing then load it based on the path
 			//and then move the player to the last respawn point
 			tc.LoadSceneFade(playerRespawnScene);
