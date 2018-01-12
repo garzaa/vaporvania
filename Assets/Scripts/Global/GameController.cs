@@ -110,6 +110,8 @@ public class GameController : MonoBehaviour {
 	}
 
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+		pc.ClearInteractables();
+
 		//hacky workaround so the player doesn't return to the start scene on death
 		if (SceneManager.GetActiveScene().name == "Tutorial") {
 			playerRespawnPoint = pc.transform.position;

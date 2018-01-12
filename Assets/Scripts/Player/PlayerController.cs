@@ -261,6 +261,11 @@ public class PlayerController : Entity
             }
         }
 
+        //decrease airspeed when not moving in the air or jumping off walls
+        if (HorizontalInput() && !grounded && !frozen) {
+            rb2d.velocity = new Vector2(rb2d.velocity.x * 0.7f, rb2d.velocity.y);
+        }
+
         //check for no opposite inputs to prevent moonwalking
         if (HorizontalInput()) {
             if (grounded && !swinging && !frozen)
@@ -732,5 +737,12 @@ public class PlayerController : Entity
 
     public void ZeroVelocity() {
         rb2d.velocity = Vector2.zero;
+    }
+
+    public void ClearInteractables() {
+        this.savePoint = null;
+        this.savePossible= false;
+        this.interactable = null;
+        this.interactPossible = false;
     }
 }
