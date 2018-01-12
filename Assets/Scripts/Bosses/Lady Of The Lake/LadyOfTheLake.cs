@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class LadyOfTheLake : Boss {
 
-    int eyeCount;
+    public int initialEyeCount;
+    public int eyeCount;
     public GameObject eyeContainer;
 
     //this needs to be a broken prefab since it'll have an animation controller attached to it
@@ -20,6 +21,7 @@ public class LadyOfTheLake : Boss {
     public override void Initialize() {
         monologue = new List<DialogueLine>();
         AddLines();
+        initialEyeCount = eyeContainer.transform.childCount;
         eyeCount = eyeContainer.transform.childCount;
         uc = GameObject.Find("GameController").GetComponent<UIController>();
         gc = uc.GetComponent<GameController>();
@@ -50,30 +52,17 @@ public class LadyOfTheLake : Boss {
     void FloodStage() {
         //disperse into sludge and flood the bottom of the stage
         moving = false;
-        StartCoroutine(WaitAndFloodStage(5f));
-        StartCoroutine(WaitAndRise(9f));
-    }
-
-    IEnumerator WaitAndFloodStage(float seconds) {
-        yield return new WaitForSeconds(seconds);
         anim.SetTrigger("descend");
     }
 
+    //called from the ascend animation
+    void ClearFlood() {
+        tiledSludgeContainer.GetComponent<Animator>().SetTrigger("fall");
+    }
+
+    //called from the descend animation
     public void RiseWater() {
         tiledSludgeContainer.GetComponent<Animator>().SetTrigger("rise");
-    }
-
-    IEnumerator WaitAndRise(float seconds) {
-        yield return new WaitForSeconds(seconds);
-        anim.SetTrigger("awake");
-        StartCoroutine(WaitAndStartMoving(2f));
-    }
-
-    IEnumerator WaitAndStartMoving(float seconds) {
-        yield return new WaitForSeconds(seconds);
-        fighting = true;
-        anim.SetBool("fighting", true);
-        moving = true;
     }
 
     void SwitchSides() {
@@ -132,17 +121,25 @@ public class LadyOfTheLake : Boss {
     }
 
     public override void StopTalking() {
-        StartCoroutine(WaitAndStartMoving(2f));
+        fighting = true;
+        anim.SetBool("fighting", true);
+        StartMoving();
     }
 
     void CloseEye(int eyeNum) {
+        eyeCount--;
         GameObject e = eyeContainer.transform.GetChild(eyeCount).gameObject;
         e.GetComponent<BoxCollider2D>().enabled = false;
         e.GetComponent<Animator>().SetTrigger("close");
     }
 
     public override void OnDamage() {
-        //if the current health is below a certain fraction of its total and more than enough eyes are open, close one
+        //active eyes represent current health state
+        float eyeFraction = (float) (eyeCount - 1) / (float) initialEyeCount;
+        float healthFraction = (float) hp / (float) totalHP;
+        if (eyeFraction >= healthFraction) {
+            CloseEye(eyeCount - 1);
+        }
         
     }
 

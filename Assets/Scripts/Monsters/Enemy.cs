@@ -7,7 +7,7 @@ public class Enemy : Entity {
 	[HideInInspector] public Rigidbody2D rb2d;
 
 	public int hp;
-	[HideInInspector] public int totalHP;
+	public int totalHP;
 	public int moveSpeed;
 	public int maxSpeed;
 

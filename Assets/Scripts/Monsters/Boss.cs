@@ -34,7 +34,7 @@ public class Boss : Enemy {
 	BoxCollider2D activationTrigger;
 
 	[HideInInspector] public bool fighting = false;
-	[HideInInspector] public bool moving = false;
+	public bool moving = false;
 
 	public Sprite[] bossPortraits;
 	public UIController uc;
@@ -85,6 +85,7 @@ public class Boss : Enemy {
     }
 
 	public void StartMoving() {
+		print("Started moving");
 		this.moving = true;
 	}
 
