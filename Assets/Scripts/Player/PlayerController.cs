@@ -165,6 +165,9 @@ public class PlayerController : Entity
             anim.SetTrigger("fall");
         }
         platformTouching = null;
+        if (wallSliding) {
+            StartWallSliding();
+        }
     }
 
     public void HitWall(Collision2D col) {

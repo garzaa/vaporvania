@@ -22,8 +22,6 @@ public class GameController : MonoBehaviour {
 	UIController uc;
 	
 	void Start() {
-		playerRespawnPoint = pc.transform.position;
-		playerRespawnScene = SceneManager.GetActiveScene().name;
 		tc = GetComponent<TransitionController>();
 		if (SceneManager.GetActiveScene().name == "start") {
 			tc.LoadSceneFade("Tutorial");
@@ -106,7 +104,18 @@ public class GameController : MonoBehaviour {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+	public void OverrideSavePoint(Transform t) {
+		playerRespawnPoint = t.position;
+		playerRespawnScene = SceneManager.GetActiveScene().name;
+	}
+
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+		//hacky workaround so the player doesn't return to the start scene on death
+		if (SceneManager.GetActiveScene().name == "Tutorial") {
+			playerRespawnPoint = pc.transform.position;
+			playerRespawnScene = SceneManager.GetActiveScene().name;
+		}
+		
 		//on level loaded, move the player back to their original spawn point	
 		if (toRespawn) {
 			print("right scene loaded, triggering respawn");
@@ -117,7 +126,6 @@ public class GameController : MonoBehaviour {
 			//if we're moving to a new TP location instead
 			pc.transform.position = GameObject.Find(teleportTarget).transform.position;
 			teleportTarget = null;
-			pc.LeaveGround();
 			pc.UnFreeze();
 			pc.UnFreezeInSpace();
 		}
