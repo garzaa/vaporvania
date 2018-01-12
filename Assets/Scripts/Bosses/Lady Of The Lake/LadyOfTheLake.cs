@@ -29,9 +29,9 @@ public class LadyOfTheLake : Boss {
 
 
     public override void BossMove() {
-        //maybe check for one of a few actions to take?
         if (!fighting || !moving) return;
-        if (Random.Range(0, 2) < 1) {
+        // 1/3 of a chance to flood the stage, since it's currently an instakill
+        if (Random.Range(0, 3) < 1) {
             ThrowSludges();
         } else {
             FloodStage();
@@ -121,6 +121,7 @@ public class LadyOfTheLake : Boss {
     }
 
     public override void StopTalking() {
+        playerObject.GetComponent<PlayerController>().UnFreezeInSpace();
         fighting = true;
         anim.SetBool("fighting", true);
         StartMoving();
@@ -162,6 +163,7 @@ public class LadyOfTheLake : Boss {
     public void EndDialogue() {
         anim.speed = 0;
         AddEndLines();
+        playerObject.GetComponent<PlayerController>().FreezeInSpace();
         uc.OpenDialogue(this);
         uc.RenderDialogue(monologue[0]);
     }

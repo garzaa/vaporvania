@@ -42,6 +42,9 @@ public class UIController : MonoBehaviour {
 	}
 
 	void Update() {
+		if (dialogueOpen && !pc.frozen) {
+			FreezePlayer();
+		}
 		UpdateUI();
 		CheckForLineAdvance();
 		//don't immediately advance dialogue on the first opening
@@ -153,10 +156,14 @@ public class UIController : MonoBehaviour {
 		pc.SetInvincible(true);
 	}
 
-	//called by the NPC controller if the NPC is out of dialogue
-	public void CloseDialogue() {
+	public void UnFreezePlayer() {
 		pc.UnFreeze();
 		pc.SetInvincible(false);
+	}
+
+	//called by the NPC controller if the NPC is out of dialogue
+	public void CloseDialogue() {
+		UnFreezePlayer();
 		this.currentNPC = null;
 		this.currentSign = null;
 		HideDialogueUI();

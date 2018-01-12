@@ -91,4 +91,8 @@ public class Boss : Enemy {
 	public void StopMoving() {
 		this.moving = false;
 	}
+
+	public virtual void ResetBattle() {
+
+	}
 }
