@@ -42,7 +42,7 @@ public class Boss : Enemy {
 	public GameController gc;
 
 	public List<DialogueLine> monologue;
-	int currentLine = 0;
+	public int currentLine = 0;
 
 	//always keep track of the player
 	void UpdatePlayerPos() {

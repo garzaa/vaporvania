@@ -124,6 +124,7 @@ public class LadyOfTheLake : Boss {
         fighting = true;
         anim.SetBool("fighting", true);
         StartMoving();
+        anim.speed = 1;
     }
 
     void CloseEye(int eyeNum) {
@@ -156,6 +157,28 @@ public class LadyOfTheLake : Boss {
 
     public void RaiseWalls() {
         
+    }
+
+    public void EndDialogue() {
+        anim.speed = 0;
+        AddEndLines();
+        uc.OpenDialogue(this);
+        uc.RenderDialogue(monologue[0]);
+    }
+
+    void AddEndLines() {
+        currentLine = 0;
+        monologue.Clear();
+        monologue.Add(new DialogueLine(
+            "That's it! Thanks for playing!",
+            this.bossName,
+            0
+        ));
+        monologue.Add(new DialogueLine(
+            "Excuse me while I die.",
+            this.bossName,
+            0
+        ));
     }
      
 }
