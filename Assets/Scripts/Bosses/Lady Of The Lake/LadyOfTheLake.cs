@@ -148,6 +148,14 @@ public class LadyOfTheLake : Boss {
         float xVec = sludgeVector.x;
         float yVec = sludgeVector.y;
         sludge.GetComponent<Rigidbody2D>().velocity = new Vector2(-xVec, yVec / sludgeNum);
-        }
+    }
+
+    public void LowerWalls() {
+
+    }
+
+    public void RaiseWalls() {
+        
+    }
      
 }
