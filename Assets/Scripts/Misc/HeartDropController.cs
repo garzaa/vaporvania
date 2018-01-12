@@ -7,7 +7,7 @@ public class HeartDropController : MonoBehaviour {
 	public int health = 1;
 	public GameObject hitmarker;
 
-	void OnCollisionEnter2D(Collision2D col) {
+	void OnTriggerEnter2D(Collider2D col) {
 		if (col.gameObject.name == "Player") {
 			col.gameObject.GetComponent<PlayerController>().GetHealth(this.health);
 			Instantiate(hitmarker, this.transform.position, Quaternion.identity);

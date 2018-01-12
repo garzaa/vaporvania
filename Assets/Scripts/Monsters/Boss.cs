@@ -85,7 +85,6 @@ public class Boss : Enemy {
     }
 
 	public void StartMoving() {
-		print("Started moving");
 		this.moving = true;
 	}
 

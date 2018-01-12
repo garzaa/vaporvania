@@ -15,8 +15,7 @@ public abstract class Layers {
 	public const string Interactables = "Interactables";
 	public const string Pickups = "Pickups";
 	public const string Walls = "Walls";
-	public const string PlayerGroundCollider = "PlayerGroundCollider";
-	public const string PlayerWallCollider = "PlayerWallCollider";
+	public const string PlayerMovementCollider = "PlayerMovementCollider";
 
 	public const int DefaultMask = 1;
 	public const int TransparentFXMask = 1 << 1;
@@ -33,8 +32,7 @@ public abstract class Layers {
 	public const int InteractablesMask = 1 << 15;
 	public const int PickupsMask = 1 << 16;
 	public const int WallsMask = 1 << 17;
-	public const int PlayerGroundColliderMask = 1 << 18;
-	public const int PlayerWallColliderMask = 1 << 19;
+	public const int PlayerMovementColliderMask = 1 << 18;
 
 	public const int DefaultNumber = 0;
 	public const int TransparentFXNumber = 1;
@@ -51,6 +49,5 @@ public abstract class Layers {
 	public const int InteractablesNumber = 15;
 	public const int PickupsNumber = 16;
 	public const int WallsNumber = 17;
-	public const int PlayerGroundColliderNumber = 18;
-	public const int PlayerWallColliderNumber = 19;
+	public const int PlayerMovementColliderNumber = 18;
 }
