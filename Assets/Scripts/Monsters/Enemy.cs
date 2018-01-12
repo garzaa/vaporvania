@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Enemy : Entity {
 
@@ -37,7 +38,7 @@ public class Enemy : Entity {
 
 	public SpriteRenderer spr;
 
-	void Awake() {
+	void OnEnable() {
 		totalHP = hp;
 		rb2d = this.GetComponent<Rigidbody2D>();
 		playerObject = GameObject.Find("Player");

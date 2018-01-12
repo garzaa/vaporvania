@@ -26,7 +26,8 @@ public class GameController : MonoBehaviour {
 		playerRespawnScene = SceneManager.GetActiveScene().name;
 		tc = GetComponent<TransitionController>();
 		if (SceneManager.GetActiveScene().name == "start") {
-			tc.LoadSceneFade("env");
+			tc.LoadSceneFade("Tutorial");
+			teleportTarget = "startPoint";
 		}
 		uc = GetComponent<UIController>();
 	}
