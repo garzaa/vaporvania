@@ -16,6 +16,12 @@ public class GroundCollider : MonoBehaviour {
 			player.cameraShaker.SmallShake();
 			player.Die();
 		}
+		else if (col.collider.CompareTag(Tags.envdamage)) {
+			player.OnEnvDamage(col.collider);
+		}
+		else if (col.collider.CompareTag(Tags.killzone)) {
+			player.Die();
+		}
 	}
 
 	void OnCollisionStay2D(Collision2D col) {

@@ -13,7 +13,10 @@ public class SideCollider : MonoBehaviour {
 				player.HitWall(col);
 			}
 		}
-		else if (col.collider.tag.Equals("killzone")) {
+		else if (col.collider.CompareTag(Tags.envdamage)) {
+			player.OnEnvDamage(col.collider);
+		}
+		else if (col.collider.CompareTag(Tags.killzone)) {
 			player.Die();
 		}
 	}

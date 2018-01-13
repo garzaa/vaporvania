@@ -4,6 +4,7 @@ public abstract class Tags {
 	public const string EditorOnly = "EditorOnly";
 	public const string enemyHitbox = "enemyHitbox";
 	public const string enemyHurtbox = "enemyHurtbox";
+	public const string envdamage = "envdamage";
 	public const string Finish = "Finish";
 	public const string GameController = "GameController";
 	public const string interactable = "interactable";

@@ -12,7 +12,7 @@ public class HeartDropController : MonoBehaviour {
 			col.gameObject.GetComponent<PlayerController>().GetHealth(this.health);
 			Instantiate(hitmarker, this.transform.position, Quaternion.identity);
 			Destroy(this.gameObject);
-		} else if (col.gameObject.CompareTag(Tags.killzone)) {
+		} else if (col.gameObject.CompareTag(Tags.envdamage)) {
 			Destroy(this.gameObject);
 		}
 	}

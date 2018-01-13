@@ -37,8 +37,8 @@ public class HitboxController : MonoBehaviour {
 					GameObject.FindGameObjectsWithTag("MainCamera")[0].GetComponent<CameraShaker>().SmallShake();
 				}
 			}
-		} else if (other.gameObject.CompareTag(Tags.killzone)) {
-			if (parentObject.GetComponent<Enemy>().killzoneSusceptible) {
+		} else if (other.gameObject.CompareTag(Tags.envdamage)) {
+			if (parentObject.GetComponent<Enemy>().envDmgSusceptible) {
 				parentObject.GetComponent<Enemy>().Die();
 			}
 		}
