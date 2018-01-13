@@ -554,6 +554,7 @@ public class PlayerController : Entity
     }
 
     public void OnEnvDamage(Collider2D boneHurtingCollider) {
+        cameraShaker.SmallShake();
         if (invincible) return;
         int dmg = 1;
         if (boneHurtingCollider.GetComponent<HurtboxController>() != null) {
