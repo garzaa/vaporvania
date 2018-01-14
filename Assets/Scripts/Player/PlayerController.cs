@@ -262,8 +262,8 @@ public class PlayerController : Entity
         }
 
         //decrease airspeed when not moving in the air or jumping off walls
-        if (HorizontalInput() && !grounded && !frozen) {
-            rb2d.velocity = new Vector2(rb2d.velocity.x * 0.7f, rb2d.velocity.y);
+        if (!grounded && !frozen && !HorizontalInput()) {
+            rb2d.velocity = new Vector2(rb2d.velocity.x * 0.9f, rb2d.velocity.y);
         }
 
         //check for no opposite inputs to prevent moonwalking
