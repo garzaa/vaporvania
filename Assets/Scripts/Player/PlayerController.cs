@@ -11,7 +11,7 @@ public class PlayerController : Entity
 
     float jumpSpeed = 5f;
     float moveSpeed = 4f;
-    float airControlRatio = .7f;
+    private float airControlRatio = .7f;
 
 	public bool grounded = false;
     public bool wallSliding = false;
