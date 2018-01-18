@@ -174,6 +174,7 @@ public class PlayerController : Entity
         StopFalling();
         StartWallSliding();
         InterruptAttack();
+        anim.SetBool("running", false);
         this.airJumps = maxAirJumps;
     }
 
@@ -183,7 +184,7 @@ public class PlayerController : Entity
     }
 
     public void StayOnWall(Collision2D col) {
-
+        anim.SetBool("running", false);
     }
 
     void Jump() {
