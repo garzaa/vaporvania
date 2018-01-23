@@ -100,7 +100,7 @@ public class FightController : MonoBehaviour {
     }
 
     //called when the impact animation finishes
-    void StopMeteorBlade() {
+    public void StopMeteorBlade() {
         pc.UnFreeze();
         pc.SetInvincible(false);
     }

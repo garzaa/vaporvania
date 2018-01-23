@@ -457,6 +457,8 @@ public class PlayerController : Entity
         StopParrying();
         this.attackCooldown = false;
         anim.SetBool("running", false);
+        fc.inMeteor = false;
+        fc.StopMeteorBlade();
     }
 
     void resetJumps() {
