@@ -26,7 +26,7 @@ public class PlayerController : Entity
 
     public bool attackCooldown = false;
 
-    float TERMINAL_VELOCITY = -8f;
+    [HideInInspector] public readonly float TERMINAL_VELOCITY = -8f;
     float ROLL_VELOCITY = -5f;
     float DASH_SPEED = 20f;
     Vector2 preDashVelocity;
@@ -83,7 +83,6 @@ public class PlayerController : Entity
     float JUMP_CUTOFF = 2.0f;
 
 	void Start () {
-        Flip();
         anim = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         fc = GetComponent<FightController>();
@@ -132,18 +131,23 @@ public class PlayerController : Entity
             StopWallSliding();
             
             if (fastFalling || terminalFalling) {
+                if (terminalFalling) {
+                    cameraShaker.SmallShake();
+                }
+                CreateDust();
+                //cancel all of this if there's a meteor attack happening
+                if (fc.inMeteor) {
+                    fc.LandMeteorBlade(col);
+                    return;
+                }
+
                 if (HorizontalInput()) {
                     anim.SetTrigger("roll");
                 } else {
                     anim.SetTrigger("hardLand");
                 }
                 CreateDust();
-
-                if (terminalFalling) {
-                    cameraShaker.SmallShake();
-                }
             }
-            
         }
         this.airJumps = maxAirJumps;
 
@@ -749,5 +753,10 @@ public class PlayerController : Entity
         this.savePossible= false;
         this.interactable = null;
         this.interactPossible = false;
+    }
+    
+    public Vector2 GetBottomCenter() {
+        BoxCollider2D bc = GetComponent<BoxCollider2D>();
+        return new Vector2(bc.transform.position.x, bc.bounds.min.y);
     }
 }

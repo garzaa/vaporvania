@@ -7,6 +7,11 @@ public class FightController : MonoBehaviour {
 	PlayerController pc;
 	Animator anim;
 
+    //meteor blade things
+    public bool inMeteor;
+    public GameObject jets;
+    public Transform impactPrefab;
+
 	void Start() {
 		pc = GetComponent<PlayerController>();
 		anim = GetComponent<Animator>();
@@ -15,6 +20,11 @@ public class FightController : MonoBehaviour {
 	public void Attack() {
         if (pc.attackCooldown || pc.parrying || pc.frozen) {
             return;
+        }
+
+        //meteor blade
+        if (!pc.grounded && !pc.dashing && Input.GetKeyDown(KeyCode.X) && Input.GetKey(KeyCode.DownArrow)) {
+            MeteorBlade();
         }
 
         if (Input.GetKey(KeyCode.X) && !Input.GetKey(KeyCode.DownArrow) && !pc.swinging && !pc.dashing && pc.grounded) {
@@ -65,5 +75,33 @@ public class FightController : MonoBehaviour {
 
     bool CanAirAttack() {
         return (!pc.grounded && !pc.swinging && !pc.wallSliding && !pc.dashing);
+    }
+
+    void MeteorBlade() {
+        pc.Freeze();
+        pc.SetInvincible(true);
+        pc.rb2d.velocity = new Vector2(0, pc.TERMINAL_VELOCITY);
+        anim.SetTrigger("meteorBlade");
+        this.inMeteor = true;
+        //turn on jets
+        jets.SetActive(true);
+        foreach (Animator childAnim in jets.GetComponentsInChildren<Animator>()) {
+            childAnim.Play("Activate", -1, 0f);
+        }
+    }
+
+    //called when the player hits the ground
+    //animation transitions are taken care of automatically
+    public void LandMeteorBlade(Collision2D col) {
+        this.inMeteor = false;
+
+        Instantiate(impactPrefab, pc.GetBottomCenter(), Quaternion.identity);
+        pc.cameraShaker.SmallShake();
+    }
+
+    //called when the impact animation finishes
+    void StopMeteorBlade() {
+        pc.UnFreeze();
+        pc.SetInvincible(false);
     }
 }
