@@ -61,6 +61,7 @@ public class PlayerController : Entity
     public bool DAMAGE_DASH = true;
     public bool dashing = false;
     public bool dashCooldown = false;
+    public bool dashReversal = false;
 
     public bool savePossible = false;
     public GameController gc;
@@ -272,6 +273,17 @@ public class PlayerController : Entity
         //decrease airspeed when not moving in the air or jumping off walls
         if (!grounded && !frozen && !HorizontalInput()) {
             rb2d.velocity = new Vector2(rb2d.velocity.x * 0.9f, rb2d.velocity.y);
+        }
+
+        //dash reversal
+        if (dashReversal) {
+            if (Input.GetKeyDown(KeyCode.RightArrow) && !facingRight) {
+                Flip();
+                dashReversal = false;
+            } else if (Input.GetKeyDown(KeyCode.LeftArrow) && facingRight) {
+                Flip();
+                dashReversal = false;
+            }
         }
 
         //check for no opposite inputs to prevent moonwalking
