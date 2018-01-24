@@ -130,18 +130,15 @@ public class PlayerController : Entity
             swinging = false;
             StopFalling();
             StopWallSliding();
-            
-            if (fastFalling || terminalFalling) {
+            //cancel all of this if there's a meteor attack happening
+            if (fc.inMeteor) {
+                    fc.LandMeteorBlade(col);
+            } 
+            else if (fastFalling || terminalFalling) {
                 if (terminalFalling) {
                     cameraShaker.SmallShake();
                 }
                 CreateDust();
-                //cancel all of this if there's a meteor attack happening
-                if (fc.inMeteor) {
-                    fc.LandMeteorBlade(col);
-                    return;
-                }
-
                 if (HorizontalInput()) {
                     anim.SetTrigger("roll");
                 } else {
