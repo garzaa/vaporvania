@@ -29,13 +29,18 @@ public class UIController : MonoBehaviour {
 	Sign currentSign;
 	public Sprite signPortrait;
 
-	bool openedThisFrame = false;
+	bool openedDialogueThisFrame = false;
 
 	public bool dialogueOpen = false;
+	bool inventoryOpen = false;
+
+	Inventory inventory;
+	public Transform inventoryContainer;
 
 	void Start() {
 		gc = GetComponent<GameController>();
 		pc = GameObject.Find("Player").GetComponent<PlayerController>();
+		inventory = GetComponent<Inventory>();
 		HideDialogueUI();
 		ClearText();
 		ClearPortrait();
@@ -48,9 +53,31 @@ public class UIController : MonoBehaviour {
 		UpdateUI();
 		CheckForLineAdvance();
 		//don't immediately advance dialogue on the first opening
-		if (openedThisFrame) {
-			openedThisFrame = false;
+		if (openedDialogueThisFrame) {
+			openedDialogueThisFrame = false;
 		}
+
+		CheckInventoryOpen();
+	}
+
+	void CheckInventoryOpen() {
+		if (Input.GetKeyDown(KeyCode.Tab) && !dialogueOpen) {
+			if (!inventoryOpen) {
+				OpenInventory();
+			} else {
+				CloseInventory();
+			}
+		}
+	}
+
+	void OpenInventory() {
+		inventoryOpen = true;
+		FreezePlayer();
+	}
+
+	void CloseInventory() {
+		inventoryOpen = false;
+		UnFreezePlayer();
 	}
 
 	void UpdateUI() {
@@ -58,8 +85,8 @@ public class UIController : MonoBehaviour {
 	}
 
 	void CheckForLineAdvance() {
-		if (openedThisFrame) {
-			openedThisFrame = false;
+		if (openedDialogueThisFrame) {
+			openedDialogueThisFrame = false;
 			return;
 		}
 		if (Input.GetKeyDown(KeyCode.C)) {
@@ -110,7 +137,7 @@ public class UIController : MonoBehaviour {
 
 	public void OpenDialogue(NPC npc) {
 		if (dialogueOpen) return;
-		openedThisFrame = true;
+		openedDialogueThisFrame = true;
 		this.currentNPC = npc;
 		FreezePlayer();
 		SetPortrait(npc.portraits[0]);
@@ -120,7 +147,7 @@ public class UIController : MonoBehaviour {
 
 	public void OpenDialogue(Sign sign) {
 		if (dialogueOpen) return;
-		openedThisFrame = true;
+		openedDialogueThisFrame = true;
 		currentSign = sign;
 		if (sign.portrait != null) {
 			SetPortrait(sign.portrait);
@@ -139,7 +166,7 @@ public class UIController : MonoBehaviour {
 
 	public void OpenDialogue(Boss boss) {
 		if (dialogueOpen) return;
-		openedThisFrame = true;
+		openedDialogueThisFrame = true;
 		currentBoss = boss;
 		dialogueOpen = true;
 		FreezePlayer();

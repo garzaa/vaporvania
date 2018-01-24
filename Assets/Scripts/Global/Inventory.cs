@@ -5,9 +5,14 @@ using UnityEngine;
 public class Inventory : MonoBehaviour {
 	List<InventoryItem> items;
 
+	public InventoryItem[] initialItems;
+
 	void Start() {
 		items = new List<InventoryItem>();
-		//add the sword or whatever
+		//add the sword and other starting items
+		foreach (InventoryItem i in initialItems) {
+			items.Add(i);
+		}
 	}
 
 	public bool Contains(InventoryItem item) {
