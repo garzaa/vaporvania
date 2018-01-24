@@ -91,7 +91,7 @@ public class FightController : MonoBehaviour {
     }
 
     //called when the player hits the ground
-    //animation transitions are taken care of automatically
+    //animation transitions are taken care of automatically with the grounded bool
     public void LandMeteorBlade(Collision2D col) {
         this.inMeteor = false;
 
@@ -99,7 +99,7 @@ public class FightController : MonoBehaviour {
         pc.cameraShaker.SmallShake();
     }
 
-    //called when the impact animation finishes
+    //called when the impact animation finishes before the transition to sword sheathing
     public void StopMeteorBlade() {
         pc.UnFreeze();
         pc.SetInvincible(false);
