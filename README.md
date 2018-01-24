@@ -22,7 +22,7 @@ done:
 - NPC dialogue
 
 ### (old) gameplay gifs
-![dash!](https://68.media.tumblr.com/de29d78f722bb799a518e2f4f491bfbd/tumblr_ovey38k7zT1tk26l4o1_400.gif)
+![meteor!](https://78.media.tumblr.com/aed16343395288a6f77675e818d5dc05/tumblr_p31c85WRgP1x1v7ffo1_400.gif)
 ![animation cancel!](https://78.media.tumblr.com/485fb20f6c272ae64cc0a9502b275975/tumblr_p22ndamOgi1tk26l4o1_400.gif)
 ![fight some more!](https://68.media.tumblr.com/6fc81e64f40611ba75ed299ec21504e1/tumblr_outf25Irw91tk26l4o1_400.gif)
 ![take it to the bank boys, this one's just like marth!](https://68.media.tumblr.com/2072af438e8d20659056adf4f6c70a56/tumblr_ouyviaopEb1tk26l4o1_400.gif)
