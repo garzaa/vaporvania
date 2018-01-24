@@ -4,7 +4,7 @@ A vaporwave-themed metroidvania that's still in development.
 (can play in-browser)
 
 ### what's happening now
-I'm working on UI-related things like inventory and NPC dialogue.
+I'm working on inventory and other UI elements.
 
 done:
 - wall-jumping
@@ -20,6 +20,7 @@ done:
 - dash, with upgrades
 - level transitions
 - NPC dialogue
+- meteor slam
 
 ### (old) gameplay gifs
 ![meteor!](https://78.media.tumblr.com/aed16343395288a6f77675e818d5dc05/tumblr_p31c85WRgP1x1v7ffo1_400.gif)
