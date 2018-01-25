@@ -93,7 +93,13 @@ public class FightController : MonoBehaviour {
     //called when the player hits the ground
     //animation transitions are taken care of automatically with the grounded bool
     public void LandMeteorBlade(Collision2D col) {
-        this.inMeteor = false;
+
+        //edge case handling if the player gets bounced up from envdamage
+        if (!inMeteor) {
+            return;
+        }
+        
+        inMeteor = false;
 
         Instantiate(impactPrefab, pc.GetBottomCenter(), Quaternion.identity);
         pc.cameraShaker.SmallShake();

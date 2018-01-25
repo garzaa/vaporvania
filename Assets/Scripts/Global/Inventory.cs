@@ -53,7 +53,7 @@ public class Inventory : MonoBehaviour {
 		}
 	}
 
-	public List<InventoryItem> ListItems() {
+	public List<InventoryItem> GetAll() {
 		return items;
 	}
 

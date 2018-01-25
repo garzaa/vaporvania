@@ -32,10 +32,9 @@ public class UIController : MonoBehaviour {
 	bool openedDialogueThisFrame = false;
 
 	public bool dialogueOpen = false;
-	bool inventoryOpen = false;
 
 	Inventory inventory;
-	public Transform inventoryContainer;
+	public Transform inventoryUI;
 
 	void Start() {
 		gc = GetComponent<GameController>();
@@ -62,7 +61,7 @@ public class UIController : MonoBehaviour {
 
 	void CheckInventoryOpen() {
 		if (Input.GetKeyDown(KeyCode.Tab) && !dialogueOpen) {
-			if (!inventoryOpen) {
+			if (!InventoryOpen()) {
 				OpenInventory();
 			} else {
 				CloseInventory();
@@ -71,12 +70,13 @@ public class UIController : MonoBehaviour {
 	}
 
 	void OpenInventory() {
-		inventoryOpen = true;
 		FreezePlayer();
+		PopulateInventory();
+		inventoryUI.gameObject.SetActive(true);
 	}
 
 	void CloseInventory() {
-		inventoryOpen = false;
+		inventoryUI.gameObject.SetActive(false);
 		UnFreezePlayer();
 	}
 
@@ -267,5 +267,38 @@ public class UIController : MonoBehaviour {
 
 	void ClearName() {
 		SetName("");
+	}
+
+	bool InventoryOpen() {
+		return inventoryUI.gameObject.activeSelf;
+	}
+
+	void PopulateInventory() {
+		/*
+		inventory is structured like this:
+		inventoryUI
+			itemsList
+				item
+					itemSprite
+					itemName
+					itemText
+		 */
+		
+		//update the inventory with the current items
+		int itemCount = 0;
+		List<InventoryItem> allItems = inventory.GetAll();
+		foreach (Transform itemParent in inventoryUI.Find("itemsList")) {
+			//populate it with the appropriate item from the inventory
+			InventoryItem currItem = allItems[itemCount];
+			PopulateItemInfo(itemParent, currItem);
+			itemCount++;
+		}
+	}
+
+	void PopulateItemInfo(Transform itemTree, InventoryItem item) {
+		print("populating with item " + item.itemName);
+		itemTree.Find("itemSprite").GetComponent<Image>().sprite = item.sprite;
+		itemTree.Find("itemName").GetComponent<Text>().text = item.itemName;
+		itemTree.Find("itemText").GetComponent<Text>().text = item.description;
 	}
 }
