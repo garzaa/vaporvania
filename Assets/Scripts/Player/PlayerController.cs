@@ -574,8 +574,8 @@ public class PlayerController : Entity
 
     public void OnEnvDamage(Collider2D boneHurtingCollider) {
         if (fc.inMeteor) {
-            anim.SetTrigger("hurt");
             fc.StopMeteorBlade();
+            anim.SetTrigger("hurt");
         }
         cameraShaker.SmallShake();
         if (invincible) return;

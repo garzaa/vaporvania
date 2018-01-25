@@ -107,6 +107,7 @@ public class FightController : MonoBehaviour {
 
     //called when the impact animation finishes before the transition to sword sheathing
     public void StopMeteorBlade() {
+        this.inMeteor = false;
         pc.UnFreeze();
         pc.SetInvincible(false);
     }
