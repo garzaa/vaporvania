@@ -23,9 +23,13 @@ public class NPC : Interactable {
 	public string npcName;
 
 	UIController uc;
+	Inventory inventory;
+
+	public InventoryItem[] npcItems;
 
 	void Start() {
 		uc = GameObject.Find("GameController").GetComponent<UIController>();
+		inventory = GameObject.Find("GameController").GetComponent<Inventory>();
 		ambientLines = new List<string>();
 		convos = new List<Conversation>();
 		CreateDialogue();
