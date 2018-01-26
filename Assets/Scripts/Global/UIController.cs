@@ -18,6 +18,8 @@ public class UIController : MonoBehaviour {
 	NPC currentNPC;	
 	Boss currentBoss;
 	//these are to be hooked up in the editor along with heart containers as above
+	//TODO: assign this and make dialogueOpen a function that checks whether it's active
+	public GameObject dialogueContainer;
 	public Image dialogueBox;
 	public Text dialogueText;
 	public Image currentPortrait;
@@ -43,6 +45,7 @@ public class UIController : MonoBehaviour {
 		HideDialogueUI();
 		ClearText();
 		ClearPortrait();
+		CloseInventory();
 	}
 
 	void Update() {
@@ -287,16 +290,22 @@ public class UIController : MonoBehaviour {
 		//update the inventory with the current items
 		int itemCount = 0;
 		List<InventoryItem> allItems = inventory.GetAll();
+
+		int itemsPerPage = inventoryUI.childCount;
+
 		foreach (Transform itemParent in inventoryUI.Find("itemsList")) {
 			//populate it with the appropriate item from the inventory
 			InventoryItem currItem = allItems[itemCount];
 			PopulateItemInfo(itemParent, currItem);
 			itemCount++;
+			
+			if (itemCount > itemsPerPage) {
+				break;
+			}
 		}
 	}
 
 	void PopulateItemInfo(Transform itemTree, InventoryItem item) {
-		print("populating with item " + item.itemName);
 		itemTree.Find("itemSprite").GetComponent<Image>().sprite = item.sprite;
 		itemTree.Find("itemName").GetComponent<Text>().text = item.itemName;
 		itemTree.Find("itemText").GetComponent<Text>().text = item.description;
