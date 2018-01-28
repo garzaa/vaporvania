@@ -33,8 +33,6 @@ public class UIController : MonoBehaviour {
 
 	bool openedDialogueThisFrame = false;
 
-	public bool dialogueOpen = false;
-
 	Inventory inventory;
 	public Transform inventoryUI;
 
@@ -49,7 +47,7 @@ public class UIController : MonoBehaviour {
 	}
 
 	void Update() {
-		if (dialogueOpen && !pc.frozen) {
+		if (DialogueOpen() && !pc.frozen) {
 			FreezePlayer();
 		}
 		UpdateUI();
@@ -63,7 +61,7 @@ public class UIController : MonoBehaviour {
 	}
 
 	void CheckInventoryOpen() {
-		if (Input.GetKeyDown(KeyCode.Tab) && !dialogueOpen) {
+		if (Input.GetKeyDown(KeyCode.Tab) && !DialogueOpen()) {
 			if (!InventoryOpen()) {
 				OpenInventory();
 			} else {
@@ -139,17 +137,16 @@ public class UIController : MonoBehaviour {
 	}
 
 	public void OpenDialogue(NPC npc) {
-		if (dialogueOpen) return;
+		if (DialogueOpen()) return;
 		openedDialogueThisFrame = true;
 		this.currentNPC = npc;
 		FreezePlayer();
 		SetPortrait(npc.portraits[0]);
 		ShowDialogueUI();
-		dialogueOpen = true;
 	}
 
 	public void OpenDialogue(Sign sign) {
-		if (dialogueOpen) return;
+		if (DialogueOpen()) return;
 		openedDialogueThisFrame = true;
 		currentSign = sign;
 		if (sign.portrait != null) {
@@ -164,14 +161,12 @@ public class UIController : MonoBehaviour {
 
 		FreezePlayer();
 		ShowDialogueUI();
-		dialogueOpen = true;
 	}
 
 	public void OpenDialogue(Boss boss) {
-		if (dialogueOpen) return;
+		if (DialogueOpen()) return;
 		openedDialogueThisFrame = true;
 		currentBoss = boss;
-		dialogueOpen = true;
 		FreezePlayer();
 		SetName(boss.bossName);
 		SetPortrait(boss.bossPortraits[0]);
@@ -197,7 +192,6 @@ public class UIController : MonoBehaviour {
 		this.currentNPC = null;
 		this.currentSign = null;
 		HideDialogueUI();
-		dialogueOpen = false;
 		if (currentBoss != null) {
 			currentBoss.StopTalking();
 			currentBoss = null;
@@ -227,6 +221,7 @@ public class UIController : MonoBehaviour {
 	}
 
 	void ShowDialogueUI() {
+		dialogueContainer.SetActive(true);
 		dialogueBox.enabled = true;
 		//advanceArrow.enabled = true;
 		currentPortrait.enabled = true;
@@ -235,6 +230,7 @@ public class UIController : MonoBehaviour {
 	}
 
 	void HideDialogueUI() {
+		dialogueContainer.SetActive(false);
 		dialogueBox.enabled = false;
 		advanceArrow.enabled = false;
 		currentPortrait.enabled = false;
@@ -309,5 +305,9 @@ public class UIController : MonoBehaviour {
 		itemTree.Find("itemSprite").GetComponent<Image>().sprite = item.sprite;
 		itemTree.Find("itemName").GetComponent<Text>().text = item.itemName;
 		itemTree.Find("itemText").GetComponent<Text>().text = item.description;
+	}
+
+	bool DialogueOpen() {
+		return dialogueContainer.activeSelf;
 	}
 }

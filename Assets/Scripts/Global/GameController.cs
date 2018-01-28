@@ -20,6 +20,9 @@ public class GameController : MonoBehaviour {
 	public string teleportTarget = null;
 	
 	UIController uc;
+
+	//game checkpoints for NPCs and such
+	List<string> gameCheckpoints;
 	
 	void Start() {
 		tc = GetComponent<TransitionController>();
@@ -28,6 +31,8 @@ public class GameController : MonoBehaviour {
 			teleportTarget = "startPoint";
 		}
 		uc = GetComponent<UIController>();
+
+		gameCheckpoints = new List<string>();
 	}
 
 	// Update is called once per frame
