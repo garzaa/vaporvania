@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: b3088e7c3bca6a44f9afb95491753d2c
-timeCreated: 1502661841
+timeCreated: 1517522516
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -51,7 +51,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 54
+  spritePixelsToUnits: 108
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -101,9 +101,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 32
-        width: 88
-        height: 32
+        y: 0
+        width: 176
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -114,10 +114,10 @@ TextureImporter:
       name: jab2-spritesheet_1
       rect:
         serializedVersion: 2
-        x: 88
-        y: 32
-        width: 88
-        height: 32
+        x: 176
+        y: 0
+        width: 176
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,10 +128,10 @@ TextureImporter:
       name: jab2-spritesheet_2
       rect:
         serializedVersion: 2
-        x: 176
-        y: 32
-        width: 88
-        height: 32
+        x: 352
+        y: 0
+        width: 176
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,38 +142,10 @@ TextureImporter:
       name: jab2-spritesheet_3
       rect:
         serializedVersion: 2
-        x: 0
+        x: 528
         y: 0
-        width: 88
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: jab2-spritesheet_4
-      rect:
-        serializedVersion: 2
-        x: 88
-        y: 0
-        width: 88
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: jab2-spritesheet_5
-      rect:
-        serializedVersion: 2
-        x: 176
-        y: 0
-        width: 88
-        height: 32
+        width: 176
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

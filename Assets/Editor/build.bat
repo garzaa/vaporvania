@@ -1,0 +1,1 @@
+Unity -quit -batchmode -executeMethod WebGLBuilder.build
