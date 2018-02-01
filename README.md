@@ -4,7 +4,7 @@ A vaporwave-themed metroidvania that's still in development.
 (can play in-browser)
 
 ### what's happening now
-I'm working on inventory and other UI elements.
+I upgraded to actual animation software and am redoing everything at double resolution. Very happy with how it's going so far.
 
 done:
 - wall-jumping
