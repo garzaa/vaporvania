@@ -10,7 +10,7 @@ public class PlayerController : Entity
     public int BASE_ATTACK_DMG = 1;
 
     float jumpSpeed = 5f;
-    float moveSpeed = 4f;
+    float moveSpeed = 3.5f;
     private float airControlRatio = .7f;
 
 	public bool grounded = false;
