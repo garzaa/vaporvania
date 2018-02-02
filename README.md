@@ -1,6 +1,6 @@
 A vaporwave-themed metroidvania that's still in development. 
 
-### [demo](https://adriangarza.github.io/vaporvania)
+### [demo](https://adriangarza.github.io/valentine-404)
 (can play in-browser)
 
 ### what's happening now
