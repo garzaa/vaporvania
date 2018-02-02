@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: b3088e7c3bca6a44f9afb95491753d2c
-timeCreated: 1517522516
+timeCreated: 1517553331
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -143,6 +143,20 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 528
+        y: 0
+        width: 176
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: jab2-spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 704
         y: 0
         width: 176
         height: 64
