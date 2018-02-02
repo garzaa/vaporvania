@@ -48,7 +48,7 @@ public class CameraShaker : MonoBehaviour {
 		}
 		else {
 			shakeDuration = 0f;
-			//camTransform.localPosition = originalPos;
+			camTransform.localPosition = originalPos;
 		}
 	}
 }
