@@ -22,6 +22,9 @@ done:
 - NPC dialogue
 - meteor slam
 
+### new high-res gifs
+![this should be an image, blame tumblr](https://78.media.tumblr.com/17b1242c1346d9fb78c3d4c914c43358/tumblr_p3hsf8ZmU31x1v7ffo1_400.gif)
+
 ### (old) gameplay gifs
 ![meteor!](https://78.media.tumblr.com/aed16343395288a6f77675e818d5dc05/tumblr_p31c85WRgP1x1v7ffo1_400.gif)
 ![animation cancel!](https://78.media.tumblr.com/485fb20f6c272ae64cc0a9502b275975/tumblr_p22ndamOgi1tk26l4o1_400.gif)
