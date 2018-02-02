@@ -650,10 +650,13 @@ public class PlayerController : Entity
         }
         InterruptAttack();
 
-        //damage dash always means invincibility
+        //damage dash always means invincibility, but we want the white flash of the sword on damage dash
+        //so we'll leave that alone
         if (VAPOR_DASH || DAMAGE_DASH) {
-            CyanSprite();
             SetInvincible(true);
+            if (!DAMAGE_DASH) {
+                CyanSprite();
+            }
         }
         if (DAMAGE_DASH) {
             anim.SetTrigger("damageDash");
