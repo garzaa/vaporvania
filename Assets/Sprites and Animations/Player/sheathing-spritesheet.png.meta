@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 003f4031d969b4248a7a477542273caf
-timeCreated: 1517437470
+timeCreated: 1517548798
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,6 +8,7 @@ TextureImporter:
     21300002: sheathing-spritesheet_1
     21300004: sheathing-spritesheet_2
     21300006: sheathing-spritesheet_3
+    21300008: sheathing-spritesheet_4
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -141,6 +142,20 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 276
+        y: 0
+        width: 92
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sheathing-spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 368
         y: 0
         width: 92
         height: 64
