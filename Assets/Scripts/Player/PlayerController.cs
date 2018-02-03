@@ -261,7 +261,7 @@ public class PlayerController : Entity
         //crouching
         if (!(Input.GetKey(KeyCode.DownArrow)) && anim.GetBool("crouchInput")) {
             anim.SetBool("crouchInput", false);
-        } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
+        } else if (Input.GetKeyDown(KeyCode.DownArrow) && !frozen) {
             anim.SetBool("crouchInput", true);
         }
 
