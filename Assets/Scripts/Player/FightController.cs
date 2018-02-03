@@ -40,6 +40,7 @@ public class FightController : MonoBehaviour {
 		} 
         
         //neutral-air vs down-air
+        //TODO: fix this shitty control flow
         else if (Input.GetKeyDown(KeyCode.Z) && 
             !(Input.GetKey(KeyCode.DownArrow)) &&
             CanAirAttack()) {

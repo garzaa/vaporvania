@@ -46,12 +46,6 @@ public class NPC : Interactable {
 	}
 
 	public override void Interact(GameObject player) {
-		//TODO
-		//open dialogue ui stuff
-		//write a line
-		//then listen for input?
-		//or have some UI controller that listens for inputs and then forwards the signal to the NPC
-		//so then on a LineForward() then advance the current line
 		uc.OpenDialogue(this);
 
 		//don't throw index errors at the end of a conversation tree
