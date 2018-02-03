@@ -161,7 +161,7 @@ public class PlayerController : Entity
     public void LeaveGround() {
         grounded = false;
         anim.SetBool("grounded", false);
-        if ((!dashing && !Input.GetKey(KeyCode.UpArrow)) 
+        if ((!dashing && !Input.GetButton("Jump")) 
             //passing upwards through a platform
             || rb2d.velocity.y > 0) {
             anim.SetTrigger("fall");
@@ -194,7 +194,7 @@ public class PlayerController : Entity
 
     void Jump() {
         if (!(
-            (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.UpArrow)) && 
+            (Input.GetButtonDown("Jump")) && 
             (grounded || wallSliding || airJumps > 0)
         ) || frozen) {
                 return;
@@ -379,7 +379,7 @@ public class PlayerController : Entity
 
         //emulate an analog jump
         //if the jump button is released
-        if (Input.GetKeyUp(KeyCode.UpArrow) && rb2d.velocity.y > JUMP_CUTOFF) {
+        if (Input.GetButtonUp("Jump") && rb2d.velocity.y > JUMP_CUTOFF) {
             //then clamp the y velocity to the jump cutoff
             rb2d.velocity = new Vector2(rb2d.velocity.x, JUMP_CUTOFF);
         }
