@@ -32,7 +32,11 @@ public class FightController : MonoBehaviour {
         } 
 
         else if (Input.GetKeyDown(KeyCode.Z) && pc.CanGroundAttack()) {
-            anim.SetTrigger("groundAttack");
+            if (Input.GetKey(KeyCode.UpArrow)) {
+                anim.SetTrigger("upTilt");
+            } else {
+                anim.SetTrigger("groundAttack");
+            }
 		} 
         
         //neutral-air vs down-air
