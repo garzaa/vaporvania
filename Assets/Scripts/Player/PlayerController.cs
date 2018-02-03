@@ -258,6 +258,13 @@ public class PlayerController : Entity
             anim.SetBool("running", false);
         }
 
+        //crouching
+        if (!(Input.GetKey(KeyCode.DownArrow)) && anim.GetBool("crouchInput")) {
+            anim.SetBool("crouchInput", false);
+        } else if (Input.GetKeyDown(KeyCode.DownArrow)) {
+            anim.SetBool("crouchInput", true);
+        }
+
         //interaction
         if (Input.GetKeyDown(KeyCode.C) && grounded && !frozen && !dashing) {
             if (savePossible && !anim.GetCurrentAnimatorStateInfo(0).IsName("Spawn")) {
@@ -356,7 +363,7 @@ public class PlayerController : Entity
                 anim.SetTrigger("fall");
                 anim.SetBool("grounded", false);
                 this.grounded = false;
-            }
+            } 
         }
 
         if (dashing) {
