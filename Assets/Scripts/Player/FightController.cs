@@ -59,7 +59,7 @@ public class FightController : MonoBehaviour {
 
         //on pressing shift, wait a few frames to dash to give the player a window to press Z to parry
         //the dash timwout won't be started if the player has already started parrying, which is checked for at the start of this function
-        else if (pc.HorizontalInput() && Input.GetKeyDown(KeyCode.LeftShift)) {
+        else if (Input.GetKeyDown(KeyCode.LeftShift)) {
             pc.Dash();
         }
         
