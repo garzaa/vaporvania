@@ -65,4 +65,9 @@ public class Entity : MonoBehaviour {
         Collider2D bc = this.GetComponent<Collider2D>();
         Instantiate(dustSprite, new Vector2(bc.transform.position.x, bc.bounds.min.y), Quaternion.identity);
     }
+
+    //returns the x-direction the entity is facing
+    public int GetForwardScalar() {
+        return facingRight ? 1 : -1;
+    }
 }

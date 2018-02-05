@@ -240,7 +240,7 @@ public class PlayerController : Entity
         anim.SetTrigger("jump");
         Freeze();
         //push up and away from the wall
-        rb2d.velocity = new Vector2(-4 * (facingRight ? 1 : -1), 1.2f * jumpSpeed);
+        rb2d.velocity = new Vector2(-4 * GetForwardScalar(), 1.2f * jumpSpeed);
         yield return new WaitForSeconds(.1f);
         UnFreeze();
     }
@@ -365,7 +365,7 @@ public class PlayerController : Entity
         }
 
         if (dashing) {
-            int moveScale = facingRight ? 1 : -1;
+            int moveScale = GetForwardScalar();
             rb2d.velocity = new Vector2(DASH_SPEED * moveScale, 0);
         }
 

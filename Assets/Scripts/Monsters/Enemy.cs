@@ -90,7 +90,7 @@ public class Enemy : Entity {
 						anim.SetTrigger("hurt");
 					}
 
-					int scale = playerObject.GetComponent<PlayerController>().facingRight ? 1: -1;
+					int scale = playerObject.GetComponent<PlayerController>().GetForwardScalar();
 					if (other.GetComponent<HurtboxController>() != null && this.rb2d != null) {
 						this.rb2d.velocity = (new Vector2(other.GetComponent<HurtboxController>().knockbackVector.x * scale, 
 							other.GetComponent<HurtboxController>().knockbackVector.y));
