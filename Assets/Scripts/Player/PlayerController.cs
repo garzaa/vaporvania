@@ -48,7 +48,6 @@ public class PlayerController : Entity
     SpriteRenderer spr;
     Material defaultMaterial;
     Material cyanMaterial;
-    Material redMaterial;
     int flashTimes = 5;
 
     public bool invincible = false;
@@ -102,7 +101,6 @@ public class PlayerController : Entity
         spr = this.GetComponent<SpriteRenderer>();
         defaultMaterial = spr.material;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
-        redMaterial = Resources.Load<Material>("Shaders/RedFlash");
 
         if (savePoint != null) {
             this.transform.position = savePoint.transform.position;
@@ -525,30 +523,23 @@ public class PlayerController : Entity
     }
 
     public void CyanSprite() {
+        //in case the material was changed between start and now
+        defaultMaterial = spr.material;
         spr.material = cyanMaterial;
-    }
-
-    public void RedSprite() {
-        spr.material = redMaterial;
     }
 
     public void WhiteSprite() {
         spr.material = defaultMaterial;
     }
 
-    IEnumerator Hurt(int flashes, bool first) {
+    IEnumerator Hurt(int flashes) {
         SetInvincible(true);
-        if (first) {
-            RedSprite();
-            first = false;
-        } else {
-            CyanSprite();
-        }
+        CyanSprite();
         yield return new WaitForSeconds(.07f);
         WhiteSprite();
         yield return new WaitForSeconds(.07f);
         if (flashes > 0) {
-            StartCoroutine(Hurt(--flashes, first)); //;^)
+            StartCoroutine(Hurt(--flashes)); //;^)
         } else {
             SetInvincible(false);
         }
@@ -560,7 +551,7 @@ public class PlayerController : Entity
             Die();
             return;
         }
-        StartCoroutine(Hurt(flashTimes, true));
+        StartCoroutine(Hurt(flashTimes));
     }
 
     public void OnMonsterHit(Collider2D boneHurtingCollider) {
