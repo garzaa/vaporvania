@@ -69,10 +69,10 @@ public class Enemy : Entity {
 	}
 
 	public void Die(){
+		CloseHurtboxes();
 		this.frozen = true;
 		this.dead = true;
 		DropPickups();
-		CloseHurtboxes();
 		if (this.GetComponent<Animator>() != null) {
 			this.GetComponent<Animator>().SetTrigger("die");
 		} else {
@@ -140,7 +140,7 @@ public class Enemy : Entity {
 	//on death, remove damage dealing even though it'll live a little bit while the dying animation finishes
 	public void CloseHurtboxes() {
 		foreach (Transform child in transform) {
-			if (child.gameObject.tag.Equals(Tags.enemyHitbox)) {
+			if (child.gameObject.tag.Equals(Tags.enemyHurtbox)) {
 				child.GetComponent<Collider2D>().enabled = false;
 			}
 		}
