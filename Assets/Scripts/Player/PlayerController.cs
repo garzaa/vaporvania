@@ -82,6 +82,9 @@ public class PlayerController : Entity
 
     float JUMP_CUTOFF = 2.0f;
 
+    //sounds
+    public AudioSource jumpSound;
+
 	void Start () {
         anim = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
@@ -197,6 +200,8 @@ public class PlayerController : Entity
         ) || frozen) {
                 return;
         }
+
+        jumpSound.Play();
 
         if (wallSliding && !grounded)
         {

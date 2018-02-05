@@ -12,6 +12,9 @@ public class FightController : MonoBehaviour {
     public GameObject jets;
     public Transform impactPrefab;
 
+    public AudioSource swordConnect;
+    public AudioSource swordSwing;
+
 	void Start() {
 		pc = GetComponent<PlayerController>();
 		anim = GetComponent<Animator>();
@@ -32,6 +35,7 @@ public class FightController : MonoBehaviour {
         } 
 
         else if (Input.GetKeyDown(KeyCode.Z) && pc.CanGroundAttack()) {
+            PlaySwing();
             if (Input.GetKey(KeyCode.UpArrow)) {
                 anim.SetTrigger("upTilt");
             } else {
@@ -60,10 +64,12 @@ public class FightController : MonoBehaviour {
     }
 
 	void AirAttack() {
+        PlaySwing();
         anim.SetTrigger("airAttack");
     }
 
     void DownAir() {
+        PlaySwing();
         anim.SetTrigger("downAir");
     }
 
@@ -104,5 +110,15 @@ public class FightController : MonoBehaviour {
         this.inMeteor = false;
         pc.UnFreeze();
         pc.SetInvincible(false);
+    }
+
+    //called from the enemy that's hit
+    public void AttackConnect(GameObject enemyObject) {
+        //play audio
+        swordConnect.Play();
+    }
+
+    void PlaySwing() {
+        swordSwing.Play();
     }
 }
