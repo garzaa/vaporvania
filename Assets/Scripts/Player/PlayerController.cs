@@ -616,11 +616,6 @@ public class PlayerController : Entity
         gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
 
-    public void Dodge() {
-        if (frozen || swinging || attackCooldown || !grounded) return;
-        anim.SetTrigger("dodge");
-    }
-
     //animation events :^)
     public void StartDodging() {
         this.SetInvincible(true);

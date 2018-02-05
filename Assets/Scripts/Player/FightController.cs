@@ -40,25 +40,14 @@ public class FightController : MonoBehaviour {
 		} 
         
         //neutral-air vs down-air
-        //TODO: fix this shitty control flow
-        else if (Input.GetKeyDown(KeyCode.Z) && 
-            !(Input.GetKey(KeyCode.DownArrow)) &&
-            CanAirAttack()) {
-            AirAttack();
-        } else if (Input.GetKeyDown(KeyCode.Z) && 
-            (Input.GetKey(KeyCode.DownArrow)) &&
-            CanAirAttack()) {
-            DownAir();
+        else if (Input.GetKeyDown(KeyCode.Z) && CanAirAttack()) {
+            if (Input.GetKey(KeyCode.DownArrow)) {
+                DownAir();
+            } else {
+                AirAttack();
+            }
         }
 
-        //can be generous with key checking here for reasons below
-        else if ((Input.GetKey(KeyCode.X) && Input.GetKeyDown(KeyCode.DownArrow))
-                || (Input.GetKeyDown(KeyCode.X) && Input.GetKey(KeyCode.DownArrow))) {
-            pc.Dodge();
-        }
-
-        //on pressing shift, wait a few frames to dash to give the player a window to press Z to parry
-        //the dash timwout won't be started if the player has already started parrying, which is checked for at the start of this function
         else if (Input.GetKeyDown(KeyCode.LeftShift)) {
             pc.Dash();
         }
