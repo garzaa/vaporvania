@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: d8654102333b69047b0f837017b9cda4
-timeCreated: 1515638637
+guid: 181c7837fe2687c4ea2f24f38e02b07b
+timeCreated: 1517865132
 licenseType: Free
 TrueTypeFontImporter:
   serializedVersion: 4
@@ -9,9 +9,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: MonteCarlo Fixed 12
+  fontName: Perfect DOS VGA 437 Win
   fontNames:
-  - MonteCarlo Fixed 12
+  - Perfect DOS VGA 437 Win
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
