@@ -41,14 +41,22 @@ public class Inventory : MonoBehaviour {
 		if (!Contains(item)) {
 			items.Add(item);
 		} else {
-			Debug.LogWarning("Item "+item.itemName+" already in inventory!");
+			foreach (InventoryItem i in items) {
+				if (i.itemName.Equals(name)) {
+					i.count += item.count;
+				}
+			}
 		}
 	}
 
 	public void Remove(string name) {
 		foreach (InventoryItem i in items) {
 			if (i.itemName.Equals(name)) {
-				items.Remove(i);
+				if (i.count == 1 && i.removeOnZero) {
+					items.Remove(i);
+				} else {
+					i.count -= 1;
+				}
 			}
 		}
 	}
