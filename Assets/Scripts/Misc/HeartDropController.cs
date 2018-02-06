@@ -9,7 +9,9 @@ public class HeartDropController : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col) {
 		if (col.gameObject.name == "Player") {
-			col.gameObject.GetComponent<PlayerController>().GetHealth(this.health);
+			PlayerController pc = col.gameObject.GetComponent<PlayerController>();
+			pc.GetHealth(this.health);
+			pc.PlayPickup();
 			Instantiate(hitmarker, this.transform.position, Quaternion.identity);
 			Destroy(this.gameObject);
 		} else if (col.gameObject.CompareTag(Tags.envdamage)) {

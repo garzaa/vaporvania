@@ -115,10 +115,14 @@ public class FightController : MonoBehaviour {
     //called from the enemy that's hit
     public void AttackConnect(GameObject enemyObject) {
         //play audio
-        swordConnect.Play();
+        PlayClang();
     }
 
-    void PlaySwing() {
+    public void PlaySwing() {
         swordSwing.Play();
+    }
+
+    public void PlayClang() {
+        swordConnect.Play();
     }
 }

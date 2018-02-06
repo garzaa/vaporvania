@@ -84,6 +84,7 @@ public class PlayerController : Entity
 
     //sounds
     public AudioSource jumpSound;
+    public AudioSource pickupSound;
 
 	void Start () {
         anim = GetComponent<Animator>();
@@ -646,6 +647,8 @@ public class PlayerController : Entity
         if (dashCooldown || dashing || parrying) {
             return;
         }
+
+        fc.PlaySwing();
         InterruptAttack();
 
         //damage dash always means invincibility, but we want the white flash of the sword on damage dash
@@ -774,5 +777,9 @@ public class PlayerController : Entity
     public Vector2 GetBottomCenter() {
         BoxCollider2D bc = GetComponent<BoxCollider2D>();
         return new Vector2(bc.transform.position.x, bc.bounds.min.y);
+    }
+
+    public void PlayPickup() {
+        pickupSound.Play();
     }
 }
