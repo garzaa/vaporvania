@@ -482,7 +482,7 @@ public class PlayerController : Entity
         fc.StopMeteorBlade();
     }
 
-    void resetJumps() {
+    void ResetJumps() {
         airJumps = maxAirJumps;
     }
 
@@ -600,11 +600,9 @@ public class PlayerController : Entity
         anim.ResetTrigger("respawn");
         anim.SetBool("dead", true);
         anim.SetTrigger("die");
-        StartCoroutine(WaitAndRespawn());
     }
 
-    public IEnumerator WaitAndRespawn() {
-        yield return new WaitForSeconds(1f);
+    public void RespawnFromAnimation() {
         gc.Respawn();
     }
 
