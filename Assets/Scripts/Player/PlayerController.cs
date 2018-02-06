@@ -253,6 +253,10 @@ public class PlayerController : Entity
     }
 
     void Move() {
+        if (Input.GetKeyDown(KeyCode.K)) {
+            Die();
+        }
+
         float h = Input.GetAxis("Horizontal");
 
         //stop the player if they're moving on the ground
