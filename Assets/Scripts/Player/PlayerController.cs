@@ -553,6 +553,10 @@ public class PlayerController : Entity
 
     void StartHurting(int dmg) {
         this.hp -= dmg;
+        //show an alert if low health
+        if (this.hp <= 1) {
+            
+        }
         if (this.hp <= 0) {
             Die();
             return;
@@ -651,14 +655,8 @@ public class PlayerController : Entity
         fc.PlaySwing();
         InterruptAttack();
 
-        //damage dash always means invincibility, but we want the white flash of the sword on damage dash
-        //so we'll leave that alone
-        if (VAPOR_DASH || DAMAGE_DASH) {
-            SetInvincible(true);
-            if (!DAMAGE_DASH) {
-                CyanSprite();
-            }
-        }
+        SetInvincible(true);
+
         if (DAMAGE_DASH) {
             anim.SetTrigger("damageDash");
             OpenHurtbox("DamageDash");

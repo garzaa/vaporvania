@@ -35,6 +35,8 @@ public class UIController : MonoBehaviour {
 
 	Inventory inventory;
 	public Transform inventoryUI;
+	
+	public Text alertText;
 
 	void Start() {
 		gc = GetComponent<GameController>();
@@ -309,5 +311,13 @@ public class UIController : MonoBehaviour {
 
 	bool DialogueOpen() {
 		return dialogueContainer.activeSelf;
+	}
+
+	public void DisplayAlert(Alert alert) {
+		
+	}
+
+	public void ShowAlert() {
+
 	}
 }
