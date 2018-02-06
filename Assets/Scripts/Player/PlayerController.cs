@@ -542,12 +542,12 @@ public class PlayerController : Entity
     void StartHurting(int dmg) {
         this.hp -= dmg;
         //show an alert if low health
-        if (this.hp <= 2 && this.hp > 1) {
-            uc.DisplayAlert(new Alert("WARNING: BODY WAVEFORM DAMAGED", true));
-        } else if (this.hp <= 1 && this.hp > 0){
-            uc.DisplayAlert(new Alert("WARNING: BODY WAVEFORM UNSTABLE", true));
+        if (this.hp <= 1 && this.hp > 0){
+            uc.DisplayAlert(new Alert("WARNING: CORE CRITICAL", true));
         }
+
         if (this.hp <= 0) {
+            uc.DisplayAlert(new Alert("FATAL ERROR: CORE DESTABILIZED", true));
             Die();
             return;
         }
