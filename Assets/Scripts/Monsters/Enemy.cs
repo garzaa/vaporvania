@@ -155,7 +155,9 @@ public class Enemy : Entity {
 	}
 
 	public void WhiteSprite() {
-		defaultMaterial = spr.material;
+		if (spr.material != whiteMaterial) {
+			defaultMaterial = spr.material;
+		}
         spr.material = whiteMaterial;
     }
 
