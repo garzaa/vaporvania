@@ -56,7 +56,6 @@ public class PlayerController : Entity
 
     public CameraShaker cameraShaker;
 
-    public bool VAPOR_DASH = true;
     public bool DAMAGE_DASH = true;
     public bool dashing = false;
     public bool dashCooldown = false;
@@ -64,6 +63,7 @@ public class PlayerController : Entity
 
     public bool savePossible = false;
     public GameController gc;
+    UIController uc;
 
     //for triggering events/savepoints/etc
     private Collider2D playerTrigger;
@@ -90,6 +90,7 @@ public class PlayerController : Entity
         anim = GetComponent<Animator>();
         rb2d = GetComponent<Rigidbody2D>();
         fc = GetComponent<FightController>();
+        uc = gc.GetComponent<UIController>();
         hitmarker = (GameObject) Resources.Load("Prefabs/Particles/Hitmarker");
 
         swinging = false;
@@ -485,19 +486,6 @@ public class PlayerController : Entity
         airJumps = maxAirJumps;
     }
 
-    //this stuff is to interface with animation events
-    public void OpenHurtbox(string hurtboxName) {
-        //find the jab1 object and activate it
-        foreach (Transform hurtbox in hurtboxes.GetComponentInChildren<Transform>()) {
-            if (hurtbox.name.Equals(hurtboxName)) {
-                this.currentHurtbox = hurtbox.gameObject;
-                hurtbox.GetComponent<Collider2D>().enabled = true;
-                return;
-            }
-        }
-        Debug.LogError(hurtboxName + "not found");
-    }
-
     public void CloseHurtbox(string hurtboxName) {
         if (this.currentHurtbox != null) {
             this.currentHurtbox.GetComponent<Collider2D>().enabled = false;
@@ -554,8 +542,10 @@ public class PlayerController : Entity
     void StartHurting(int dmg) {
         this.hp -= dmg;
         //show an alert if low health
-        if (this.hp <= 1) {
-            
+        if (this.hp <= 2 && this.hp > 1) {
+            uc.DisplayAlert(new Alert("WARNING: BODY WAVEFORM DAMAGED", true));
+        } else if (this.hp <= 1 && this.hp > 0){
+            uc.DisplayAlert(new Alert("WARNING: BODY WAVEFORM UNSTABLE", true));
         }
         if (this.hp <= 0) {
             Die();
@@ -659,7 +649,6 @@ public class PlayerController : Entity
 
         if (DAMAGE_DASH) {
             anim.SetTrigger("damageDash");
-            OpenHurtbox("DamageDash");
         }
         anim.SetTrigger("dash");
         dashing = true;
@@ -674,10 +663,10 @@ public class PlayerController : Entity
         dashing = false;
         rb2d.velocity = preDashVelocity;
         StartCoroutine(StartDashCooldown(.2f));
-        if (VAPOR_DASH) {
+        if (DAMAGE_DASH) { 
             WhiteSprite();
-            SetInvincible(false);
         }
+        SetInvincible(false);
         CloseHurtbox("DamageDash");
     }
 
@@ -690,10 +679,10 @@ public class PlayerController : Entity
     public void InterruptDash() {
         dashing = false;
         StartCoroutine(StartDashCooldown(.2f));
-        if (VAPOR_DASH || DAMAGE_DASH) {
+        if (DAMAGE_DASH) {
             WhiteSprite();
-            SetInvincible(false);
         }
+        SetInvincible(false);
         CloseHurtbox("DamageDash");
     }
 

@@ -35,7 +35,7 @@ public class UIController : MonoBehaviour {
 
 	Inventory inventory;
 	public Transform inventoryUI;
-	
+
 	public Text alertText;
 
 	void Start() {
@@ -313,11 +313,15 @@ public class UIController : MonoBehaviour {
 		return dialogueContainer.activeSelf;
 	}
 
-	public void DisplayAlert(Alert alert) {
-		
+	public void DisplayAlert(Alert incomingAlert) {
+		if (AlertActive() || incomingAlert.priority) {
+			alertText.text = incomingAlert.content;
+			alertText.GetComponent<Animator>().SetTrigger("flashAlert");
+		}
 	}
 
-	public void ShowAlert() {
-
+	bool AlertActive() {
+		//because the text itself will be toggled on and off via an attached animation
+		return alertText.gameObject.activeSelf;
 	}
 }
