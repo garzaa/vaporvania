@@ -9,11 +9,12 @@ public class SideCollider : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D col)
 	{
 		if (col.collider.CompareTag(Tags.wall) || col.collider.CompareTag(Tags.platformwall)) {
-			if (PositionCheck(this.GetComponent<Collider2D>(), col.gameObject.GetComponent<Collider2D>())) {
+			/* if (PositionCheck(this.GetComponent<Collider2D>(), col.gameObject.GetComponent<Collider2D>())) {
 				player.HitWall(col);
 			} /* else {
 				//insert the potential ledge-climb animation here
 			} */
+			player.HitWall(col);
 		}
 		else if (col.collider.CompareTag(Tags.envdamage)) {
 			player.OnEnvDamage(col.collider);
@@ -25,11 +26,12 @@ public class SideCollider : MonoBehaviour {
 
 	void OnCollisionStay2D(Collision2D col) {
 		if (col.collider.CompareTag(Tags.wall) || col.collider.CompareTag(Tags.platformwall)) {
-			if (PositionCheck(this.GetComponent<Collider2D>(), col.gameObject.GetComponent<Collider2D>())) {
+			/* if (PositionCheck(this.GetComponent<Collider2D>(), col.gameObject.GetComponent<Collider2D>())) {
 				player.StayOnWall(col);
 			} else {
 				player.LeaveWall(col);
-			}
+			} */
+			player.StayOnWall(col);
 		}
 	}
 

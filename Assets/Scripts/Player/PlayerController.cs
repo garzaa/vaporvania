@@ -28,7 +28,7 @@ public class PlayerController : Entity
 
     [HideInInspector] public readonly float TERMINAL_VELOCITY = -8f;
     float ROLL_VELOCITY = -5f;
-    float DASH_SPEED = 20f;
+    float DASH_SPEED = 15f;
     Vector2 preDashVelocity;
     bool fastFalling = false;
     bool terminalFalling = false;
@@ -396,7 +396,7 @@ public class PlayerController : Entity
         //emulate an analog jump
         //if the jump button is released
         if (Input.GetButtonUp("Jump") && rb2d.velocity.y > JUMP_CUTOFF) {
-            //then clamp the y velocity to the jump cutoff
+            //then decrease the y velocity to the jump cutoff
             rb2d.velocity = new Vector2(rb2d.velocity.x, JUMP_CUTOFF);
         }
     }
