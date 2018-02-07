@@ -14,7 +14,11 @@ public class SideCollider : MonoBehaviour {
 			} /* else {
 				//insert the potential ledge-climb animation here
 			} */
-			player.HitWall(col);
+			//make sure the player is facing towards the wall
+			bool wallToRight = col.transform.position.x > player.transform.position.x;
+			if ((wallToRight && player.facingRight) || (!wallToRight && !player.facingRight)) {
+				player.HitWall(col);
+			}
 		}
 		else if (col.collider.CompareTag(Tags.envdamage)) {
 			player.OnEnvDamage(col.collider);
