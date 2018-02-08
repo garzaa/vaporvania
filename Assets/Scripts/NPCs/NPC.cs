@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 //edit 2d arrays in the inspector
 [System.Serializable]
-public class ConversationContainer {
+public class SerializableConversation {
 	public SerializableLine[] lines;
 }
 
@@ -34,7 +34,7 @@ public class NPC : Interactable {
 	public string npcName;
 
 	//since nothing is scripted these are just the basic dialogue lines
-	public ConversationContainer[] editorConvos;
+	public SerializableConversation[] editorConvos;
 
 
 	void Start() {
@@ -105,7 +105,7 @@ public class NPC : Interactable {
 	}
 
 	public DialogueLine MakeLine(SerializableLine line) {
-		if (line.name == null) {
+		if (string.IsNullOrEmpty(line.name)) {
 			line.name = this.npcName;
 		}
 		//if the image index is unspecified it defaults to zero, no need to catch it
