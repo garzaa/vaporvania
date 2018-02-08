@@ -26,7 +26,7 @@ public class Parallax : MonoBehaviour {
 
             currX = player.transform.position.x;
 
-            this.transform.Translate(new Vector2(ratio * (currX - prevX), 0));
+            this.transform.Translate(new Vector2(x: ratio * (currX - prevX), y: 0));
 
             prevX = player.transform.position.x;
 

@@ -26,7 +26,6 @@ public class NPC : Interactable {
 	[HideInInspector]  public int currentConvo;
 	[HideInInspector]  public int currentLine;
 
-	[HideInInspector] PlayerController pc;
 	[HideInInspector] public UIController uc;
 
 	//make this a list, so they can change after certain lines
@@ -57,10 +56,6 @@ public class NPC : Interactable {
 				convos.Add(temp);
 			}
 		}
-	}
-
-	void GetPlayer() {
-		pc = GameObject.Find("Player").GetComponent<PlayerController>();
 	}
 
 	//to be overwritten by individual NPC controllers.

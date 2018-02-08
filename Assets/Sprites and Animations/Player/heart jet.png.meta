@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: e937d5f6f0add48488025e97a016abad
-timeCreated: 1516683251
+timeCreated: 1518126978
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -10,6 +10,7 @@ TextureImporter:
     21300006: heart jet_3
     21300008: heart jet_4
     21300010: heart jet_5
+    21300012: heart jet_6
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -51,7 +52,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 54
+  spritePixelsToUnits: 108
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -102,8 +103,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 7
-        height: 26
+        width: 21
+        height: 52
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -114,10 +115,10 @@ TextureImporter:
       name: heart jet_1
       rect:
         serializedVersion: 2
-        x: 7
+        x: 21
         y: 0
-        width: 7
-        height: 26
+        width: 21
+        height: 52
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,10 +129,10 @@ TextureImporter:
       name: heart jet_2
       rect:
         serializedVersion: 2
-        x: 14
+        x: 42
         y: 0
-        width: 7
-        height: 26
+        width: 21
+        height: 52
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,10 +143,10 @@ TextureImporter:
       name: heart jet_3
       rect:
         serializedVersion: 2
-        x: 21
+        x: 63
         y: 0
-        width: 7
-        height: 26
+        width: 21
+        height: 52
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,10 +157,10 @@ TextureImporter:
       name: heart jet_4
       rect:
         serializedVersion: 2
-        x: 28
+        x: 84
         y: 0
-        width: 7
-        height: 26
+        width: 21
+        height: 52
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -170,10 +171,24 @@ TextureImporter:
       name: heart jet_5
       rect:
         serializedVersion: 2
-        x: 35
+        x: 105
         y: 0
-        width: 7
-        height: 26
+        width: 21
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: heart jet_6
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 0
+        width: 21
+        height: 52
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

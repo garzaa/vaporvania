@@ -19,8 +19,6 @@ public class GameController : MonoBehaviour {
 	bool toRespawn = false;
 	public string teleportTarget = null;
 	
-	UIController uc;
-
 	//game checkpoints for NPCs and such
 	List<string> gameCheckpoints;
 	
@@ -30,7 +28,6 @@ public class GameController : MonoBehaviour {
 			tc.LoadSceneFade("Tutorial");
 			teleportTarget = "startPoint";
 		}
-		uc = GetComponent<UIController>();
 
 		gameCheckpoints = new List<string>();
 	}
@@ -136,5 +133,9 @@ public class GameController : MonoBehaviour {
 			pc.UnFreeze();
 			pc.UnFreezeInSpace();
 		}
+	}
+
+	public bool HasCheckpoint(string check) {
+		return gameCheckpoints.Contains(check);
 	}
 }
