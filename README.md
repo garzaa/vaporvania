@@ -1,4 +1,4 @@
-![hm](https://78.media.tumblr.com/a84bf183fe1fed5732d88485c83a7893/tumblr_p3qwr39n431x1v7ffo1_r1_400.gif)
+![hm](https://78.media.tumblr.com/d4a0dfe82d85a98177511c27394519ce/tumblr_p3tdq95XuP1x1v7ffo1_500.gif)
 
 A vaporwave-themed metroidvania that's still in development. 
 
