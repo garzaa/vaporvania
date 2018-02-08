@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Steven : NPC {
+public class Steven : ScriptedNPC {
 
 	public override void CreateDialogue() {
 		Conversation temp = new Conversation()

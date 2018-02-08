@@ -3,36 +3,52 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//edit 2d arrays in the inspector
+[System.Serializable]
+public class ConversationContainer {
+	public string[] lines;
+}
+
 //basic NPC to talk to. maybe have a Shopkeeper to extend the NPC 
 public class NPC : Interactable {
-
-	//dialogue lines for when the player walks past (use a trigger)
-	public List<string> ambientLines;
 
 	//then a list of sub-trees for actual dialogue lines
 	public List<Conversation> convos;
 
 	//keeping track of where they are in the conversation tree
-	public int currentConvo;
-	public int currentLine;
+	[HideInInspector]  public int currentConvo;
+	[HideInInspector]  public int currentLine;
 
-	PlayerController pc;
+	[HideInInspector] PlayerController pc;
+	[HideInInspector] public UIController uc;
 
 	//make this a list, so they can change after certain lines
 	public Sprite[] portraits;
 	public string npcName;
 
-	UIController uc;
-	Inventory inventory;
+	//since nothing is scripted these are just the basic dialogue lines
+	public ConversationContainer[] dialogueLines;
 
-	public InventoryItem[] npcItems;
 
 	void Start() {
 		uc = GameObject.Find("GameController").GetComponent<UIController>();
-		inventory = GameObject.Find("GameController").GetComponent<Inventory>();
-		ambientLines = new List<string>();
 		convos = new List<Conversation>();
 		CreateDialogue();
+		Initialize();
+
+		//then create the custom conversation list out of the dialogue lines
+		if (dialogueLines != null) {
+			convos = new List<Conversation>();
+			//for every conversation
+			for (int i=0; i<dialogueLines.Length; i++) {
+				Conversation temp = new Conversation();
+				//for every line in that conversation
+				for (int j=0; j<dialogueLines[i].lines.Length; j++) {
+						temp.Add(MakeLine(dialogueLines[i].lines[j]));
+				}
+				convos.Add(temp);
+			}
+		}
 	}
 
 	void GetPlayer() {
@@ -67,9 +83,7 @@ public class NPC : Interactable {
 			FinishLine(currentConvo, currentLine);
 			return;
 		}
-
 		FinishLine(currentConvo, currentLine);
-
 		uc.RenderDialogue(convos[currentConvo][currentLine]);
 	}
 
@@ -77,25 +91,17 @@ public class NPC : Interactable {
 		return (currentLine+1 < convos[currentConvo].Length());
 	}
 
+	//default NPC name and portrait
+	public DialogueLine MakeLine(string content) {
+		return new DialogueLine(content, this.npcName, 0);
+	}
+
+
 	//called at the end of every conversation subtree when the dialogue is closed
 	//can be a hook for NPC-specific functions
 	public virtual void FinishLine(int convo, int line) {
 		
 	}
 
-	//default NPC name and portrait
-	public DialogueLine MakeLine(string content) {
-		return new DialogueLine(content, this.npcName, 0);
-	}
-
-	//default NPC name
-	//if the image is <0, then it'll just use the player name
-	public DialogueLine MakeLine(string content, int image) {
-		return new DialogueLine(content, "", image);
-	}
-
-	//making all the info
-	public DialogueLine MakeLine(string content, string name, int image) {
-		return new DialogueLine(content, name, image);
-	}
+	public virtual void Initialize() {}
 }
