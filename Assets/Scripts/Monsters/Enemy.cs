@@ -178,6 +178,11 @@ public class Enemy : Entity {
 	}
 
 	public void Burst() {
-
+		for (int i=0; i<4; i++) {
+				Transform newChunk = Instantiate(chunkPrefab, this.transform.position, Quaternion.identity);
+				Rigidbody2D cRB = newChunk.GetComponent<Rigidbody2D>();
+				cRB.velocity = new Vector2(x: Random.Range(-1f, 1f), y: Random.Range(2f, 3f));
+		}
+		Destroy();
 	}
 }
