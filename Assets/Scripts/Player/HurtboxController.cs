@@ -13,12 +13,17 @@ public class HurtboxController : MonoBehaviour {
 
 	PlayerController pc;
 
+	public bool stopVelocity;
+
 	void Start() {
 		pc = GameObject.Find("Player").GetComponent<PlayerController>();
 	}
 
 	public int GetDamage() {
 		if (this.tag == Tags.playerAttack) {
+			if (stopVelocity) {
+				pc.ZeroVelocity();
+			}
 			return this.damage * pc.BASE_ATTACK_DMG;
 		} else {
 			return this.damage;
