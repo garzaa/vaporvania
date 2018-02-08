@@ -6,7 +6,14 @@ using UnityEngine.UI;
 //edit 2d arrays in the inspector
 [System.Serializable]
 public class ConversationContainer {
-	public string[] lines;
+	public SerializableLine[] lines;
+}
+
+[System.Serializable]
+public class SerializableLine {
+	public string text;
+	public string name;
+	public int imageIndex;
 }
 
 //basic NPC to talk to. maybe have a Shopkeeper to extend the NPC 
@@ -27,7 +34,7 @@ public class NPC : Interactable {
 	public string npcName;
 
 	//since nothing is scripted these are just the basic dialogue lines
-	public ConversationContainer[] dialogueLines;
+	public ConversationContainer[] editorConvos;
 
 
 	void Start() {
@@ -37,14 +44,15 @@ public class NPC : Interactable {
 		Initialize();
 
 		//then create the custom conversation list out of the dialogue lines
-		if (dialogueLines != null) {
+		if (editorConvos != null) {
 			convos = new List<Conversation>();
 			//for every conversation
-			for (int i=0; i<dialogueLines.Length; i++) {
+			for (int i=0; i<editorConvos.Length; i++) {
 				Conversation temp = new Conversation();
 				//for every line in that conversation
-				for (int j=0; j<dialogueLines[i].lines.Length; j++) {
-						temp.Add(MakeLine(dialogueLines[i].lines[j]));
+				for (int j=0; j<editorConvos[i].lines.Length; j++) {
+						//temp.Add(MakeLine(dialogueLines[i].lines[j]));
+						temp.Add(MakeLine(editorConvos[i].lines[j]));
 				}
 				convos.Add(temp);
 			}
@@ -96,6 +104,13 @@ public class NPC : Interactable {
 		return new DialogueLine(content, this.npcName, 0);
 	}
 
+	public DialogueLine MakeLine(SerializableLine line) {
+		if (line.name == null) {
+			line.name = this.npcName;
+		}
+		//if the image index is unspecified it defaults to zero, no need to catch it
+		return new DialogueLine(line.text, line.name, line.imageIndex);
+	}
 
 	//called at the end of every conversation subtree when the dialogue is closed
 	//can be a hook for NPC-specific functions
