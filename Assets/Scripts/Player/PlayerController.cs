@@ -9,8 +9,8 @@ public class PlayerController : Entity
 
     public int BASE_ATTACK_DMG = 1;
 
-    float jumpSpeed = 5f;
-    float moveSpeed = 3.5f;
+    readonly float jumpSpeed = 5f;
+    readonly float moveSpeed = 3.5f;
     private float airControlRatio = .7f;
 
 	public bool grounded = false;
@@ -27,13 +27,11 @@ public class PlayerController : Entity
     public bool attackCooldown = false;
 
     [HideInInspector] public readonly float TERMINAL_VELOCITY = -8f;
-    float ROLL_VELOCITY = -5f;
-    float DASH_SPEED = 15f;
+    readonly float ROLL_VELOCITY = -5f;
+    readonly float DASH_SPEED = 15f;
     Vector2 preDashVelocity;
     bool fastFalling = false;
     bool terminalFalling = false;
-
-    List<KeyCode> forcedInputs;
 
     public int maxAirJumps = 1;
     int airJumps;
@@ -96,8 +94,6 @@ public class PlayerController : Entity
         swinging = false;
         grounded = false;
         anim.SetBool("falling", true);
-
-        forcedInputs = new List<KeyCode>();
 
         airJumps = maxAirJumps;
 
@@ -447,20 +443,6 @@ public class PlayerController : Entity
 
     public void StopParrying() {
         this.parrying = false;
-    }
-
-    void StartForcing(KeyCode keyCode) 
-    {
-        //don't want to add duplicates
-        if (!this.forcedInputs.Contains(keyCode)) {
-            this.forcedInputs.Add(keyCode);
-        }
-    }
-    void StopForcing(KeyCode keyCode) {
-        this.forcedInputs.Remove(keyCode);
-    }
-    void StopForcingAll() {
-        this.forcedInputs.Clear();
     }
 
     public void Freeze() {

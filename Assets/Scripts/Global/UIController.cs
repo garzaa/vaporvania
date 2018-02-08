@@ -321,6 +321,7 @@ public class UIController : MonoBehaviour {
 	}
 
 	bool AlertActive() {
+		//return the active status of the entire gameobject
 		//because the text itself will be toggled on and off via an attached animation
 		return alertText.gameObject.activeSelf;
 	}
