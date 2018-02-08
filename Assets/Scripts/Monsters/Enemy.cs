@@ -36,7 +36,10 @@ public class Enemy : Entity {
 	public bool staggerable = true;
 	public bool envDmgSusceptible = true;
 
-	public SpriteRenderer spr;
+	[HideInInspector] public SpriteRenderer spr;
+
+	public bool burstOnDeath;
+	public Transform chunkPrefab;
 
 	void OnEnable() {
 		totalHP = hp;
@@ -73,10 +76,14 @@ public class Enemy : Entity {
 		this.frozen = true;
 		this.dead = true;
 		DropPickups();
-		if (this.GetComponent<Animator>() != null) {
+		if (this.GetComponent<Animator>() != null && !burstOnDeath) {
 			this.GetComponent<Animator>().SetTrigger("die");
 		} else {
-			Destroy();
+			if (burstOnDeath) {
+				Burst();
+			} else {
+				Destroy();
+			}
 		}
 	}
 
@@ -167,6 +174,10 @@ public class Enemy : Entity {
 	}
 
 	public virtual void OnDamage() {
+
+	}
+
+	public void Burst() {
 
 	}
 }
