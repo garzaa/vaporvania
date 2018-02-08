@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour {
 	
 	//game checkpoints for NPCs and such
 	List<string> gameCheckpoints;
+	UIController uc;
 	
 	void Start() {
 		tc = GetComponent<TransitionController>();
@@ -30,6 +31,7 @@ public class GameController : MonoBehaviour {
 		}
 
 		gameCheckpoints = new List<string>();
+		uc = GetComponent<UIController>();
 	}
 
 	// Update is called once per frame
@@ -77,6 +79,9 @@ public class GameController : MonoBehaviour {
 		//only set X to prevent weird grounding issues
 		playerRespawnPoint = new Vector2(savePoint.transform.position.x, pc.transform.position.y);
 		playerRespawnScene = SceneManager.GetActiveScene().name;
+
+		//then display an alert
+		uc.DisplayAlert(new Alert("GAME SAVED"));
 	}
 
 	//lets an interactable know to put an arrow above it
