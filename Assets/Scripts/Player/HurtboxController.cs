@@ -13,7 +13,7 @@ public class HurtboxController : MonoBehaviour {
 
 	PlayerController pc;
 
-	public bool stopVelocity;
+	public Vector2 selfKnockback;
 
 	void Start() {
 		pc = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -21,8 +21,8 @@ public class HurtboxController : MonoBehaviour {
 
 	public int GetDamage() {
 		if (this.tag == Tags.playerAttack) {
-			if (stopVelocity) {
-				pc.ZeroVelocity();
+			if (!selfKnockback.Equals(Vector2.zero)) {
+				pc.rb2d.velocity = selfKnockback;
 			}
 			return this.damage * pc.BASE_ATTACK_DMG;
 		} else {
