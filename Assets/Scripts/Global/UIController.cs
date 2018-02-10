@@ -38,10 +38,13 @@ public class UIController : MonoBehaviour {
 
 	public Text alertText;
 
+	Animator uiAnimator;
+
 	void Start() {
 		gc = GetComponent<GameController>();
 		pc = GameObject.Find("Player").GetComponent<PlayerController>();
 		inventory = GetComponent<Inventory>();
+		uiAnimator = GetComponent<Animator>();
 		HideDialogueUI();
 		ClearText();
 		ClearPortrait();
@@ -92,6 +95,11 @@ public class UIController : MonoBehaviour {
 			openedDialogueThisFrame = false;
 			return;
 		}
+		//this can happen if the player starts mashing C while the letterboxes are closing
+		if (!DialogueOpen()) {
+			return;
+		}
+
 		if (Input.GetKeyDown(KeyCode.C)) {
 			if (currentBoss != null) {
 				currentBoss.AdvanceLine();
@@ -144,7 +152,7 @@ public class UIController : MonoBehaviour {
 		this.currentNPC = npc;
 		FreezePlayer();
 		SetPortrait(npc.portraits[0]);
-		ShowDialogueUI();
+		Letterbox();
 	}
 
 	public void OpenDialogue(Sign sign) {
@@ -162,7 +170,7 @@ public class UIController : MonoBehaviour {
 		}
 
 		FreezePlayer();
-		ShowDialogueUI();
+		Letterbox();
 	}
 
 	public void OpenDialogue(Boss boss) {
@@ -172,7 +180,7 @@ public class UIController : MonoBehaviour {
 		FreezePlayer();
 		SetName(boss.bossName);
 		SetPortrait(boss.bossPortraits[0]);
-		ShowDialogueUI();
+		Letterbox();
 	}
 
 	public void FreezePlayer() {
@@ -222,7 +230,7 @@ public class UIController : MonoBehaviour {
 		SetText(line.text);
 	}
 
-	void ShowDialogueUI() {
+	public void ShowDialogueUI() {
 		dialogueContainer.SetActive(true);
 		dialogueBox.enabled = true;
 		//advanceArrow.enabled = true;
@@ -231,7 +239,8 @@ public class UIController : MonoBehaviour {
 		speakerName.enabled = true;
 	}
 
-	void HideDialogueUI() {
+	public void HideDialogueUI() {
+		UnLetterbox();
 		dialogueContainer.SetActive(false);
 		dialogueBox.enabled = false;
 		advanceArrow.enabled = false;
@@ -324,5 +333,17 @@ public class UIController : MonoBehaviour {
 		//return the active status of the entire gameobject
 		//because the text itself will be toggled on and off via an attached animation
 		return alertText.gameObject.activeSelf;
+	}
+
+	void Letterbox() {
+		uiAnimator.SetBool("dialogueOpen", true);
+	}
+
+	void UnLetterbox() {
+		uiAnimator.SetBool("dialogueOpen", false);
+	}
+
+	public void ShowSaveGameAlert() {
+		DisplayAlert(new Alert("GAME SAVED", priority: true));
 	}
 }

@@ -81,7 +81,7 @@ public class GameController : MonoBehaviour {
 		playerRespawnScene = SceneManager.GetActiveScene().name;
 
 		//then display an alert
-		uc.DisplayAlert(new Alert("GAME SAVED"));
+		uc.ShowSaveGameAlert();
 	}
 
 	//lets an interactable know to put an arrow above it
