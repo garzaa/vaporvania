@@ -20,7 +20,6 @@ public class UIController : MonoBehaviour {
 	//these are to be hooked up in the editor along with heart containers as above
 	//TODO: assign this and make dialogueOpen a function that checks whether it's active
 	public GameObject dialogueContainer;
-	public Image dialogueBox;
 	public Text dialogueText;
 	public Image currentPortrait;
 	public Image advanceArrow;
@@ -39,6 +38,8 @@ public class UIController : MonoBehaviour {
 	public Text alertText;
 
 	Animator uiAnimator;
+
+	readonly int HEALTH_OFFSET = 20;
 
 	void Start() {
 		gc = GetComponent<GameController>();
@@ -130,7 +131,7 @@ public class UIController : MonoBehaviour {
 				currHeart.SetParent(healthContainer, worldPositionStays:false);
 
 				//and then update the offset for the next heart image
-				offset += 15;
+				offset += HEALTH_OFFSET;
 				currentHearts = pc.hp;
 			}
 
@@ -141,7 +142,7 @@ public class UIController : MonoBehaviour {
 				currHeart.SetParent(healthContainer, worldPositionStays:false);
 
 				//and then update the offset for the next heart image
-				offset += 15;
+				offset += HEALTH_OFFSET;
 			}
 		}
 	}
@@ -232,7 +233,6 @@ public class UIController : MonoBehaviour {
 
 	public void ShowDialogueUI() {
 		dialogueContainer.SetActive(true);
-		dialogueBox.enabled = true;
 		//advanceArrow.enabled = true;
 		currentPortrait.enabled = true;
 		dialogueText.enabled = true;
@@ -242,7 +242,6 @@ public class UIController : MonoBehaviour {
 	public void HideDialogueUI() {
 		UnLetterbox();
 		dialogueContainer.SetActive(false);
-		dialogueBox.enabled = false;
 		advanceArrow.enabled = false;
 		currentPortrait.enabled = false;
 		dialogueText.enabled = false;
