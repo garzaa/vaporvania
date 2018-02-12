@@ -15,6 +15,9 @@ public class CameraShaker : MonoBehaviour {
 	
 	Vector3 originalPos;
 
+	public Rigidbody2D pcrb;
+	public float lookAheadRatio;
+	public float lookAheadSpeed;
 	
 	void Awake()
 	{
@@ -48,7 +51,12 @@ public class CameraShaker : MonoBehaviour {
 		}
 		else {
 			shakeDuration = 0f;
-			camTransform.localPosition = originalPos;
 		}
+
+		Vector3 newPos = new Vector3(originalPos.x + (pcrb.velocity.x * lookAheadRatio), 
+			originalPos.y + (pcrb.velocity.y * lookAheadRatio), 
+			originalPos.z);
+		Vector3.MoveTowards(this.transform.position, newPos, lookAheadSpeed);
+		//this.transform.localPosition = newPos;
 	}
 }
