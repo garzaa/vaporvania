@@ -16,7 +16,7 @@ public class SideCollider : MonoBehaviour {
 			} */
 			//make sure the player is facing towards the wall
 			bool wallToRight = col.transform.position.x > player.transform.position.x;
-			if ((wallToRight && player.facingRight) || (!wallToRight && !player.facingRight)) {
+			if (((wallToRight && player.facingRight) || (!wallToRight && !player.facingRight)) && player.grounded) {
 				player.HitWall(col);
 			}
 		}
