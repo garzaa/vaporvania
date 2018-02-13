@@ -51,12 +51,15 @@ public class CameraShaker : MonoBehaviour {
 		}
 		else {
 			shakeDuration = 0f;
+			camTransform.localPosition = originalPos;
 		}
 
+		/*
 		Vector3 newPos = new Vector3(originalPos.x + (pcrb.velocity.x * lookAheadRatio), 
 			originalPos.y + (pcrb.velocity.y * lookAheadRatio), 
 			originalPos.z);
-		Vector3.MoveTowards(this.transform.position, newPos, lookAheadSpeed);
+		Vector3.MoveTowards(this.transform.localPosition, newPos, lookAheadSpeed);
 		//this.transform.localPosition = newPos;
+		 */
 	}
 }
