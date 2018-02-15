@@ -285,14 +285,14 @@ public class PlayerController : Entity
             rb2d.velocity = new Vector2(rb2d.velocity.x * 0.9f, rb2d.velocity.y);
         }
 
-        //dash reversal
+        //dash reversal - uncomment to allow a single one
         if (dashReversal) {
             if (Input.GetKeyDown(KeyCode.RightArrow) && !facingRight) {
                 Flip();
-                dashReversal = false;
+                //dashReversal = false;
             } else if (Input.GetKeyDown(KeyCode.LeftArrow) && facingRight) {
                 Flip();
-                dashReversal = false;
+                //dashReversal = false;
             }
         }
 

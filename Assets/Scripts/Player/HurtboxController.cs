@@ -20,6 +20,7 @@ public class HurtboxController : MonoBehaviour {
 	}
 
 	public int GetDamage() {
+		// if it's a player attack
 		if (this.tag == Tags.playerAttack) {
 			if (!selfKnockback.Equals(Vector2.zero)) {
 				pc.rb2d.velocity = selfKnockback;
