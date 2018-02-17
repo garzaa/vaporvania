@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 5dfb120f8637af14abae93495dd382fe
-timeCreated: 1515713698
+timeCreated: 1518833112
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -48,7 +48,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 43
+  spritePixelsToUnits: 128
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -99,8 +99,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 31
-        height: 31
+        width: 63
+        height: 63
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,10 +111,10 @@ TextureImporter:
       name: heart-pickup-sheet_1
       rect:
         serializedVersion: 2
-        x: 31
+        x: 63
         y: 0
-        width: 31
-        height: 31
+        width: 63
+        height: 63
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,10 +125,10 @@ TextureImporter:
       name: heart-pickup-sheet_2
       rect:
         serializedVersion: 2
-        x: 62
+        x: 126
         y: 0
-        width: 31
-        height: 31
+        width: 63
+        height: 63
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

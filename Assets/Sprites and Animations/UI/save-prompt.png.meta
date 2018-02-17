@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 7f318e83f002f474dbc29f7423b1b487
-timeCreated: 1514769833
+timeCreated: 1518834329
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -54,7 +54,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 54
+  spritePixelsToUnits: 108
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -105,8 +105,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 7
-        height: 7
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -117,10 +117,10 @@ TextureImporter:
       name: save-prompt_1
       rect:
         serializedVersion: 2
-        x: 7
+        x: 14
         y: 0
-        width: 7
-        height: 7
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -131,10 +131,10 @@ TextureImporter:
       name: save-prompt_2
       rect:
         serializedVersion: 2
-        x: 14
+        x: 28
         y: 0
-        width: 7
-        height: 7
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,10 +145,10 @@ TextureImporter:
       name: save-prompt_3
       rect:
         serializedVersion: 2
-        x: 21
+        x: 42
         y: 0
-        width: 7
-        height: 7
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,10 +159,10 @@ TextureImporter:
       name: save-prompt_4
       rect:
         serializedVersion: 2
-        x: 28
+        x: 56
         y: 0
-        width: 7
-        height: 7
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,10 +173,10 @@ TextureImporter:
       name: save-prompt_5
       rect:
         serializedVersion: 2
-        x: 35
+        x: 70
         y: 0
-        width: 7
-        height: 7
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,10 +187,10 @@ TextureImporter:
       name: save-prompt_6
       rect:
         serializedVersion: 2
-        x: 42
+        x: 84
         y: 0
-        width: 7
-        height: 7
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -201,10 +201,10 @@ TextureImporter:
       name: save-prompt_7
       rect:
         serializedVersion: 2
-        x: 49
+        x: 98
         y: 0
-        width: 7
-        height: 7
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -215,10 +215,10 @@ TextureImporter:
       name: save-prompt_8
       rect:
         serializedVersion: 2
-        x: 56
+        x: 112
         y: 0
-        width: 7
-        height: 7
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

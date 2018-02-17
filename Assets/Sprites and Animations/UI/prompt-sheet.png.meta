@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 6d1835163a7e53740914074d8d694465
-timeCreated: 1514699024
+timeCreated: 1518835271
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -50,7 +50,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 54
+  spritePixelsToUnits: 108
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -100,9 +100,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 20
-        width: 7
-        height: 5
+        y: 60
+        width: 15
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -114,9 +114,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 15
-        width: 7
-        height: 5
+        y: 45
+        width: 15
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,9 +128,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 10
-        width: 7
-        height: 5
+        y: 30
+        width: 15
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -142,9 +142,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 5
-        width: 7
-        height: 5
+        y: 15
+        width: 15
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -157,8 +157,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 7
-        height: 5
+        width: 15
+        height: 15
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

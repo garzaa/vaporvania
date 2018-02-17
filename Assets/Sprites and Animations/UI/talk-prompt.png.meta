@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 7fe4c0faa8d5c46429a029bcfbde9786
-timeCreated: 1514770144
+timeCreated: 1518833667
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -52,7 +52,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 54
+  spritePixelsToUnits: 108
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -103,8 +103,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 7
-        height: 7
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,10 +115,10 @@ TextureImporter:
       name: talk-prompt_1
       rect:
         serializedVersion: 2
-        x: 7
+        x: 14
         y: 0
-        width: 7
-        height: 7
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -129,10 +129,10 @@ TextureImporter:
       name: talk-prompt_2
       rect:
         serializedVersion: 2
-        x: 14
+        x: 28
         y: 0
-        width: 7
-        height: 7
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,10 +143,10 @@ TextureImporter:
       name: talk-prompt_3
       rect:
         serializedVersion: 2
-        x: 21
+        x: 42
         y: 0
-        width: 7
-        height: 7
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -157,10 +157,10 @@ TextureImporter:
       name: talk-prompt_4
       rect:
         serializedVersion: 2
-        x: 28
+        x: 56
         y: 0
-        width: 7
-        height: 7
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,10 +171,10 @@ TextureImporter:
       name: talk-prompt_5
       rect:
         serializedVersion: 2
-        x: 35
+        x: 70
         y: 0
-        width: 7
-        height: 7
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -185,10 +185,10 @@ TextureImporter:
       name: talk-prompt_6
       rect:
         serializedVersion: 2
-        x: 42
+        x: 84
         y: 0
-        width: 7
-        height: 7
+        width: 14
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
