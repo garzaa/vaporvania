@@ -41,6 +41,8 @@ public class Enemy : Entity {
 	public bool burstOnDeath;
 	public Transform chunkPrefab;
 
+	bool isWhite;
+
 	void OnEnable() {
 		totalHP = hp;
 		rb2d = this.GetComponent<Rigidbody2D>();
@@ -162,14 +164,17 @@ public class Enemy : Entity {
 	}
 
 	public void WhiteSprite() {
-		if (spr.material != whiteMaterial) {
+		//in case the default material has been changed
+		if (!isWhite) {
 			defaultMaterial = spr.material;
 		}
+		isWhite = true;
         spr.material = whiteMaterial;
     }
 
 	IEnumerator normalSprite() {
 		yield return new WaitForSeconds(.05f);
+		isWhite = false;
 		spr.material = defaultMaterial;
 	}
 
