@@ -12,11 +12,7 @@ public class LadyOfTheLake : Boss {
     //or just nest it in an empty gameobject, actually, and then change its animator
     public GameObject tiledSludgeContainer;
 
-    //for the sludge throwing attack
-    public GameObject thrownSludge;
-    //initial vector for throwing sludges, the y value will decrease and she'll throw three at the player
-    public Vector2 sludgeVector;
-    public Transform sludgePoint;
+    Animator containerAnimator;
 
     public override void Initialize() {
         monologue = new List<DialogueLine>();
@@ -25,13 +21,14 @@ public class LadyOfTheLake : Boss {
         eyeCount = eyeContainer.transform.childCount;
         uc = GameObject.Find("GameController").GetComponent<UIController>();
         gc = uc.GetComponent<GameController>();
+        containerAnimator = transform.parent.GetComponent<Animator>();
     }
 
 
     public override void BossMove() {
         if (!fighting || !moving) return;
-        // 1/3 of a chance to flood the stage, since it's currently an instakill
-        if (Random.Range(0, 3) < 1) {
+        // 1/3 of a chance to flood the stage, since it's annoying
+        if (Random.Range(0, 3) < 2) {
             ThrowSludges();
         } else {
             FloodStage();
@@ -41,7 +38,7 @@ public class LadyOfTheLake : Boss {
     //move back and throw three sludges at the player
     public void ThrowSludges() {
         moving = false;
-        anim.SetTrigger("throwSludges");
+        containerAnimator.SetTrigger("throwSludges");
         //and then set moving to true at the end of the sludge throwing animation
     }
 
@@ -52,17 +49,7 @@ public class LadyOfTheLake : Boss {
     void FloodStage() {
         //disperse into sludge and flood the bottom of the stage
         moving = false;
-        anim.SetTrigger("descend");
-    }
-
-    //called from the ascend animation
-    void ClearFlood() {
-        tiledSludgeContainer.GetComponent<Animator>().SetTrigger("fall");
-    }
-
-    //called from the descend animation
-    public void RiseWater() {
-        tiledSludgeContainer.GetComponent<Animator>().SetTrigger("rise");
+        containerAnimator.SetTrigger("floodStage");
     }
 
     void SwitchSides() {
@@ -82,7 +69,7 @@ public class LadyOfTheLake : Boss {
 
     void Intro() {
         this.foughtBefore = true;
-        anim.SetTrigger("awake");
+        containerAnimator.SetTrigger("awake");
         uc.OpenDialogue(this);
         uc.RenderDialogue(monologue[0]);
     }
@@ -143,13 +130,6 @@ public class LadyOfTheLake : Boss {
             CloseEye(eyeCount - 1);
         }
         
-    }
-
-    public void ThrowSludgeball(int sludgeNum) {
-        GameObject sludge = (GameObject) Instantiate(thrownSludge, sludgePoint.position, Quaternion.identity);
-        float xVec = sludgeVector.x;
-        float yVec = sludgeVector.y;
-        sludge.GetComponent<Rigidbody2D>().velocity = new Vector2(-xVec, yVec / sludgeNum);
     }
 
     public void LowerWalls() {
