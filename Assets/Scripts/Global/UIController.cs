@@ -41,13 +41,17 @@ public class UIController : MonoBehaviour {
 
 	readonly int HEALTH_OFFSET = 20;
 
+	int letterIndex = 0;
+	string textToRender = "";
+	bool slowRendering;
+
 	void Start() {
 		gc = GetComponent<GameController>();
 		pc = GameObject.Find("Player").GetComponent<PlayerController>();
 		inventory = GetComponent<Inventory>();
 		uiAnimator = GetComponent<Animator>();
 		HideDialogueUI();
-		ClearText();
+		ClearDialogue();
 		ClearPortrait();
 		CloseInventory();
 	}
@@ -92,16 +96,24 @@ public class UIController : MonoBehaviour {
 	}
 
 	void CheckForLineAdvance() {
+		//don't immediately advance lines when the dialogue opens
 		if (openedDialogueThisFrame) {
 			openedDialogueThisFrame = false;
 			return;
 		}
+
 		//this can happen if the player starts mashing C while the letterboxes are closing
 		if (!DialogueOpen()) {
 			return;
 		}
 
 		if (Input.GetKeyDown(KeyCode.C)) {
+			//update with the finished text and don't do anything else
+			if (slowRendering) {
+				CancelSlowRender();
+				return;
+			}
+
 			if (currentBoss != null) {
 				currentBoss.AdvanceLine();
 			}
@@ -246,16 +258,17 @@ public class UIController : MonoBehaviour {
 		currentPortrait.enabled = false;
 		dialogueText.enabled = false;
 		speakerName.enabled = false;
-		ClearText();
+		ClearDialogue();
 		ClearName();
 	}
 
 	void SetText(string str) {
-		dialogueText.text = str;
+		//dialogueText.text = str;
+		StartSlowRender(str);
 	}
 
-	void ClearText() {
-		SetText("");
+	void ClearDialogue() {
+		dialogueText.text = "";
 	}
 
 	void SetPortrait(Sprite spr) {
@@ -344,5 +357,31 @@ public class UIController : MonoBehaviour {
 
 	public void ShowSaveGameAlert() {
 		DisplayAlert(new Alert("GAME SAVED", priority: true));
+	}
+
+	void StartSlowRender(string str) {
+		ClearDialogue();
+		letterIndex = 0;
+		textToRender = str;
+		slowRendering = true;
+		StartCoroutine(SlowRender());
+	}
+
+	IEnumerator SlowRender() {
+		//then call self again to render the next letter
+		if (letterIndex < textToRender.Length && slowRendering) {
+			dialogueText.text = dialogueText.text + textToRender[letterIndex];
+			letterIndex++;
+			yield return new WaitForEndOfFrame();
+			StartCoroutine(SlowRender());
+		} else {
+			//if there's no more, then the letter-by-letter rendering has stoppped
+			slowRendering = false;
+		}
+	}
+
+	void CancelSlowRender() {
+		dialogueText.text = textToRender;
+		slowRendering = false;
 	}
 }
