@@ -59,13 +59,11 @@ public class PlayerController : Entity
     public bool dashCooldown = false;
     public bool dashReversal = false;
 
-    public bool savePossible = false;
     public GameController gc;
     UIController uc;
 
     //for triggering events/savepoints/etc
     private Collider2D playerTrigger;
-    public GameObject savePoint;
 
     public bool animateSpawn = false;
     bool interactPossible = false;
@@ -102,11 +100,6 @@ public class PlayerController : Entity
         spr = this.GetComponent<SpriteRenderer>();
         defaultMaterial = spr.material;
         cyanMaterial = Resources.Load<Material>("Shaders/CyanFlash");
-
-        if (savePoint != null) {
-            this.transform.position = savePoint.transform.position;
-            savePoint = null;
-        }
 
         if (animateSpawn) {
             Respawn();
@@ -273,9 +266,7 @@ public class PlayerController : Entity
 
         //interaction
         if (Input.GetKeyDown(KeyCode.C) && grounded && !frozen && !dashing) {
-            if (savePossible && !anim.GetCurrentAnimatorStateInfo(0).IsName("Spawn")) {
-                gc.Save(this.savePoint);
-            } else if (interactPossible) {
+            if (interactPossible) {
                 this.interactable.Interact(this.gameObject);
             }
         }
@@ -666,12 +657,7 @@ public class PlayerController : Entity
     }
 
     void OnTriggerEnter2D(Collider2D other) {
-		if (other.gameObject.tag == Tags.savepoint && !frozen) {
-            other.GetComponent<Interactable>().AddPrompt();
-            savePoint = other.gameObject;
-			savePossible = true;
-		}
-        else if (other.gameObject.tag == Tags.interactable) {
+        if (other.gameObject.tag == Tags.interactable && !frozen) {
             other.GetComponent<Interactable>().AddPrompt();
             this.interactable = other.GetComponent<Interactable>();
             this.interactPossible = true;
@@ -682,11 +668,6 @@ public class PlayerController : Entity
         if (other.transform.IsChildOf(transform)) {
             return;
         }
-		if (other.gameObject.tag == Tags.savepoint) {
-            other.GetComponent<Interactable>().RemovePrompt();
-            savePoint = null;
-			savePossible = false;
-		}
         else if (other.gameObject.tag == Tags.interactable) {
             other.GetComponent<Interactable>().RemovePrompt();
             this.interactable = null;
@@ -695,10 +676,8 @@ public class PlayerController : Entity
 	}
 
     void OnTriggerStay2D(Collider2D other) {
-        if (other.gameObject.tag == Tags.savepoint) {
+        if (other.gameObject.CompareTag(Tags.interactable) && !frozen) {
             other.GetComponent<Interactable>().AddPrompt();
-            savePossible = true;
-            savePoint = other.gameObject;
         }
     }
 
@@ -728,8 +707,6 @@ public class PlayerController : Entity
     }
 
     public void ClearInteractables() {
-        this.savePoint = null;
-        this.savePossible= false;
         this.interactable = null;
         this.interactPossible = false;
     }
