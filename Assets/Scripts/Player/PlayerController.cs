@@ -601,18 +601,6 @@ public class PlayerController : Entity
         gameObject.GetComponent<SpriteRenderer>().enabled = true;
     }
 
-    //animation events :^)
-    public void StartDodging() {
-        this.SetInvincible(true);
-        this.Freeze();
-    }
-
-    public void StopDodging() {        
-        this.SetInvincible(false);
-        this.UnFreeze();
-        AttackCooldown(.2f);
-    }
-
     public void Riposte(GameObject enemyParent) {
         if (enemyParent.GetComponent<Rigidbody2D>() != null) {
             enemyParent.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
