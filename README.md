@@ -11,7 +11,6 @@ I upgraded to actual animation software and am redoing everything at double reso
 done:
 - wall-jumping
 - double-jumping
-- spot-dodging
 - landing roll
 - projectile reflecting parry
 - sword combos
