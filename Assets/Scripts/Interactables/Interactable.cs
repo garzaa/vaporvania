@@ -6,8 +6,8 @@ public class Interactable : MonoBehaviour {
 	GameObject currentPrompt = null;
 
 	//how far above a sprite to drop the prompt object
-	//since we're working with 54 ppu, this is three pixels
-	const float TOP_MARGIN = 3f/54f;
+	//since we're working with 108 ppu, this is three pixels
+	const float TOP_MARGIN = 3f/108f;
 
     //adds and removes a little animated prompt prefab above the object sprite
     //check if one exists, etc
