@@ -19,7 +19,7 @@ public class SerializableLine {
 //basic NPC to talk to. maybe have a Shopkeeper to extend the NPC 
 public class NPC : Interactable {
 
-	//then a list of sub-trees for actual dialogue lines
+	//contains a list of sub-trees for actual dialogue lines
 	public List<Conversation> convos;
 
 	//keeping track of where they are in the conversation tree

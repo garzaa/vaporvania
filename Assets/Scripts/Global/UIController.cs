@@ -62,10 +62,6 @@ public class UIController : MonoBehaviour {
 		}
 		UpdateUI();
 		CheckForLineAdvance();
-		//don't immediately advance dialogue on the first opening
-		if (openedDialogueThisFrame) {
-			openedDialogueThisFrame = false;
-		}
 
 		CheckInventoryOpen();
 	}
