@@ -16,9 +16,8 @@ public class StatefulNPC : NPC {
 
 		//override conversations on interact
 		if (!string.IsNullOrEmpty(dependentState) && gp.CheckState(dependentState)) {
-			print("beanis");
 			this.editorConvos = this.stateConvos;
-			CreateDialogue();
+			CreateDialogueFromEditor();
 		}
 
 		uc.OpenDialogue(this);
@@ -31,20 +30,4 @@ public class StatefulNPC : NPC {
 		uc.RenderDialogue(convos[currentConvo][currentLine]);
 	}
 
-	public override void CreateDialogue() {
-		//then create the custom conversation list out of the dialogue lines
-		if (editorConvos != null) {
-			convos = new List<Conversation>();
-			//for every conversation
-			for (int i=0; i<editorConvos.Length; i++) {
-				Conversation temp = new Conversation();
-				//for every line in that conversation
-				for (int j=0; j<editorConvos[i].lines.Length; j++) {
-						//temp.Add(MakeLine(dialogueLines[i].lines[j]));
-						temp.Add(MakeLine(editorConvos[i].lines[j]));
-				}
-				convos.Add(temp);
-			}
-		}
-	}
 }

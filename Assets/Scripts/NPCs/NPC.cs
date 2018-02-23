@@ -42,20 +42,7 @@ public class NPC : Interactable {
 		CreateDialogue();
 		Initialize();
 
-		//then create the custom conversation list out of the dialogue lines
-		if (editorConvos != null) {
-			convos = new List<Conversation>();
-			//for every conversation
-			for (int i=0; i<editorConvos.Length; i++) {
-				Conversation temp = new Conversation();
-				//for every line in that conversation
-				for (int j=0; j<editorConvos[i].lines.Length; j++) {
-						//temp.Add(MakeLine(dialogueLines[i].lines[j]));
-						temp.Add(MakeLine(editorConvos[i].lines[j]));
-				}
-				convos.Add(temp);
-			}
-		}
+		CreateDialogueFromEditor();
 	}
 
 	//to be overwritten by individual NPC controllers.
@@ -114,4 +101,19 @@ public class NPC : Interactable {
 	}
 
 	public virtual void Initialize() {}
+
+	public void CreateDialogueFromEditor() {
+		if (editorConvos != null) {
+			convos = new List<Conversation>();
+			//for every conversation
+			for (int i=0; i<editorConvos.Length; i++) {
+				Conversation temp = new Conversation();
+				//for every line in that conversation
+				for (int j=0; j<editorConvos[i].lines.Length; j++) {
+						temp.Add(MakeLine(editorConvos[i].lines[j]));
+				}
+				convos.Add(temp);
+			}
+		}
+	}
 }
