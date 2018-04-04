@@ -23,6 +23,12 @@ done:
 - NPC dialogue
 - meteor slam
 
+to do:
+- buffered input
+- finish redoing the last three enemies in 2x resolution
+- inventory
+- better UI management behind the scenes
+
 ### new high-res gifs
 ![this should be an image, blame tumblr](https://78.media.tumblr.com/17b1242c1346d9fb78c3d4c914c43358/tumblr_p3hsf8ZmU31x1v7ffo1_400.gif)
 ![this should be an image, blame tumblr](https://78.media.tumblr.com/0fbc03dfc2fe0b68ed2a8baa0cf5e3b7/tumblr_p3ice770Uc1x1v7ffo1_400.gif)
