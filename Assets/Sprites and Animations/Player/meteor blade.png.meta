@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 366bcac193282964cae7594bb620aaaa
-timeCreated: 1517984378
+timeCreated: 1522819484
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -102,7 +102,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
+        width: 96
         height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -114,9 +114,9 @@ TextureImporter:
       name: meteor blade_1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 96
         y: 0
-        width: 64
+        width: 96
         height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -128,9 +128,9 @@ TextureImporter:
       name: meteor blade_2
       rect:
         serializedVersion: 2
-        x: 128
+        x: 192
         y: 0
-        width: 64
+        width: 96
         height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
