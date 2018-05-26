@@ -1,3 +1,6 @@
+# this repo has ceased development
+That's the bad news, but the good news is that I'm rebuilding the movement and combat code from scratch. The new repo is [here](https://github.com/adriangarza/vapor-404).
+
 ![hm](https://78.media.tumblr.com/d4a0dfe82d85a98177511c27394519ce/tumblr_p3tdq95XuP1x1v7ffo1_500.gif)
 
 A vaporwave-themed metroidvania that's still in development. 
