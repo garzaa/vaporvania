@@ -1,5 +1,5 @@
 # this repo has ceased development because my code was too poorly written to maintain
-That's the bad news, but the good news is that I took a software engineering course in my last semester of college, am now a software engineer, and I'm rebuilding most of the game from scratch. The new repo is [here](https://github.com/adriangarza/vapor-404).
+That's the bad news, but the good news is that I took a software engineering course in my last semester of college, am now a software engineer, and I'm rebuilding most of the game from scratch. The new repo is [here](https://github.com/adriangarza/vapor-404). You can ignore everything posted below as it is out of date.
 
 ![hm](https://78.media.tumblr.com/d4a0dfe82d85a98177511c27394519ce/tumblr_p3tdq95XuP1x1v7ffo1_500.gif)
 
