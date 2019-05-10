@@ -5,7 +5,7 @@ That's the bad news, but the good news is that I took a software engineering cou
 
 A vaporwave-themed metroidvania that's still in development. 
 
-### [demo](https://adriangarza.github.io/valentine-404)
+### [demo](https://sevencrane.itch.io/the-og-vapor-trails)
 (can play in-browser)
 
 ### what's happening now
